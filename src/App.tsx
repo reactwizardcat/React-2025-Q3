@@ -3,7 +3,7 @@ import Cards from './components/Cards';
 
 class App extends React.Component {
   render() {
-    return <Cards />;
+    return <Cards query="" />;
   }
 }
 
