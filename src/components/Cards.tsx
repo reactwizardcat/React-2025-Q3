@@ -1,6 +1,6 @@
 import React from 'react';
 import Card from './Card';
-import { API_URL } from '../constants';
+import { API_URL, SKELETON_ELEMENTS_COUNT, SPINNER_DELAY } from '../constants';
 import type { CardsResponse } from '../models/cards.model';
 import Loader from './Loader';
 import SceletonCard from './SceletonCard';
@@ -51,7 +51,7 @@ class Cards extends React.Component<CardsProps, CardsState> {
       if (this.state.isLoading) {
         this.setState({ isLongLoading: true });
       }
-    }, 10000);
+    }, SPINNER_DELAY);
   };
 
   private startLoading = () => {
@@ -75,31 +75,37 @@ class Cards extends React.Component<CardsProps, CardsState> {
     }
   };
 
-  fetchData = async () => {
+  fetchData = () => {
     this.setState({ isLoading: true, isLongLoading: false, error: null });
     this.abortController = new AbortController();
 
-    try {
-      const url = `${API_URL}/cards${this.props.query == '' ? '' : `?search=${this.props.query}`}`;
-      const response = await fetch(url, {
-        signal: this.abortController.signal,
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-
-      this.setState({ data, isLoading: false, isLongLoading: false });
-      this.cleanup();
-    } catch (error) {
-      if (error instanceof Error && error.name == 'AbortError') return;
-      this.setState({
-        error: error instanceof Error ? error.message : 'Unknown error',
-        isLoading: false,
-        isLongLoading: false,
-      });
-      this.cleanup();
+    const url = new URL(`${API_URL}/cards`);
+    if (this.props.query !== '') {
+      url.searchParams.set('search', this.props.query);
     }
+
+    fetch(url, {
+      signal: this.abortController.signal,
+    })
+      .then((resp) => {
+        if (!resp.ok) {
+          throw new Error(`HTTP error! status: ${resp.status}`);
+        }
+        return resp.json();
+      })
+      .then((data) => {
+        this.setState({ data, isLoading: false, isLongLoading: false });
+        this.cleanup();
+      })
+      .catch((error) => {
+        if (error instanceof Error && error.name == 'AbortError') return;
+        this.setState({
+          error: error instanceof Error ? error.message : 'Unknown error',
+          isLoading: false,
+          isLongLoading: false,
+        });
+        this.cleanup();
+      });
   };
 
   render() {
@@ -123,7 +129,7 @@ class Cards extends React.Component<CardsProps, CardsState> {
     if (isLoading) {
       return (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
-          {Array.from({ length: 8 }).map((_, index) => (
+          {Array.from({ length: SKELETON_ELEMENTS_COUNT }).map((_, index) => (
             <SceletonCard key={index} />
           ))}
         </div>
@@ -131,7 +137,11 @@ class Cards extends React.Component<CardsProps, CardsState> {
     }
 
     if (!data?.cards?.length) {
-      return <p className="text-gray-500">No cards found</p>;
+      return (
+        <div className="flex flex-1 flex-col items-center justify-center">
+          <p className="text-gray-500">No cards found</p>
+        </div>
+      );
     }
 
     return (
@@ -142,7 +152,7 @@ class Cards extends React.Component<CardsProps, CardsState> {
           ))}
         </main>
         <button
-          className="fixed bottom-3 right-3 md:bottom-10 md:right-16 px-1.5 py-2.5 hover:scale-110 duration-300 rounded-xl bg-red-400 text-white"
+          className="fixed bottom-3 right-3 rounded-xl bg-red-400 text-white md:bottom-10 md:right-16 px-1.5 py-2.5 md:hover:bg-red-300 md:hover:-translate-y-2 duration-300 md:hover:shadow-md md:shadow-red-300/50 md:active:shadow-none md:active:-translate-y-1"
           onClick={this.showError}
         >
           Error Boundary

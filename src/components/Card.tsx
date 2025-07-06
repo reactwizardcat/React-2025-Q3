@@ -12,18 +12,20 @@ class Card extends React.Component<CardProps> {
       <div className="bg-white rounded-lg shadow-md p-4">
         <>
           <h2 className="font-allura text-center text-4xl">{name}</h2>
-          <p>
-            Element:{' '}
-            <span className="font-lobster tracking-widest">{element}</span>
-          </p>
-          <p>
-            Region:{' '}
-            <span className="font-lobster tracking-widest">{region}</span>
-          </p>
-          <p>
-            Weapon:{' '}
-            <span className="font-lobster tracking-widest">{weapon}</span>
-          </p>
+          <ul className="ml-3">
+            <li>
+              Element:{' '}
+              <span className="font-lobster tracking-widest">{element}</span>
+            </li>
+            <li>
+              Region:{' '}
+              <span className="font-lobster tracking-widest">{region}</span>
+            </li>
+            <li>
+              Weapon:{' '}
+              <span className="font-lobster tracking-widest">{weapon}</span>
+            </li>
+          </ul>
         </>
         <div className="h-80 max-w-3xs overflow-hidden mx-auto mt-2.5">
           <img
