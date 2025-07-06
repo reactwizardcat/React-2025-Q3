@@ -9,14 +9,25 @@ class Card extends React.Component<CardProps> {
   render() {
     const { name, element, region, weapon, images } = this.props.data;
     return (
-      <div className="w-2xs p-2.5">
-        <h2>{name}</h2>
-        <p>{element}</p>
-        <p>{region}</p>
-        <p>{weapon}</p>
-        <div className="h-80 max-w-3xs overflow-hidden">
+      <div className="bg-white rounded-lg shadow-md p-4">
+        <>
+          <h2 className="font-allura text-center text-4xl">{name}</h2>
+          <p>
+            Element:{' '}
+            <span className="font-lobster tracking-widest">{element}</span>
+          </p>
+          <p>
+            Region:{' '}
+            <span className="font-lobster tracking-widest">{region}</span>
+          </p>
+          <p>
+            Weapon:{' '}
+            <span className="font-lobster tracking-widest">{weapon}</span>
+          </p>
+        </>
+        <div className="h-80 max-w-3xs overflow-hidden mx-auto mt-2.5">
           <img
-            className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+            className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
             src={images.large}
             alt={name}
           />

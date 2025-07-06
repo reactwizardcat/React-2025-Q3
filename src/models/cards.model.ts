@@ -10,7 +10,7 @@ export interface CardResponse {
   weapon: string;
 }
 
-export interface CardsRespobse {
+export interface CardsResponse {
   cards: CardResponse[];
   total_count: number;
   total_pages: number;

@@ -15,10 +15,14 @@ class Search extends React.PureComponent<SearchProps> {
   };
   render() {
     return (
-      <header>
-        <form onSubmit={this.handleSubmit}>
+      <header className="bg-white mt-3 px-2 py-4 rounded-t-4xl mx-4 shadow-md">
+        <form
+          className="flex flex-row justify-center items-center"
+          onSubmit={this.handleSubmit}
+        >
           <label htmlFor="search-input">Search:</label>
           <input
+            className="min-w-28 border border-gray-300 mx-8 py-2 pl-3 rounded outline-none focus:ring-indigo-600"
             id="search-input"
             type="text"
             ref={this.inputRef}
