@@ -14,7 +14,6 @@ interface CardsState {
   isLoading: boolean;
   isLongLoading: boolean;
   error: string | null;
-  hasError: boolean;
 }
 
 class Cards extends React.Component<CardsProps, CardsState> {
@@ -28,7 +27,6 @@ class Cards extends React.Component<CardsProps, CardsState> {
       isLoading: false,
       isLongLoading: false,
       error: null,
-      hasError: false,
     };
   }
 
@@ -58,10 +56,6 @@ class Cards extends React.Component<CardsProps, CardsState> {
     this.cleanup();
     this.startLongLoadingTimer();
     this.fetchData();
-  };
-
-  showError = () => {
-    this.setState({ hasError: true });
   };
 
   private cleanup = () => {
@@ -110,10 +104,8 @@ class Cards extends React.Component<CardsProps, CardsState> {
 
   render() {
     const { data } = this.state;
-    const { hasError, isLoading, isLongLoading } = this.state;
-    if (hasError) {
-      throw new Error("💥 I'm error");
-    }
+    const { isLoading, isLongLoading } = this.state;
+
     if (isLongLoading) {
       return (
         <div className="flex flex-1 flex-col items-center justify-center">
@@ -145,19 +137,11 @@ class Cards extends React.Component<CardsProps, CardsState> {
     }
 
     return (
-      <>
-        <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
-          {data?.cards.map((cardData) => (
-            <Card key={cardData.id} data={cardData} />
-          ))}
-        </main>
-        <button
-          className="fixed bottom-3 right-3 rounded-xl bg-red-400 text-white md:bottom-10 md:right-16 px-1.5 py-2.5 md:hover:bg-red-300 md:hover:-translate-y-2 duration-300 md:hover:shadow-md md:shadow-red-300/50 md:active:shadow-none md:active:-translate-y-1"
-          onClick={this.showError}
-        >
-          Error Boundary
-        </button>
-      </>
+      <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+        {data?.cards.map((cardData) => (
+          <Card key={cardData.id} data={cardData} />
+        ))}
+      </main>
     );
   }
 }

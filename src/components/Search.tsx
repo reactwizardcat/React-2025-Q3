@@ -2,6 +2,7 @@ import React from 'react';
 
 interface SearchProps {
   changeQuery: (str: string) => void;
+  queryString: string;
 }
 
 interface SearchState {
@@ -12,7 +13,7 @@ class Search extends React.PureComponent<SearchProps, SearchState> {
   constructor(props: SearchProps) {
     super(props);
     this.state = {
-      query: '',
+      query: this.props.queryString,
     };
   }
 
@@ -47,8 +48,7 @@ class Search extends React.PureComponent<SearchProps, SearchState> {
           />
           <button
             type="submit"
-            className="px-5 py-2.5 rounded-xl bg-red-400 disabled:bg-gray-200 disabled:text-black text-white md:hover:enabled:bg-red-300 md:duration-300 md:active:enabled:translate-y-0.5 shadow-lg md:enabled:shadow-red-300/50 md:active:enabled:shadow-none"
-            disabled={!this.state.query}
+            className="px-5 py-2.5 rounded-xl bg-red-400 text-white md:hover:bg-red-300 md:duration-300 md:active:translate-y-0.5 shadow-lg md:shadow-red-300/50 md:active:shadow-none"
           >
             Search
           </button>
