@@ -38,7 +38,7 @@ class Search extends React.PureComponent<SearchProps, SearchState> {
     const { query, isFocused } = this.state;
     const hasText = query.length > 0;
     return (
-      <header className="bg-white mt-3 px-2 py-4 rounded-t-4xl mx-4 shadow-md">
+      <header className="bg-white mt-3 px-2 py-4 rounded-t-4xl mx-4 shadow-md bg-[url('/fon2.png')] bg-cover bg-no-repeat bg-center">
         <form onSubmit={this.handleSubmit}>
           <label
             className="mx-3.5 lg:mx-auto relative bg-white max-w-5xl flex flex-col sm:flex-row items-center justify-center border border-gray-200 py-2 px-2 rounded-2xl gap-2 shadow-2xl focus-within:border-gray-500"
@@ -57,7 +57,7 @@ class Search extends React.PureComponent<SearchProps, SearchState> {
             <span
               className={`absolute left-6 top-4 text-gray-500 transition-all duration-200 pointer-events-none ${
                 hasText || isFocused
-                  ? '-translate-y-7.5 scale-80 text-blue-500 bg-white px-1'
+                  ? '-translate-y-7.5 scale-80 text-blue-500 bg-white/70 rounded-full px-1'
                   : ''
               } peer-focus:-translate-y-7.5 peer-focus:scale-75 peer-focus:text-blue-500 peer-focus:bg-white peer-focus:px-1`}
             >
