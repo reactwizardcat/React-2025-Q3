@@ -1,9 +1,11 @@
 import React from 'react';
 import Card from './Card';
-import { API_URL, SKELETON_ELEMENTS_COUNT, SPINNER_DELAY } from '../constants';
+import { SKELETON_ELEMENTS_COUNT, SPINNER_DELAY } from '../constants';
 import type { CardsResponse } from '../models/cards.model';
 import Loader from './Loader';
 import SceletonCard from './SceletonCard';
+import ApiService from '../service/apiService';
+import MyButton from './UI/MyButton';
 
 interface CardsProps {
   query: string;
@@ -18,7 +20,7 @@ interface CardsState {
 
 class Cards extends React.Component<CardsProps, CardsState> {
   private longLoadingTimer: number | null = null;
-  private abortController: AbortController | null = null;
+  private apiService: ApiService = ApiService.getInstance();
 
   constructor(props: CardsProps) {
     super(props);
@@ -59,40 +61,27 @@ class Cards extends React.Component<CardsProps, CardsState> {
   };
 
   private cleanup = () => {
+    this.apiService.abort();
     if (this.longLoadingTimer) {
       window.clearTimeout(this.longLoadingTimer);
       this.longLoadingTimer = null;
-    }
-    if (this.abortController) {
-      this.abortController.abort();
-      this.abortController = null;
     }
   };
 
   fetchData = () => {
     this.setState({ isLoading: true, isLongLoading: false, error: null });
-    this.abortController = new AbortController();
 
-    const url = new URL(`${API_URL}/cards`);
-    if (this.props.query !== '') {
-      url.searchParams.set('search', this.props.query);
-    }
-
-    fetch(url, {
-      signal: this.abortController.signal,
-    })
-      .then((resp) => {
-        if (!resp.ok) {
-          throw new Error(`HTTP error! status: ${resp.status}`);
-        }
-        return resp.json();
-      })
+    this.apiService
+      .fetchCards(this.props.query)
       .then((data) => {
         this.setState({ data, isLoading: false, isLongLoading: false });
         this.cleanup();
       })
       .catch((error) => {
-        if (error instanceof Error && error.name == 'AbortError') return;
+        if (error.name === 'AbortError') {
+          console.log('Request was aborted');
+          return;
+        }
         this.setState({
           error: error instanceof Error ? error.message : 'Unknown error',
           isLoading: false,
@@ -104,7 +93,7 @@ class Cards extends React.Component<CardsProps, CardsState> {
 
   render() {
     const { data } = this.state;
-    const { isLoading, isLongLoading } = this.state;
+    const { isLoading, isLongLoading, error } = this.state;
 
     if (isLongLoading) {
       return (
@@ -128,7 +117,20 @@ class Cards extends React.Component<CardsProps, CardsState> {
       );
     }
 
-    if (!data?.cards?.length) {
+    if (error) {
+      return (
+        <div className="flex flex-1 flex-col items-center justify-center">
+          <p className="text-2xl max-w-3xl px-4 text-center mt-10 text-red-500">
+            {error}
+          </p>
+          <MyButton className="mt-4" callback={this.startLoading}>
+            Reload
+          </MyButton>
+        </div>
+      );
+    }
+
+    if (!data?.cards) {
       return (
         <div className="flex flex-1 flex-col items-center justify-center">
           <p className="text-gray-500">No cards found</p>

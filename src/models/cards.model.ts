@@ -11,7 +11,7 @@ export interface CardResponse {
 }
 
 export interface CardsResponse {
-  cards: CardResponse[];
+  cards: CardResponse[] | null;
   total_count: number;
   total_pages: number;
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import Cards from './components/Cards';
 import Search from './components/Search';
-import StorageService from './service/localStorage';
+import StorageService from './service/localStorageService';
 
 type AppProps = object;
 

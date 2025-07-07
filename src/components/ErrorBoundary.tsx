@@ -1,4 +1,5 @@
 import React from 'react';
+import MyButton from './UI/MyButton';
 
 interface ErrorBoundaryProps {
   children: React.ReactNode;
@@ -43,13 +44,7 @@ class ErrorBoundary extends React.Component<
           <div className="flex flex-1 flex-col gap-2.5 items-center justify-center">
             <h1 className="text-2xl">Something went wrong.</h1>
             {error && <p className="text-red-400">{error.message}</p>}
-            <button
-              className="px-5 py-2.5 rounded-xl bg-red-400 text-white md:hover:bg-red-300 md:duration-300 md:active:translate-y-1.5 shadow-lg md:shadow-red-300/50 md:active:shadow-none"
-              onClick={this.reload}
-            >
-              {' '}
-              Reload{' '}
-            </button>
+            <MyButton callback={this.reload}>Reload</MyButton>
           </div>
         )
       );
