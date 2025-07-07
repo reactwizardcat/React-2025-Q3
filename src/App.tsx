@@ -39,7 +39,7 @@ class App extends React.Component<AppProps, AppState> {
         <Search changeQuery={this.changeQuery} queryString={this.state.query} />
         <Cards query={this.state.query} />
         <button
-          className="fixed bottom-3 right-3 rounded-xl bg-red-400 text-white md:bottom-10 md:right-16 px-1.5 py-2.5 md:hover:bg-red-300 md:hover:-translate-y-2 duration-300 md:hover:shadow-md md:shadow-red-300/50 md:active:shadow-none md:active:-translate-y-1"
+          className="fixed bottom-3 right-3 rounded-xl bg-red-600 text-white md:bottom-10 md:right-16 px-3.5 py-2.5 md:hover:bg-red-500 md:hover:-translate-y-2 duration-300 md:hover:shadow-md md:shadow-red-300/50 md:active:shadow-none md:active:-translate-y-1"
           onClick={this.showError}
         >
           Error Boundary

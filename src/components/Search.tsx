@@ -22,7 +22,7 @@ class Search extends React.PureComponent<SearchProps, SearchState> {
 
   handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    this.props.changeQuery(this.state.query);
+    this.props.changeQuery(this.state.query.trim());
   };
 
   handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

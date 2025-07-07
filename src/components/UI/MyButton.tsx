@@ -12,7 +12,7 @@ class MyButton extends React.PureComponent<MyButtonProps> {
     const { className = '', callback, children, type = 'button' } = this.props;
     return (
       <button
-        className={`px-5 py-2.5 rounded-xl bg-red-400 text-white md:hover:bg-red-300 md:duration-300 md:active:translate-y-0.5 shadow-lg md:shadow-red-300/50 md:active:shadow-none ${className}`}
+        className={`px-5 py-2.5 rounded-xl bg-red-600 text-white md:hover:bg-red-500 md:duration-300 md:active:translate-y-0.5 shadow-lg md:shadow-red-300/50 md:active:shadow-none ${className}`}
         onClick={callback}
         type={type}
       >
