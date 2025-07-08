@@ -15,9 +15,11 @@ class Search extends React.PureComponent<SearchProps, SearchState> {
   handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const value = String(formData.get('search'));
+    const value = formData.get('search');
 
-    this.props.changeQuery(value.trim());
+    if (typeof value === 'string') {
+      this.props.changeQuery(value.trim());
+    }
   };
 
   render() {
