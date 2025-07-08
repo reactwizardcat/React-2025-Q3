@@ -1,7 +1,7 @@
 <h1 align="center">Genshin Impact Characters</h1>
 
 <p align="center">
-  <!-- Версии технологий -->
+
   <a href="https://react.dev/">
     <img alt="React" src="https://img.shields.io/badge/React-19.0.0-61DAFB?style=flat-square" />
   </a>
@@ -34,7 +34,7 @@ A web application for searching and exploring Genshin Impact characters with det
 - 🌟 Wish simulator (future implementation)
 - 📱 Fully responsive design
 
-## 🛠 Технологии
+## 🛠 Technologies
 
 <div align="center">
 
