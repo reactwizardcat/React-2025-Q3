@@ -5,7 +5,18 @@ interface CardProps {
   data: CardResponse;
 }
 
-class Card extends React.Component<CardProps> {
+interface CardState {
+  isLoaded: boolean;
+}
+
+class Card extends React.Component<CardProps, CardState> {
+  constructor(props: CardProps) {
+    super(props);
+    this.state = {
+      isLoaded: false,
+    };
+  }
+
   render() {
     const { name, element, region, weapon, images } = this.props.data;
     return (
@@ -22,7 +33,7 @@ class Card extends React.Component<CardProps> {
               />
               <span className="font-lobster tracking-widest">{element}</span>
             </li>
-            <li className="flex flex-row gap-2 items-center">
+            <li className="flex flex-row gap-2 items-center h-4">
               Region:
               <img
                 src={`/Emblem_${region}.png`}
@@ -37,11 +48,14 @@ class Card extends React.Component<CardProps> {
             </li>
           </ul>
         </div>
-        <div className="h-96 max-w-2xs overflow-hidden mx-auto mt-2.5">
+        <div
+          className={`h-96 max-w-2xs overflow-hidden mx-auto mt-2.5 bg-gray-300 ${!this.state.isLoaded && 'animate-pulse'}`}
+        >
           <img
             className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
             src={images.large}
             alt={name}
+            onLoad={() => this.setState({ isLoaded: true })}
           />
         </div>
       </div>
