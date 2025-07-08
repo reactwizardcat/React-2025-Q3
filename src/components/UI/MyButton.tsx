@@ -19,7 +19,7 @@ class MyButton extends React.PureComponent<MyButtonProps> {
     } = this.props;
     return (
       <button
-        className={`px-5 py-2.5 rounded-xl bg-red-600 text-white md:enabled:hover:bg-red-500 md:duration-300 md:enabled:active:translate-y-0.5 shadow-lg md:shadow-red-300/50 md:enabled:shadow-gray-300/50 md:enabled:active:shadow-none ${className} disabled:bg-gray-300 disabled:text-black`}
+        className={`px-5 py-2.5 rounded-xl bg-red-600 text-white md:enabled:hover:bg-red-500 md:duration-300 md:enabled:active:translate-y-0.5 shadow-lg md:enabled:shadow-red-300/50 md:disabled:shadow-gray-300/50 md:enabled:active:shadow-none ${className} disabled:bg-gray-300 disabled:text-black`}
         onClick={callback}
         type={type}
         disabled={disabled}
