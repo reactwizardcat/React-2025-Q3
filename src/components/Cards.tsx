@@ -9,11 +9,12 @@ import MyButton from './UI/MyButton';
 
 interface CardsProps {
   query: string;
+  isLoading: boolean;
+  toggleLoading: (value: boolean) => void;
 }
 
 interface CardsState {
   data: CardsResponse | null;
-  isLoading: boolean;
   isLongLoading: boolean;
   error: string | null;
 }
@@ -26,7 +27,6 @@ class Cards extends React.Component<CardsProps, CardsState> {
     super(props);
     this.state = {
       data: null,
-      isLoading: false,
       isLongLoading: false,
       error: null,
     };
@@ -48,7 +48,7 @@ class Cards extends React.Component<CardsProps, CardsState> {
 
   private startLongLoadingTimer = () => {
     this.longLoadingTimer = window.setTimeout(() => {
-      if (this.state.isLoading) {
+      if (this.props.isLoading) {
         this.setState({ isLongLoading: true });
       }
     }, SPINNER_DELAY);
@@ -69,12 +69,14 @@ class Cards extends React.Component<CardsProps, CardsState> {
   };
 
   fetchData = () => {
-    this.setState({ isLoading: true, isLongLoading: false, error: null });
+    this.setState({ isLongLoading: false, error: null });
+    this.props.toggleLoading(true);
 
     this.apiService
       .fetchCards(this.props.query)
       .then((data) => {
-        this.setState({ data, isLoading: false, isLongLoading: false });
+        this.setState({ data, isLongLoading: false });
+        this.props.toggleLoading(false);
         this.cleanup();
       })
       .catch((error) => {
@@ -84,16 +86,16 @@ class Cards extends React.Component<CardsProps, CardsState> {
         }
         this.setState({
           error: error instanceof Error ? error.message : 'Unknown error',
-          isLoading: false,
           isLongLoading: false,
         });
+        this.props.toggleLoading(false);
         this.cleanup();
       });
   };
 
   render() {
-    const { data } = this.state;
-    const { isLoading, isLongLoading, error } = this.state;
+    const { isLoading } = this.props;
+    const { data, isLongLoading, error } = this.state;
 
     if (isLongLoading) {
       return (

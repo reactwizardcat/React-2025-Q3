@@ -4,6 +4,7 @@ import MyButton from './UI/MyButton';
 interface SearchProps {
   changeQuery: (str: string) => void;
   queryString: string;
+  isLoading: boolean;
 }
 
 interface SearchState {
@@ -36,6 +37,7 @@ class Search extends React.PureComponent<SearchProps, SearchState> {
 
   render() {
     const { query, isFocused } = this.state;
+    const { isLoading } = this.props;
     const hasText = query.length > 0;
     return (
       <header className="bg-white mt-3 px-2 py-4 rounded-t-4xl mx-4 shadow-md bg-[url('/fon2.png')] bg-cover bg-no-repeat bg-center">
@@ -45,7 +47,7 @@ class Search extends React.PureComponent<SearchProps, SearchState> {
             htmlFor="search-input"
           >
             <input
-              className="px-6 py-2 w-full rounded-md flex-1 outline-none bg-white"
+              className="px-6 py-2 w-full rounded-md flex-1 outline-none bg-white disabled:bg-gray-200"
               id="search-input"
               type="search"
               placeholder=" "
@@ -53,6 +55,7 @@ class Search extends React.PureComponent<SearchProps, SearchState> {
               onChange={this.handleInputChange}
               onFocus={this.handleFocus}
               onBlur={this.handleBlur}
+              disabled={isLoading}
             />
             <span
               className={`absolute left-6 top-4 text-gray-500 transition-all duration-200 pointer-events-none ${
@@ -63,7 +66,11 @@ class Search extends React.PureComponent<SearchProps, SearchState> {
             >
               Enter search query...
             </span>
-            <MyButton className="font-lobster w-full sm:w-auto" type="submit">
+            <MyButton
+              className="font-lobster w-full sm:w-auto"
+              type="submit"
+              disabled={isLoading}
+            >
               Search
             </MyButton>
           </label>
