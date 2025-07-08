@@ -1,7 +1,7 @@
-1. Task: https://github.com/rolling-scopes-school/tasks/blob/master/react/modules/tasks/class-components.md
+1. Task: [TaskLink](https://github.com/rolling-scopes-school/tasks/blob/master/react/modules/tasks/class-components.md)
 2. Screenshot:
    ![](https://docs.rs.school/images/fancy-weather.png)
-3. Deployment: https://react-2025-q3.onrender.com/
+3. Deployment: [DeployLink](https://react-2025-q3.onrender.com/)
 4. Done 08.07.2025 / deadline 14.07.2025
 5. Score: 100 / 100
 
