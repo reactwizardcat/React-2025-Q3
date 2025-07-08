@@ -1,35 +1,39 @@
 import { API_URL } from '../constants';
 import type { CardsResponse } from '../models/cards.model';
 import { isValidData } from '../validator';
+import type { HttpClient } from './httpClient';
+import FetchHttpClient from './httpClient';
 
 class ApiService {
-  private static instance: ApiService;
+  private static instance: ApiService | null = null;
+  private httpClient: HttpClient;
   private abortController: AbortController | null = null;
 
-  public static getInstance(): ApiService {
+  private constructor(httpClient: HttpClient = new FetchHttpClient()) {
+    this.httpClient = httpClient;
+  }
+
+  public static getInstance(httpClient?: HttpClient): ApiService {
     if (!ApiService.instance) {
-      ApiService.instance = new ApiService();
+      ApiService.instance = new ApiService(httpClient);
+    } else if (httpClient) {
+      ApiService.instance.setHttpClient(httpClient);
     }
     return ApiService.instance;
+  }
+
+  public static clearInstance(): void {
+    ApiService.instance = null;
   }
 
   public fetchCards(searchQuery: string = ''): Promise<CardsResponse> {
     this.abort();
     this.abortController = new AbortController();
 
-    const url = new URL(`${API_URL}/cards`);
-    if (searchQuery) {
-      url.searchParams.set('search', searchQuery);
-    }
-
-    return fetch(url.toString(), {
-      signal: this.abortController.signal,
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
+    return this.httpClient
+      .get(`${API_URL}/cards`, {
+        signal: this.abortController.signal,
+        params: { search: searchQuery },
       })
       .then((data: unknown) => {
         if (isValidData(data)) {
@@ -44,6 +48,10 @@ class ApiService {
       this.abortController.abort();
       this.abortController = null;
     }
+  }
+
+  private setHttpClient(httpClient: HttpClient): void {
+    this.httpClient = httpClient;
   }
 }
 

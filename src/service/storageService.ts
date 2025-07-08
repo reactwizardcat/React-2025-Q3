@@ -8,7 +8,7 @@ interface QueryStorage {
 }
 
 class StorageService {
-  private static instance: StorageService;
+  private static instance: StorageService | null = null;
   private storage: QueryStorage;
 
   private constructor(storage: QueryStorage = window.localStorage) {
@@ -22,6 +22,10 @@ class StorageService {
       StorageService.instance.setStorage(storage);
     }
     return StorageService.instance;
+  }
+
+  public static clearInstance(): void {
+    StorageService.instance = null;
   }
 
   public getQuery(): string | null {
