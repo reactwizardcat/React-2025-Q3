@@ -12,7 +12,9 @@ class FetchHttpClient implements HttpClient {
     const url = new URL(searchQuery);
     if (config?.params) {
       Object.entries(config.params).forEach(([key, value]) => {
-        url.searchParams.set(key, value);
+        if (value) {
+          url.searchParams.set(key, value);
+        }
       });
     }
 
