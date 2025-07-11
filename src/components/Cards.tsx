@@ -50,6 +50,7 @@ class Cards extends React.Component<CardsProps, CardsState> {
   public fetchData = () => {
     this.setState({ isLongLoading: false, error: null });
     this.props.toggleLoading(true);
+    let aborted = false;
 
     this.apiService
       .fetchCards(this.props.query)
@@ -58,7 +59,8 @@ class Cards extends React.Component<CardsProps, CardsState> {
       })
       .catch((error: unknown) => {
         if (error instanceof Error && error.name === 'AbortError') {
-          throw error;
+          aborted = true;
+          return;
         }
         this.setState({
           error: error instanceof Error ? error.message : 'Unknown error',
@@ -66,11 +68,8 @@ class Cards extends React.Component<CardsProps, CardsState> {
         });
       })
       .finally(() => {
-        this.cleanup();
-      })
-      .catch((error: unknown) => {
-        if (error instanceof Error && error.name === 'AbortError') {
-          this.props.toggleLoading(true);
+        if (!aborted) {
+          this.cleanup();
         }
       });
   };
