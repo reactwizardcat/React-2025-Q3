@@ -19,6 +19,7 @@ class Card extends React.Component<CardProps, CardState> {
 
   render() {
     const { name, element, region, weapon, images } = this.props.data;
+    const { isLoaded } = this.state;
     return (
       <div className="bg-white rounded-lg shadow-md p-4">
         <div className="max-w-3xs m-auto">
@@ -49,10 +50,10 @@ class Card extends React.Component<CardProps, CardState> {
           </ul>
         </div>
         <div
-          className={`h-96 max-w-2xs overflow-hidden mx-auto mt-2.5 bg-gray-300 ${!this.state.isLoaded && 'animate-pulse'}`}
+          className={`h-96 max-w-2xs overflow-hidden mx-auto mt-2.5 bg-gray-300 ${!isLoaded && 'animate-pulse'}`}
         >
           <img
-            className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+            className={`w-full h-full object-cover transition-all duration-500 hover:scale-105 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
             src={images.large}
             alt={name}
             onLoad={() => this.setState({ isLoaded: true })}

@@ -40,7 +40,7 @@ class Search extends React.PureComponent<SearchProps, SearchState> {
               disabled={isLoading}
               name="search"
             />
-            <span className="absolute left-6 top-4 text-gray-500 transition-all duration-200 pointer-events-none peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-not-placeholder-shown:-translate-y-7.5 peer-not-placeholder-shown:scale-80 peer-not-placeholder-shown:text-blue-500 peer-not-placeholder-shown:bg-white/70 peer-not-placeholder-shown:rounded-full peer-not-placeholder-shown:px-1 peer-focus:-translate-y-7.5 peer-focus:scale-75 peer-focus:text-blue-500 peer-focus:bg-white peer-focus:px-1">
+            <span className="absolute left-6 top-4 text-gray-500 transition-all duration-200 pointer-events-none peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-not-placeholder-shown:-translate-y-7.5 peer-not-placeholder-shown:scale-80 peer-not-placeholder-shown:bg-white/70 peer-not-placeholder-shown:rounded-full peer-not-placeholder-shown:px-1 peer-focus:-translate-y-7.5 peer-focus:scale-75 peer-focus:bg-white peer-focus:px-1 peer-focus:rounded-full">
               Enter search query...
             </span>
             <MyButton

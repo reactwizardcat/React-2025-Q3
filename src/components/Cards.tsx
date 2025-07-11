@@ -43,8 +43,37 @@ class Cards extends React.Component<CardsProps, CardsState> {
   }
 
   componentWillUnmount() {
+    this.apiService.abort();
     this.cleanup();
   }
+
+  public fetchData = () => {
+    this.setState({ isLongLoading: false, error: null });
+    this.props.toggleLoading(true);
+
+    this.apiService
+      .fetchCards(this.props.query)
+      .then((data) => {
+        this.setState({ data, isLongLoading: false });
+      })
+      .catch((error: unknown) => {
+        if (error instanceof Error && error.name === 'AbortError') {
+          throw error;
+        }
+        this.setState({
+          error: error instanceof Error ? error.message : 'Unknown error',
+          isLongLoading: false,
+        });
+      })
+      .finally(() => {
+        this.cleanup();
+      })
+      .catch((error: unknown) => {
+        if (error instanceof Error && error.name === 'AbortError') {
+          this.props.toggleLoading(true);
+        }
+      });
+  };
 
   private startLongLoadingTimer = () => {
     this.longLoadingTimer = window.setTimeout(() => {
@@ -55,42 +84,16 @@ class Cards extends React.Component<CardsProps, CardsState> {
   };
 
   private startLoading = () => {
-    this.cleanup();
     this.startLongLoadingTimer();
     this.fetchData();
   };
 
   private cleanup = () => {
-    this.apiService.abort();
+    this.props.toggleLoading(false);
     if (this.longLoadingTimer) {
       window.clearTimeout(this.longLoadingTimer);
       this.longLoadingTimer = null;
     }
-  };
-
-  fetchData = () => {
-    this.setState({ isLongLoading: false, error: null });
-    this.props.toggleLoading(true);
-
-    this.apiService
-      .fetchCards(this.props.query)
-      .then((data) => {
-        this.setState({ data, isLongLoading: false });
-        this.props.toggleLoading(false);
-        this.cleanup();
-      })
-      .catch((error) => {
-        if (error.name === 'AbortError') {
-          console.log('Request was aborted');
-          return;
-        }
-        this.setState({
-          error: error instanceof Error ? error.message : 'Unknown error',
-          isLongLoading: false,
-        });
-        this.props.toggleLoading(false);
-        this.cleanup();
-      });
   };
 
   render() {

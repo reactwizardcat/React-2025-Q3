@@ -11,7 +11,7 @@
     "typecheck": "tsc --noEmit",
     "preview": "vite preview",
     "prepare": "husky",
-    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,css,scss,json}\"",
+    "format:fix": "prettier --write \"src/**/*.{ts,tsx,js,jsx,css,scss,json}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,css,scss,json}\"",
     "test": "vitest",
     "test:watch": "vitest watch",
