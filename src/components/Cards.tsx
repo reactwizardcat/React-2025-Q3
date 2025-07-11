@@ -44,7 +44,7 @@ class Cards extends React.Component<CardsProps, CardsState> {
 
   componentWillUnmount() {
     this.apiService.abort();
-    this.cleanup();
+    this.cleanup(false);
   }
 
   public fetchData = () => {
@@ -68,9 +68,7 @@ class Cards extends React.Component<CardsProps, CardsState> {
         });
       })
       .finally(() => {
-        if (!aborted) {
-          this.cleanup();
-        }
+        this.cleanup(aborted);
       });
   };
 
@@ -87,8 +85,10 @@ class Cards extends React.Component<CardsProps, CardsState> {
     this.fetchData();
   };
 
-  private cleanup = () => {
-    this.props.toggleLoading(false);
+  private cleanup = (aborted: boolean) => {
+    if (!aborted) {
+      this.props.toggleLoading(false);
+    }
     if (this.longLoadingTimer) {
       window.clearTimeout(this.longLoadingTimer);
       this.longLoadingTimer = null;
