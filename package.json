@@ -24,7 +24,7 @@
     "tailwindcss": "^4.1.11"
   },
   "lint-staged": {
-    "*.{ts, tsx}": "eslint"
+    "*.{ts,tsx}": "eslint"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
