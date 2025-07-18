@@ -44,51 +44,42 @@ class Cards extends React.Component<CardsProps, CardsState> {
 
   componentWillUnmount() {
     this.apiService.abort();
-    this.cleanup(false);
+    this.cleanLoadingStatuses();
   }
 
   public fetchData = () => {
     this.setState({ isLongLoading: false, error: null });
     this.props.toggleLoading(true);
-    let aborted = false;
 
     this.apiService
       .fetchCards(this.props.query)
       .then((data) => {
         this.setState({ data, isLongLoading: false });
+        this.cleanLoadingStatuses();
       })
       .catch((error: unknown) => {
-        if (error instanceof Error && error.name === 'AbortError') {
-          aborted = true;
-          return;
+        if (error instanceof Error && error.name !== 'AbortError') {
+          this.setState({
+            error: error instanceof Error ? error.message : 'Unknown error',
+            isLongLoading: false,
+          });
+          this.cleanLoadingStatuses();
         }
-        this.setState({
-          error: error instanceof Error ? error.message : 'Unknown error',
-          isLongLoading: false,
-        });
-      })
-      .finally(() => {
-        this.cleanup(aborted);
       });
   };
 
-  private startLongLoadingTimer = () => {
+  private startLoading = () => {
     this.longLoadingTimer = window.setTimeout(() => {
       if (this.props.isLoading) {
         this.setState({ isLongLoading: true });
       }
     }, SPINNER_DELAY);
-  };
-
-  private startLoading = () => {
-    this.startLongLoadingTimer();
     this.fetchData();
   };
 
-  private cleanup = (aborted: boolean) => {
-    if (!aborted) {
-      this.props.toggleLoading(false);
-    }
+  private cleanLoadingStatuses = () => {
+    this.props.toggleLoading(false);
+
     if (this.longLoadingTimer) {
       window.clearTimeout(this.longLoadingTimer);
       this.longLoadingTimer = null;
