@@ -1,22 +1,22 @@
 import React from 'react';
+import { cn } from '../utils/cn';
 
 class Loader extends React.PureComponent {
   render() {
     return (
       <div className="flex justify-center">
-        <div className="relative w-[120px] h-[90px] mx-auto">
+        <div className="relative mx-auto h-24 w-32">
           <div
-            className="
-          absolute bottom-[30px] left-[50px] h-[30px] w-[30px] rounded-full bg-[#1e3a8a]
-          animate-[loading-bounce_0.5s_ease-in-out_infinite_alternate]
-        "
+            className={cn(
+              'absolute bottom-8 left-12 h-8 w-8',
+              'animate-[loading-bounce_0.5s_ease-in-out_infinite_alternate] rounded-full bg-blue-700'
+            )}
           ></div>
           <div
-            className="
-          absolute right-0 top-0 h-[7px] w-[45px] rounded-[4px]
-          shadow-[0_5px_0_#bfdbfe,_-35px_50px_0_#bfdbfe,_-70px_95px_0_#bfdbfe]
-          animate-[loading-step_1s_ease-in-out_infinite]
-        "
+            className={cn(
+              'absolute top-0 right-0 h-2 w-12 animate-[loading-step_1s_ease-in-out_infinite]',
+              'rounded-b-sm shadow-blue-200'
+            )}
           ></div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import type { CardResponse } from '../models/cards.model';
+import { cn } from '../utils/cn';
 
 interface CardProps {
   data: CardResponse;
@@ -21,25 +22,25 @@ class Card extends React.Component<CardProps, CardState> {
     const { name, element, region, weapon, images } = this.props.data;
     const { isLoaded } = this.state;
     return (
-      <div className="bg-white rounded-lg shadow-md p-4">
-        <div className="max-w-3xs m-auto">
+      <div className="rounded-lg bg-white p-4 shadow-md">
+        <div className="m-auto max-w-3xs">
           <h2 className="font-allura text-center text-4xl">{name}</h2>
           <ul>
-            <li className="flex flex-row gap-2 items-center">
+            <li className="flex flex-row items-center gap-2">
               Element:
               <img
                 src={`/Diamond_${element}.png`}
                 alt={`${element} icon`}
-                className="w-8 h-8"
+                className="h-8 w-8"
               />
               <span className="font-lobster tracking-widest">{element}</span>
             </li>
-            <li className="flex flex-row gap-2 items-center h-4">
+            <li className="flex h-4 flex-row items-center gap-2">
               Region:
               <img
                 src={`/Emblem_${region}.png`}
                 alt={`${region} icon`}
-                className="w-8 h-8"
+                className="h-8 w-8"
               />
               <span className="font-lobster tracking-widest">{region}</span>
             </li>
@@ -50,10 +51,16 @@ class Card extends React.Component<CardProps, CardState> {
           </ul>
         </div>
         <div
-          className={`h-96 max-w-2xs overflow-hidden mx-auto mt-2.5 bg-gray-300 ${!isLoaded && 'animate-pulse'}`}
+          className={cn(
+            'mx-auto mt-2.5 h-96 max-w-2xs overflow-hidden bg-gray-300',
+            { 'animate-pulse': !isLoaded }
+          )}
         >
           <img
-            className={`w-full h-full object-cover transition-all duration-500 hover:scale-105 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+            className={cn(
+              'h-full w-full object-cover transition-all duration-500 hover:scale-105',
+              isLoaded ? 'opacity-100' : 'opacity-0'
+            )}
             src={images.large}
             alt={name}
             onLoad={() => this.setState({ isLoaded: true })}

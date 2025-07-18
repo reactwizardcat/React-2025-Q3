@@ -103,7 +103,7 @@ class Cards extends React.Component<CardsProps, CardsState> {
       return (
         <div className="flex flex-1 flex-col items-center justify-center">
           <Loader />
-          <p className="text-2xl max-w-3xl px-4 text-center mt-10 text-red-500">
+          <p className="mt-10 max-w-3xl px-4 text-center text-2xl text-red-500">
             Please be patient. Since we use free hosting, it takes about 3
             minutes to load the server.
           </p>
@@ -113,7 +113,7 @@ class Cards extends React.Component<CardsProps, CardsState> {
 
     if (isLoading) {
       return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+        <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {Array.from({ length: SKELETON_ELEMENTS_COUNT }).map((_, index) => (
             <SceletonCard key={index} />
           ))}
@@ -124,7 +124,7 @@ class Cards extends React.Component<CardsProps, CardsState> {
     if (error) {
       return (
         <div className="flex flex-1 flex-col items-center justify-center">
-          <p className="text-2xl max-w-3xl px-4 text-center mt-10 text-red-500">
+          <p className="mt-10 max-w-3xl px-4 text-center text-2xl text-red-500">
             {error}
           </p>
           <MyButton className="mt-4" callback={this.startLoading}>
@@ -143,7 +143,7 @@ class Cards extends React.Component<CardsProps, CardsState> {
     }
 
     return (
-      <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+      <main className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {data?.cards.map((cardData) => (
           <Card key={cardData.id} data={cardData} />
         ))}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { cn } from '../../utils/cn';
 
 interface MyButtonProps {
   className?: string;
@@ -19,7 +20,13 @@ class MyButton extends React.PureComponent<MyButtonProps> {
     } = this.props;
     return (
       <button
-        className={`px-5 py-2.5 rounded-xl bg-red-600 text-white md:enabled:hover:bg-red-500 md:duration-300 md:enabled:active:translate-y-0.5 shadow-lg md:enabled:shadow-red-300/50 md:disabled:shadow-gray-300/50 md:enabled:active:shadow-none ${className} disabled:bg-gray-300 disabled:text-black`}
+        className={cn(
+          'rounded-xl bg-red-600 px-5 py-2.5 text-white',
+          'md:duration-300 md:enabled:hover:bg-red-500 md:enabled:active:translate-y-0.5',
+          'shadow-lg md:enabled:shadow-red-300/50 md:enabled:active:shadow-none md:disabled:shadow-gray-300/50',
+          className,
+          'disabled:bg-gray-300 disabled:text-black'
+        )}
         onClick={callback}
         type={type}
         disabled={disabled}
