@@ -92,44 +92,44 @@ class Cards extends React.Component<CardsProps, CardsState> {
 
     if (isLongLoading) {
       return (
-        <div className="flex flex-1 flex-col items-center justify-center">
+        <main className="flex flex-1 flex-col items-center justify-center">
           <Loader />
           <p className="mt-10 max-w-3xl px-4 text-center text-2xl text-red-500">
             Please be patient. Since we use free hosting, it takes about 3
             minutes to load the server.
           </p>
-        </div>
+        </main>
       );
     }
 
     if (isLoading) {
       return (
-        <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <main className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {Array.from({ length: SKELETON_ELEMENTS_COUNT }).map((_, index) => (
             <SceletonCard key={index} />
           ))}
-        </div>
+        </main>
       );
     }
 
     if (error) {
       return (
-        <div className="flex flex-1 flex-col items-center justify-center">
+        <main className="flex flex-1 flex-col items-center justify-center">
           <p className="mt-10 max-w-3xl px-4 text-center text-2xl text-red-500">
             {error}
           </p>
           <MyButton className="mt-4" callback={this.startLoading}>
             Reload
           </MyButton>
-        </div>
+        </main>
       );
     }
 
     if (!data?.cards) {
       return (
-        <div className="flex flex-1 flex-col items-center justify-center">
+        <main className="flex flex-1 flex-col items-center justify-center">
           <p className="text-gray-500">No cards found</p>
-        </div>
+        </main>
       );
     }
 
