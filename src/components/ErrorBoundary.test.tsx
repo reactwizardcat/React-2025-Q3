@@ -1,9 +1,17 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import ErrorBoundary from './ErrorBoundary';
 
-describe('search component tests', async () => {
-  vi.spyOn(console, 'error').mockImplementation(() => null);
+describe('search component tests', () => {
+  beforeEach(() => {
+    vi.spyOn(console, 'error').mockImplementation(() => null);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   const errorMsg = 'mock error';
   class MockErrorComponent extends React.PureComponent {
     render() {
@@ -17,11 +25,8 @@ describe('search component tests', async () => {
       return <p>{text}</p>;
     }
   }
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
 
-  it('handle error in render', () => {
+  it('handle error in render', async () => {
     render(
       <ErrorBoundary>
         <MockErrorComponent />
@@ -29,9 +34,8 @@ describe('search component tests', async () => {
     );
     expect(console.error).toHaveBeenCalled();
     expect(screen.getByText(errorMsg)).toBeInTheDocument();
-  });
-
-  it('render childs without errors', () => {
+    const restoreBtn = screen.getByRole('button', { name: 'Reload' });
+    await userEvent.click(restoreBtn);
     render(
       <ErrorBoundary>
         <MockGoodComponent />
