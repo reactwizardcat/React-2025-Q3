@@ -4,7 +4,7 @@ import { cn } from '../utils/cn';
 class Loader extends React.PureComponent {
   render() {
     return (
-      <div className="flex justify-center">
+      <div aria-label="load content" className="flex justify-center">
         <div className="relative mx-auto h-24 w-32">
           <div
             className={cn(
