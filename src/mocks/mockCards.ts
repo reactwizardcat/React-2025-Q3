@@ -20,3 +20,9 @@ export const mockCards = {
   total_count: 2,
   total_pages: 1,
 };
+
+export const mockEmptyResponse = {
+  cards: null,
+  total_count: 0,
+  total_pages: 0,
+};
