@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import SceletonCard from './SceletonCard';
 
-describe('SceletonCard snapshot test', () => {
+describe('Sceleton component test', () => {
   it('should match snapshot', () => {
     const { container } = render(<SceletonCard />);
     expect(container.firstChild).toMatchSnapshot();

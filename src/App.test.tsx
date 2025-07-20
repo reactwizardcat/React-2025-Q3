@@ -1,20 +1,34 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import App from './App';
 import userEvent from '@testing-library/user-event';
 
 vi.mock('./components/Search', () => ({
-  default: ({ queryString }: { queryString: string }) => (
+  default: ({
+    queryString,
+    changeQuery,
+  }: {
+    queryString: string;
+    changeQuery: (str: string) => void;
+  }) => (
     <div>
       Search Component: <span>{queryString}</span>
+      <button onClick={() => changeQuery('changed')}>Change Query</button>
     </div>
   ),
 }));
 
 vi.mock('./components/Cards', () => ({
-  default: ({ isLoading }: { isLoading: boolean }) => (
+  default: ({
+    isLoading,
+    toggleLoading,
+  }: {
+    isLoading: boolean;
+    toggleLoading: (value: boolean) => void;
+  }) => (
     <div>
       Cards Component: <span>{isLoading && 'isLoading'}</span>
+      <button onClick={() => toggleLoading(true)}>Toggle</button>
     </div>
   ),
 }));
@@ -36,17 +50,35 @@ describe('App Component', () => {
     mockGetQuery.mockReturnValue('initial query');
   });
 
-  it('renders without crashing', () => {
+  it('renders correct loading status', async () => {
     render(<App />);
     expect(
       screen.getByRole('button', { name: /Error Boundary/i })
     ).toBeInTheDocument();
+    expect(screen.getByText(/Cards Component/)).not.toHaveTextContent(
+      /isLoading/
+    );
+
+    await act(
+      async () =>
+        await userEvent.click(screen.getByRole('button', { name: /Toggle/i }))
+    );
+
+    expect(screen.getByText(/Cards Component/)).toHaveTextContent(/isLoading/);
   });
 
-  it('init with correct querry', () => {
+  it('init with correct query and correct query change', async () => {
     render(<App />);
     const search = screen.getByText(/Search Component/);
     expect(search).toHaveTextContent('initial query');
+
+    await act(
+      async () =>
+        await userEvent.click(
+          screen.getByRole('button', { name: /Change Query/i })
+        )
+    );
+    expect(search).toHaveTextContent('changed');
   });
 
   it('throws error when button clicked', async () => {

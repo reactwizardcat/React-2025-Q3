@@ -4,19 +4,19 @@ import FetchHttpClient from './httpClient';
 import { mockCards } from '../mocks/mockCards';
 import { http, HttpResponse } from 'msw';
 
-describe('FetchHttpClient', () => {
+describe('FetchHttpClient tests', () => {
   const httpClient = new FetchHttpClient();
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it('should make GET request and return correct data', async () => {
+  it('make GET request and return correct data', async () => {
     const response = await httpClient.get('http://localhost/cards');
 
     expect(response).toEqual(mockCards);
   });
 
-  it('should throw error when response is not ok', async () => {
+  it('throw error when response is not ok', async () => {
     server.use(
       http.get('https://api.example.com/error', () => {
         return new Response(null, { status: 404 });
@@ -28,7 +28,7 @@ describe('FetchHttpClient', () => {
     ).rejects.toThrow('HTTP error! status: 404');
   });
 
-  it('should add query params to URL when provided', async () => {
+  it('add query params to URL when provided', async () => {
     const mockResponse = { data: 'test' };
     let requestUrl = '';
 
@@ -46,7 +46,7 @@ describe('FetchHttpClient', () => {
     expect(requestUrl).toContain('page=1');
   });
 
-  it('should skip undefined or empty params', async () => {
+  it('skip undefined or empty params', async () => {
     let requestUrl = '';
 
     server.use(
@@ -63,7 +63,7 @@ describe('FetchHttpClient', () => {
     expect(requestUrl).not.toContain('empty=');
   });
 
-  it('should pass AbortSignal to fetch when provided', async () => {
+  it('pass AbortSignal to fetch when provided', async () => {
     let receivedSignal: AbortSignal | undefined;
 
     const abortController = new AbortController();
@@ -84,7 +84,7 @@ describe('FetchHttpClient', () => {
     expect(receivedSignal?.aborted).toBe(false);
   });
 
-  it('should handle network errors', async () => {
+  it('handle network errors', async () => {
     server.use(
       http.get('https://api.example.com/network-error', () => {
         return HttpResponse.error();

@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import ErrorBoundary from './ErrorBoundary';
 
-describe('search component tests', () => {
+describe('error boundary component tests', () => {
   beforeAll(() => {
     vi.spyOn(console, 'error').mockImplementation(() => {});
   });

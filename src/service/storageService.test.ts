@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import StorageService from './storageService';
 import { STORAGE_KEY } from '../constants';
 
-describe('StorageService', () => {
+describe('StorageService tests', () => {
   const TEST_VALUE = 'test_value';
 
   const mockStorage = {
@@ -26,26 +26,26 @@ describe('StorageService', () => {
     vi.unstubAllGlobals();
   });
 
-  it('should return the same instance on multiple getInstance() calls', () => {
+  it('return the same instance on multiple getInstance calls', () => {
     const instance1 = StorageService.getInstance();
     const instance2 = StorageService.getInstance();
     expect(instance1).toBe(instance2);
   });
 
-  it('should create new instance after clearInstance()', () => {
+  it('create new instance after clearInstance', () => {
     const instance1 = StorageService.getInstance();
     StorageService.clearInstance();
     const instance2 = StorageService.getInstance();
     expect(instance1).not.toBe(instance2);
   });
 
-  it('should update storage when getInstance called with new storage', () => {
+  it('update storage when getInstance called with new storage', () => {
     const instance = StorageService.getInstance(mockStorage);
     instance.setQuery(TEST_VALUE);
     expect(mockStorage.setItem).toHaveBeenCalledWith(STORAGE_KEY, TEST_VALUE);
   });
 
-  it('should get query from storage', () => {
+  it('get query from storage', () => {
     mockStorage.getItem.mockReturnValueOnce(TEST_VALUE);
     const instance = StorageService.getInstance(mockStorage);
     const result = instance.getQuery();
@@ -53,32 +53,32 @@ describe('StorageService', () => {
     expect(mockStorage.getItem).toHaveBeenCalledWith(STORAGE_KEY);
   });
 
-  it('should return null when query not found', () => {
+  it('return null when query not found', () => {
     const instance = StorageService.getInstance(mockStorage);
     const result = instance.getQuery();
     expect(result).toBeNull();
   });
 
-  it('should set query to storage', () => {
+  it('set query to storage', () => {
     const instance = StorageService.getInstance(mockStorage);
     instance.setQuery(TEST_VALUE);
     expect(mockStorage.setItem).toHaveBeenCalledWith(STORAGE_KEY, TEST_VALUE);
   });
 
-  it('should remove query from storage', () => {
+  it('remove query from storage', () => {
     const instance = StorageService.getInstance(mockStorage);
     instance.removeQuery();
     expect(mockStorage.removeItem).toHaveBeenCalledWith(STORAGE_KEY);
   });
 
-  it('should use window.localStorage by default', () => {
+  it('use window.localStorage by default', () => {
     const instance = StorageService.getInstance();
     instance.setQuery(TEST_VALUE);
 
     expect(localStorage.setItem).toHaveBeenCalledWith(STORAGE_KEY, TEST_VALUE);
   });
 
-  it('should allow custom storage implementation', () => {
+  it('allow custom storage implementation', () => {
     const customStorage = {
       getItem: vi.fn(),
       setItem: vi.fn(),

@@ -11,7 +11,7 @@ const createMockHttpClient = (): HttpClient & {
 
 const mockHttpClient = createMockHttpClient();
 
-describe('ApiService', () => {
+describe('ApiService tests', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     ApiService.clearInstance();
@@ -22,13 +22,13 @@ describe('ApiService', () => {
     vi.restoreAllMocks();
   });
 
-  it('should create singleton instance', () => {
+  it('create singleton instance', () => {
     const instance1 = ApiService.getInstance();
     const instance2 = ApiService.getInstance();
     expect(instance1).toBe(instance2);
   });
 
-  it('should fetch cards with correct parameters', async () => {
+  it('fetch cards with correct parameters', async () => {
     const service = ApiService.getInstance(mockHttpClient);
     const result = await service.fetchCards('Mondstadt');
 
@@ -39,7 +39,7 @@ describe('ApiService', () => {
     expect(result).toEqual(mockCards);
   });
 
-  it('should return cards with correct structure', async () => {
+  it('return cards with correct structure', async () => {
     const service = ApiService.getInstance(mockHttpClient);
     const result = await service.fetchCards();
 
@@ -48,7 +48,7 @@ describe('ApiService', () => {
     expect(result.total_pages).toBe(1);
   });
 
-  it('should abort previous request', async () => {
+  it('abort previous request', async () => {
     const service = ApiService.getInstance(mockHttpClient);
     const abortSpy = vi.spyOn(AbortController.prototype, 'abort');
 
@@ -58,7 +58,7 @@ describe('ApiService', () => {
     expect(abortSpy).toHaveBeenCalledTimes(1);
   });
 
-  it('should throw error for invalid data', async () => {
+  it('throw error for invalid data', async () => {
     mockHttpClient.get.mockResolvedValueOnce({ invalid: 'data' });
     const service = ApiService.getInstance(mockHttpClient);
 
@@ -67,7 +67,7 @@ describe('ApiService', () => {
     );
   });
 
-  it('should handle empty response', async () => {
+  it('handle empty response', async () => {
     mockHttpClient.get.mockResolvedValueOnce(null);
     const service = ApiService.getInstance(mockHttpClient);
 
@@ -76,7 +76,7 @@ describe('ApiService', () => {
     );
   });
 
-  it('should abort current request', () => {
+  it('abort current request', () => {
     const service = ApiService.getInstance(mockHttpClient);
     const abortSpy = vi.spyOn(AbortController.prototype, 'abort');
 

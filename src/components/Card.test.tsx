@@ -19,7 +19,7 @@ const mockCardData: CardResponse = {
   },
 };
 
-describe('Card Component', () => {
+describe('Card component test', () => {
   beforeEach(() => {
     global.Image = class {
       onload = vi.fn();

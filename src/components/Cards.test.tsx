@@ -56,7 +56,7 @@ vi.mock('../constants', () => ({
   SPINNER_DELAY: 1000,
 }));
 
-describe('Cards Component', () => {
+describe('Cards component test', () => {
   const mockToggleLoading = vi.fn();
   const defaultProps = {
     query: 'test',
