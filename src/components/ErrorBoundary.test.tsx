@@ -38,6 +38,14 @@ describe('error boundary component tests', () => {
     );
     expect(console.error).toHaveBeenCalled();
     expect(screen.getByText(errorMsg)).toBeInTheDocument();
+  });
+
+  it('can restore component', async () => {
+    render(
+      <ErrorBoundary>
+        <MockErrorComponent />
+      </ErrorBoundary>
+    );
     const restoreBtn = screen.getByRole('button', { name: 'Reload' });
     await userEvent.click(restoreBtn);
     render(

@@ -67,10 +67,15 @@ describe('App Component', () => {
     expect(screen.getByText(/Cards Component/)).toHaveTextContent(/isLoading/);
   });
 
-  it('init with correct query and correct query change', async () => {
+  it('init with correct query', () => {
     render(<App />);
     const search = screen.getByText(/Search Component/);
     expect(search).toHaveTextContent('initial query');
+  });
+
+  it('correct query change', async () => {
+    render(<App />);
+    const search = screen.getByText(/Search Component/);
 
     await act(
       async () =>
