@@ -49,7 +49,9 @@ class Cards extends React.Component<CardsProps, CardsState> {
 
   public fetchData = () => {
     this.setState({ isLongLoading: false, error: null });
-    this.props.toggleLoading(true);
+    if (!this.props.isLoading) {
+      this.props.toggleLoading(true);
+    }
 
     this.apiService
       .fetchCards(this.props.query)

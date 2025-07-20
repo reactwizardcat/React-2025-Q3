@@ -4,11 +4,15 @@ import userEvent from '@testing-library/user-event';
 import ErrorBoundary from './ErrorBoundary';
 
 describe('search component tests', () => {
-  beforeEach(() => {
-    vi.spyOn(console, 'error').mockImplementation(() => null);
+  beforeAll(() => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
   });
 
   afterEach(() => {
+    vi.clearAllMocks();
+  });
+
+  afterAll(() => {
     vi.restoreAllMocks();
   });
 
@@ -41,6 +45,6 @@ describe('search component tests', () => {
         <MockGoodComponent />
       </ErrorBoundary>
     );
-    expect(screen.getByText("I'm fine")).toBeVisible();
+    expect(screen.getByText(/I'm fine/)).toBeVisible();
   });
 });

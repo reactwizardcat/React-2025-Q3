@@ -23,7 +23,7 @@ describe('search component tests', () => {
     const submitBtn = screen.getByRole('button', { name: 'Search' });
     await userEvent.type(input, 'aa');
     await userEvent.click(submitBtn);
-    expect(submitFn).toHaveBeenCalledTimes(1);
+    expect(submitFn).toHaveBeenCalledOnce();
     expect(submitFn).toHaveBeenCalledWith('aaaaa');
   });
 });
