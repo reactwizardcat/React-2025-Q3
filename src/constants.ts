@@ -1,4 +1,5 @@
 export const API_URL = 'https://mock-server-e7yb.onrender.com/api/v1';
+// export const API_URL = 'http://localhost:5000/api/v1';
 
 export const SPINNER_DELAY = 5000;
 

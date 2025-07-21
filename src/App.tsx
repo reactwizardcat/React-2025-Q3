@@ -2,6 +2,7 @@ import React from 'react';
 import Cards from './components/Cards';
 import Search from './components/Search';
 import StorageService from './service/storageService';
+import { cn } from './utils/cn';
 
 type AppProps = object;
 
@@ -53,7 +54,11 @@ class App extends React.Component<AppProps, AppState> {
           toggleLoading={this.toggleLoading}
         />
         <button
-          className="fixed bottom-3 right-3 rounded-xl bg-red-600 text-white md:bottom-10 md:right-16 px-3.5 py-2.5 md:hover:bg-red-500 md:hover:-translate-y-2 duration-300 md:hover:shadow-md md:shadow-red-300/50 md:active:shadow-none md:active:-translate-y-1"
+          className={cn(
+            'fixed right-3 bottom-3 rounded-xl bg-red-600 px-3.5 py-2.5 text-white duration-300',
+            'md:right-16 md:bottom-10 md:shadow-red-300/50 md:hover:-translate-y-2',
+            'md:hover:bg-red-500 md:hover:shadow-md md:active:-translate-y-1 md:active:shadow-none'
+          )}
           onClick={this.showError}
         >
           Error Boundary
