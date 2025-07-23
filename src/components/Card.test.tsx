@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import Card from './Card';
 import type { CardResponse } from '../models/cards.model';
 
@@ -72,7 +72,7 @@ describe('Card component test', () => {
     expect(screen.getByAltText('Diluc')).toHaveClass('opacity-0');
   });
 
-  it('removes loading state after image loads', async () => {
+  it('removes loading state after image loads', () => {
     render(<Card data={mockCardData} />);
 
     const mainImage = screen.getByAltText('Diluc');
@@ -80,11 +80,9 @@ describe('Card component test', () => {
       mainImage.dispatchEvent(new Event('load'));
     });
 
-    await waitFor(() => {
-      const imageContainer = mainImage.closest('div');
-      expect(imageContainer).not.toHaveClass('animate-pulse');
-      expect(mainImage).toHaveClass('opacity-100');
-    });
+    const imageContainer = mainImage.closest('div');
+    expect(imageContainer).not.toHaveClass('animate-pulse');
+    expect(mainImage).toHaveClass('opacity-100');
   });
 
   it('applies hover effect class', () => {

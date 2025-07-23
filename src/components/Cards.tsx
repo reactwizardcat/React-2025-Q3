@@ -3,7 +3,7 @@ import Card from './Card';
 import { SKELETON_ELEMENTS_COUNT, SPINNER_DELAY } from '../constants';
 import type { CardsResponse } from '../models/cards.model';
 import Loader from './Loader';
-import SceletonCard from './SceletonCard';
+import SceletonCard from './SkeletonCard';
 import ApiService from '../service/apiService';
 import MyButton from './UI/MyButton';
 
