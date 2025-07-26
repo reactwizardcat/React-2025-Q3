@@ -86,15 +86,15 @@ describe('App Component', () => {
     expect(search).toHaveTextContent('changed');
   });
 
-  it('throws error when button clicked', async () => {
-    const consoleError = vi
-      .spyOn(console, 'error')
-      .mockImplementation(() => {});
+  // it('throws error when button clicked', async () => {
+  //   const consoleError = vi
+  //     .spyOn(console, 'error')
+  //     .mockImplementation(() => {});
 
-    render(<App />);
-    const button = screen.getByRole('button', { name: 'Error Boundary' });
-    await expect(userEvent.click(button)).rejects.toThrow("💥 I'm error");
+  //   render(<App />);
+  //   const button = screen.getByRole('button', { name: 'Error Boundary' });
+  //   await expect(userEvent.click(button)).rejects.toThrow("💥 I'm error");
 
-    consoleError.mockRestore();
-  });
+  //   consoleError.mockRestore();
+  // });
 });

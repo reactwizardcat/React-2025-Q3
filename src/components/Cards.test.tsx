@@ -4,20 +4,13 @@ import Cards from './Cards';
 import type { CardsResponse } from '../models/cards.model';
 import { mockCards, mockEmptyResponse } from '../mocks/mockCards';
 
-const mockApiService = {
-  fetchCards: vi
-    .fn<(_?: string) => Promise<CardsResponse>>()
-    .mockResolvedValue(mockCards),
-  abort: vi.fn(),
-};
+const mockfetchCards = vi
+  .fn<(_?: string) => Promise<CardsResponse>>()
+  .mockResolvedValue(mockCards);
 
-vi.mock('../service/apiService', () => {
+vi.mock('../api/fetchCards', () => {
   return {
-    default: {
-      getInstance: vi.fn(() => {
-        return mockApiService;
-      }),
-    },
+    mockfetchCards,
   };
 });
 
@@ -61,14 +54,13 @@ describe('Cards component test', () => {
   const defaultProps = {
     query: 'test',
     isLoading: false,
-    toggleLoading: mockToggleLoading,
+    setIsLoading: mockToggleLoading,
   };
 
   beforeEach(() => {
     vi.useFakeTimers();
     mockToggleLoading.mockReset();
-    mockApiService.fetchCards.mockReset();
-    mockApiService.abort.mockReset();
+    mockfetchCards.mockReset();
   });
 
   afterEach(async () => {
@@ -78,7 +70,7 @@ describe('Cards component test', () => {
   });
 
   it('displays skeleton cards when isLoading is true', () => {
-    mockApiService.fetchCards.mockResolvedValue(mockCards);
+    mockfetchCards.mockResolvedValue(mockCards);
 
     render(<Cards {...defaultProps} isLoading={true} />);
 
@@ -89,7 +81,7 @@ describe('Cards component test', () => {
   });
 
   it("displays Loader if don't get response while SPINNER_DELAY", async () => {
-    mockApiService.fetchCards.mockImplementation(
+    mockfetchCards.mockImplementation(
       () =>
         new Promise<CardsResponse>((resolve) =>
           setTimeout(() => resolve(mockCards), 2000)
@@ -107,7 +99,7 @@ describe('Cards component test', () => {
   it('shows error message when fetch fails', async () => {
     const errorMessage = 'Network error';
 
-    mockApiService.fetchCards.mockRejectedValue(new Error(errorMessage));
+    mockfetchCards.mockRejectedValue(new Error(errorMessage));
     await act(async () => {
       render(<Cards {...defaultProps} />);
     });
@@ -116,7 +108,7 @@ describe('Cards component test', () => {
   });
 
   it('shows "No cards found" when data is empty', () => {
-    mockApiService.fetchCards.mockResolvedValue(mockEmptyResponse);
+    mockfetchCards.mockResolvedValue(mockEmptyResponse);
 
     render(<Cards {...defaultProps} />);
     expect(screen.getByText(/No cards found/)).toBeInTheDocument();
