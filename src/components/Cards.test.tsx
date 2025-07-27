@@ -54,6 +54,8 @@ describe('Cards component test', () => {
   const defaultProps = {
     query: 'test',
     isLoading: false,
+    page: 1,
+    setPage: vi.fn(),
     setIsLoading: mockToggleLoading,
   };
 

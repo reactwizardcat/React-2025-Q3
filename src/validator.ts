@@ -8,6 +8,8 @@ export function isValidData(data: unknown): data is CardsResponse {
     typeof data.total_count === 'number' &&
     'total_pages' in data &&
     typeof data.total_pages === 'number' &&
+    'page' in data &&
+    typeof data.page === 'number' &&
     'cards' in data &&
     (data.cards === null ||
       (Array.isArray(data.cards) && isValidCard(data.cards[0])))

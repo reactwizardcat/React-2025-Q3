@@ -4,13 +4,19 @@ import { isValidData } from '../../validator';
 
 let abortController: AbortController | null = null;
 
-export function fetchCards(searchQuery: string = ''): Promise<CardsResponse> {
+export function fetchCards(
+  searchQuery: string = '',
+  page: number
+): Promise<CardsResponse> {
   abortFetchCards();
   abortController = new AbortController();
 
   const url = new URL(`${API_URL}/cards`);
   if (searchQuery) {
     url.searchParams.set('search', searchQuery);
+  }
+  if (page) {
+    url.searchParams.set('page', page.toString());
   }
 
   return fetch(url.toString(), {

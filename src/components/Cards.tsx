@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import Card from './Card';
 import { SKELETON_ELEMENTS_COUNT, SPINNER_DELAY } from '../constants';
 import type { CardsResponse } from '../models/cards.model';
@@ -6,20 +6,34 @@ import Loader from './Loader';
 import SkeletonCard from './SkeletonCard';
 import MyButton from './UI/MyButton';
 import { fetchCards, abortFetchCards } from './api/fetchCards';
+import { Pagination } from './Pagination';
 
 interface CardsProps {
   query: string;
   isLoading: boolean;
+  page: number;
+  setPage: (page: number) => void;
   setIsLoading: (value: boolean) => void;
 }
 
-export default function Cards({ query, isLoading, setIsLoading }: CardsProps) {
+export default function Cards({
+  query,
+  isLoading,
+  setIsLoading,
+  page,
+  setPage,
+}: CardsProps) {
   const [data, setData] = useState<CardsResponse | null>(null);
   const [isLongLoading, setIsLongLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const longLoadingTimer = useRef<number | null>(null);
 
   const fetchData = useCallback(() => {
     const resetLoadingStates = () => {
+      if (longLoadingTimer.current) {
+        window.clearTimeout(longLoadingTimer.current);
+        longLoadingTimer.current = null;
+      }
       setIsLoading(false);
       setIsLongLoading(false);
     };
@@ -27,7 +41,7 @@ export default function Cards({ query, isLoading, setIsLoading }: CardsProps) {
     setIsLongLoading(false);
     setIsLoading(true);
 
-    fetchCards(query)
+    fetchCards(query, page)
       .then((cardsData) => {
         setData(cardsData);
         resetLoadingStates();
@@ -38,13 +52,11 @@ export default function Cards({ query, isLoading, setIsLoading }: CardsProps) {
           resetLoadingStates();
         }
       });
-  }, [query, setIsLoading]);
+  }, [query, setIsLoading, page]);
 
   useEffect(() => {
-    let longLoadingTimer: number;
-
     const startLoading = () => {
-      longLoadingTimer = window.setTimeout(() => {
+      longLoadingTimer.current = window.setTimeout(() => {
         setIsLongLoading(true);
       }, SPINNER_DELAY);
       fetchData();
@@ -54,7 +66,10 @@ export default function Cards({ query, isLoading, setIsLoading }: CardsProps) {
 
     return () => {
       abortFetchCards();
-      window.clearTimeout(longLoadingTimer);
+      if (longLoadingTimer.current) {
+        window.clearTimeout(longLoadingTimer.current);
+        longLoadingTimer.current = null;
+      }
     };
   }, [query, fetchData]);
 
@@ -102,10 +117,19 @@ export default function Cards({ query, isLoading, setIsLoading }: CardsProps) {
   }
 
   return (
-    <main className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-      {data?.cards.map((cardData) => (
-        <Card key={cardData.id} data={cardData} />
-      ))}
+    <main>
+      <section className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {data?.cards.map((cardData) => (
+          <Card key={cardData.id} data={cardData} />
+        ))}
+      </section>
+      <Pagination
+        totalItems={data.total_count}
+        totalPages={data.total_pages}
+        itemsPerPage={10}
+        currentPage={data.page}
+        onPageChange={setPage}
+      />
     </main>
   );
 }
