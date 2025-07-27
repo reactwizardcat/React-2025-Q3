@@ -5,8 +5,9 @@ import type { CardsResponse } from '../models/cards.model';
 import Loader from './Loader';
 import SkeletonCard from './SkeletonCard';
 import MyButton from './UI/MyButton';
-import { fetchCards, abortFetchCards } from './api/fetchCards';
+import { fetchCards, abortFetchCards } from '../api/fetchCards';
 import { Pagination } from './Pagination';
+import { Link, Outlet } from 'react-router';
 
 interface CardsProps {
   query: string;
@@ -118,10 +119,15 @@ export default function Cards({
 
   return (
     <main>
-      <section className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {data?.cards.map((cardData) => (
-          <Card key={cardData.id} data={cardData} />
-        ))}
+      <section className="flex flex-row">
+        <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {data?.cards.map((cardData) => (
+            <Link key={cardData.id} to={`${cardData.id}`}>
+              <Card data={cardData} />
+            </Link>
+          ))}
+        </div>
+        <Outlet />
       </section>
       <Pagination
         totalItems={data.total_count}

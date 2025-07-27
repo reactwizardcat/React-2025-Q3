@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Cards from './components/Cards';
 import Search from './components/Search';
 import ErrorButton from './components/UI/ErrorButton';
-import { useLS } from './components/hooks/useLS';
+import { useLS } from './hooks/useLS';
 
 export default function App() {
   const [query, setQuery] = useLS();

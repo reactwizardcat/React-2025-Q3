@@ -1,15 +1,15 @@
-import { API_URL } from '../../constants';
-import type { CardsResponse } from '../../models/cards.model';
-import { isValidData } from '../../validator';
+import { API_URL } from '../constants';
+import type { CardsResponse } from '../models/cards.model';
+import { isValidData } from '../validator';
 
-let abortController: AbortController | null = null;
+let cardsAbortController: AbortController | null = null;
 
 export function fetchCards(
   searchQuery: string = '',
   page: number
 ): Promise<CardsResponse> {
   abortFetchCards();
-  abortController = new AbortController();
+  cardsAbortController = new AbortController();
 
   const url = new URL(`${API_URL}/cards`);
   if (searchQuery) {
@@ -20,7 +20,7 @@ export function fetchCards(
   }
 
   return fetch(url.toString(), {
-    signal: abortController.signal,
+    signal: cardsAbortController.signal,
   })
     .then((response) => {
       if (!response.ok) {
@@ -37,8 +37,8 @@ export function fetchCards(
 }
 
 export function abortFetchCards() {
-  if (abortController) {
-    abortController.abort();
-    abortController = null;
+  if (cardsAbortController) {
+    cardsAbortController.abort();
+    cardsAbortController = null;
   }
 }

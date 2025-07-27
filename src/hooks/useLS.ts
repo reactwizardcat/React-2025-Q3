@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { STORAGE_KEY } from '../../constants';
+import { STORAGE_KEY } from '../constants';
 
 export const useLS = (): [
   string,

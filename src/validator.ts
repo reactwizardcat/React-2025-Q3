@@ -16,7 +16,7 @@ export function isValidData(data: unknown): data is CardsResponse {
   );
 }
 
-function isValidCard(card: unknown): card is CardResponse {
+export function isValidCard(card: unknown): card is CardResponse {
   return (
     typeof card === 'object' &&
     card !== null &&

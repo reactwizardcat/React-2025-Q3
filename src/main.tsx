@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 import ErrorBoundary from './components/ErrorBoundary';
 import { RouterProvider } from 'react-router';
-import { router } from './router.tsx';
+import { router } from './router/router.tsx';
 
 const root = document.getElementById('root');
 
