@@ -1,6 +1,6 @@
 import MyButton from './UI/MyButton';
 import { cn } from '../utils/cn';
-import HeaderLayout from './Header';
+import Header from './Header';
 
 interface SearchProps {
   changeQuery: (str: string) => void;
@@ -24,7 +24,7 @@ export default function Search({
   };
 
   return (
-    <HeaderLayout>
+    <Header>
       <form onSubmit={handleSubmit} className="flex-1">
         <label
           className={cn(
@@ -64,6 +64,6 @@ export default function Search({
           </MyButton>
         </label>
       </form>
-    </HeaderLayout>
+    </Header>
   );
 }

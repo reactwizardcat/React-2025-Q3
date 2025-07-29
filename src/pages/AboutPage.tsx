@@ -1,9 +1,9 @@
-import HeaderLayout from '../components/Header';
+import Header from '../components/Header';
 
 export default function AboutPage() {
   return (
     <>
-      <HeaderLayout />
+      <Header />
       <main className="flex flex-1 flex-col items-center justify-center gap-2.5">
         <section className="max-w-2xl text-center text-lg">
           <h1 className="mb-5 text-2xl font-bold capitalize">About</h1>

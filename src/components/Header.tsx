@@ -1,11 +1,7 @@
 import { NavLink } from 'react-router';
 import { cn } from '../utils/cn';
 
-export default function HeaderLayout({
-  children,
-}: {
-  children?: React.ReactNode;
-}) {
+export default function Header({ children }: { children?: React.ReactNode }) {
   return (
     <>
       <header
