@@ -10,8 +10,8 @@ export default function HeaderLayout({
     <>
       <header
         className={cn(
-          'mx-4 mt-3 flex flex-col gap-3 rounded-t-4xl bg-white bg-[url("/fon2.png")] px-5 py-4 shadow-md md:flex-row',
-          'bg-cover bg-center bg-no-repeat'
+          'mx-4 mt-3 flex flex-col gap-3 rounded-t-4xl bg-white bg-[url("/fon2.png")]',
+          'bg-cover bg-center bg-no-repeat px-5 py-4 shadow-md md:flex-row'
         )}
       >
         {children}
