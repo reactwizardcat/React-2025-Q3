@@ -13,8 +13,7 @@ exports[`Header > matches snapshot 1`] = `
       >
         <li>
           <a
-            class="text-gray-700 transition-colors duration-200 hover:text-red-600 "
-            data-discover="true"
+            class="text-gray-700 transition-colors duration-200 hover:text-red-600 pointer-events-none font-medium text-red-600 underline underline-offset-4"
             href="/about"
           >
             About
@@ -23,7 +22,6 @@ exports[`Header > matches snapshot 1`] = `
         <li>
           <a
             class="text-gray-700 transition-colors duration-200 hover:text-red-600 "
-            data-discover="true"
             href="/search"
           >
             Home

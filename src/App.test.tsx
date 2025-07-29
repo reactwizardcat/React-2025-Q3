@@ -1,5 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { act, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import App from './App';
 import userEvent from '@testing-library/user-event';
 
@@ -53,10 +52,7 @@ describe('App Component', () => {
       /isLoading/
     );
 
-    await act(
-      async () =>
-        await userEvent.click(screen.getByRole('button', { name: /Toggle/i }))
-    );
+    await userEvent.click(screen.getByRole('button', { name: /Toggle/i }));
 
     expect(screen.getByText(/Cards Component/)).toHaveTextContent(/isLoading/);
   });
@@ -74,12 +70,10 @@ describe('App Component', () => {
     const search = screen.getByText(/Search Component/);
     expect(search).toHaveTextContent('initial query');
 
-    await act(
-      async () =>
-        await userEvent.click(
-          screen.getByRole('button', { name: /Change Query/i })
-        )
+    await userEvent.click(
+      screen.getByRole('button', { name: /Change Query/i })
     );
+
     expect(setQueryMock).toHaveBeenCalledWith('changed');
   });
 });

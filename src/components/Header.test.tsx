@@ -1,14 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import Header from './Header';
-import { vi } from 'vitest';
 
 vi.mock('../utils/cn', () => ({
   cn: vi.fn().mockImplementation((...args) => args.join(' ')),
 }));
 
 describe('Header', () => {
-  vi.mock('react-router-dom', async (importOriginal) => {
+  vi.mock('react-router', async (importOriginal) => {
     const actual = await importOriginal<typeof import('react-router')>();
     return {
       ...actual,

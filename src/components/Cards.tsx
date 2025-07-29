@@ -1,11 +1,9 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import Card from './Card';
-import { ITEMS_PER_PAGE, SPINNER_DELAY } from '../constants';
-import type { CardsResponse } from '../models/cards.model';
+import { ITEMS_PER_PAGE } from '../constants';
 import Loader from './Loader';
 import SkeletonCard from './SkeletonCard';
 import MyButton from './UI/MyButton';
-import { fetchCards, abortFetchCards } from '../api/fetchCards';
 import { Pagination } from './Pagination';
 import {
   Link,
@@ -15,6 +13,7 @@ import {
   useParams,
 } from 'react-router';
 import SideBar from '../layout/SideBarLayout';
+import { useFetchCards } from '../hooks/useFetchCards';
 
 interface CardsProps {
   query: string;
@@ -26,57 +25,18 @@ export default function Cards({ query, isLoading, setIsLoading }: CardsProps) {
   const { search } = useParams();
   const navigation = useNavigation();
   const navigate = useNavigate();
-  const longLoadingTimer = useRef<number | null>(null);
 
-  const [data, setData] = useState<CardsResponse | null>(null);
-  const [isLongLoading, setIsLongLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState(Number(search) || 1);
 
-  const fetchData = useCallback(() => {
-    const resetLoadingStates = () => {
-      if (longLoadingTimer.current) {
-        window.clearTimeout(longLoadingTimer.current);
-        longLoadingTimer.current = null;
-      }
-      setIsLoading(false);
-      setIsLongLoading(false);
-    };
-    setError(null);
-    setIsLongLoading(false);
-    setIsLoading(true);
-
-    fetchCards(query, page)
-      .then((cardsData) => {
-        setData(cardsData);
-        resetLoadingStates();
-      })
-      .catch((error) => {
-        if (error instanceof Error && error.name !== 'AbortError') {
-          setError(error instanceof Error ? error.message : 'Unknown error');
-          resetLoadingStates();
-        }
-      });
-  }, [query, setIsLoading, page]);
+  const { data, isLongLoading, error } = useFetchCards({
+    query,
+    page,
+    setIsLoading,
+  });
 
   useEffect(() => {
-    const startLoading = () => {
-      longLoadingTimer.current = window.setTimeout(() => {
-        setIsLongLoading(true);
-      }, SPINNER_DELAY);
-      navigate(`/search/${page}`);
-      fetchData();
-    };
-    startLoading();
-
-    return () => {
-      abortFetchCards();
-      if (longLoadingTimer.current) {
-        window.clearTimeout(longLoadingTimer.current);
-        longLoadingTimer.current = null;
-      }
-    };
-  }, [query, fetchData, navigate, page]);
+    navigate(`/search/${page}`);
+  }, [navigate, page]);
 
   if (isLongLoading) {
     return (
@@ -144,7 +104,6 @@ export default function Cards({ query, isLoading, setIsLoading }: CardsProps) {
       <Pagination
         totalItems={total_count}
         totalPages={total_pages}
-        itemsPerPage={ITEMS_PER_PAGE}
         currentPage={actualPage}
         onPageChange={setPage}
       />

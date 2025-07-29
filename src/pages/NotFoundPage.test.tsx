@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import NotFoundPage from './NotFoundPage';
-import { vi } from 'vitest';
 import { MemoryRouter, useLocation } from 'react-router';
 
 vi.mock('react-router', async (importOriginal) => {

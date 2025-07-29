@@ -1,9 +1,10 @@
+import { ITEMS_PER_PAGE } from '../constants';
 import { getVisiblePages } from '../utils/linksArray';
+import PaginationButton from './UI/PaginationButton';
 
 interface PaginationProps {
   totalItems: number;
   totalPages: number;
-  itemsPerPage: number;
   currentPage: number;
   onPageChange: (page: number) => void;
 }
@@ -11,7 +12,6 @@ interface PaginationProps {
 export const Pagination = ({
   totalItems,
   totalPages,
-  itemsPerPage,
   currentPage,
   onPageChange,
 }: PaginationProps) => {
@@ -24,52 +24,56 @@ export const Pagination = ({
   };
 
   return (
-    <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
-      <div className="text-sm text-gray-600">
-        Показано {(currentPage - 1) * itemsPerPage + 1}-
-        {Math.min(currentPage * itemsPerPage, totalItems)} из {totalItems}
+    <div className="my-4 flex flex-col items-center gap-4 px-4 py-3">
+      <div className="text-sm text-gray-600 dark:text-gray-300">
+        Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1}-
+        {Math.min(currentPage * ITEMS_PER_PAGE, totalItems)} of {totalItems}
       </div>
 
       <div className="flex items-center gap-2">
-        <button
+        <PaginationButton
+          page={1}
+          currentPage={currentPage}
           onClick={() => handlePageChange(1)}
-          disabled={currentPage === 1}
-          className="rounded border p-2 disabled:opacity-50"
         >
           &laquo;
-        </button>
-        <button
+        </PaginationButton>
+
+        <PaginationButton
+          page={1}
+          currentPage={currentPage}
           onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-          className="rounded border p-2 disabled:opacity-50"
         >
           &lsaquo;
-        </button>
+        </PaginationButton>
 
         {getVisiblePages(currentPage, totalPages).map((page) => (
-          <button
+          <PaginationButton
             key={page}
+            page={1}
+            currentPage={currentPage}
             onClick={() => handlePageChange(page)}
-            className={`w-10 rounded border p-2 ${currentPage === page ? 'bg-blue-500 text-white' : ''}`}
+            className="border-blue-500 bg-blue-500 text-white shadow-md"
           >
             {page}
-          </button>
+          </PaginationButton>
         ))}
 
-        <button
+        <PaginationButton
+          page={totalPages}
+          currentPage={currentPage}
           onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          className="rounded border p-2 disabled:opacity-50"
         >
           &rsaquo;
-        </button>
-        <button
+        </PaginationButton>
+
+        <PaginationButton
+          page={totalPages}
+          currentPage={currentPage}
           onClick={() => handlePageChange(totalPages)}
-          disabled={currentPage === totalPages}
-          className="rounded border p-2 disabled:opacity-50"
         >
           &raquo;
-        </button>
+        </PaginationButton>
       </div>
     </div>
   );

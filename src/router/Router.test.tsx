@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import { RouterProvider, createMemoryRouter, Outlet } from 'react-router';
-import { vi } from 'vitest';
 import { router } from './Router';
 import { fetchCard } from '../api/fetchCard';
 import type { CardResponse } from '../models/cards.model';
