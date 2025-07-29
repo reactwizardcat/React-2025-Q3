@@ -1,33 +1,37 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import Card from './Card';
-import { SKELETON_ELEMENTS_COUNT, SPINNER_DELAY } from '../constants';
+import { ITEMS_PER_PAGE, SPINNER_DELAY } from '../constants';
 import type { CardsResponse } from '../models/cards.model';
 import Loader from './Loader';
 import SkeletonCard from './SkeletonCard';
 import MyButton from './UI/MyButton';
 import { fetchCards, abortFetchCards } from '../api/fetchCards';
 import { Pagination } from './Pagination';
-import { Link, Outlet } from 'react-router';
+import {
+  Link,
+  Outlet,
+  useNavigate,
+  useNavigation,
+  useParams,
+} from 'react-router';
+import SideBar from './SideBarLayout';
 
 interface CardsProps {
   query: string;
   isLoading: boolean;
-  page: number;
-  setPage: (page: number) => void;
   setIsLoading: (value: boolean) => void;
 }
 
-export default function Cards({
-  query,
-  isLoading,
-  setIsLoading,
-  page,
-  setPage,
-}: CardsProps) {
+export default function Cards({ query, isLoading, setIsLoading }: CardsProps) {
+  const { search } = useParams();
+  const navigation = useNavigation();
+  const navigate = useNavigate();
+  const longLoadingTimer = useRef<number | null>(null);
+
   const [data, setData] = useState<CardsResponse | null>(null);
   const [isLongLoading, setIsLongLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const longLoadingTimer = useRef<number | null>(null);
+  const [page, setPage] = useState(Number(search));
 
   const fetchData = useCallback(() => {
     const resetLoadingStates = () => {
@@ -60,9 +64,9 @@ export default function Cards({
       longLoadingTimer.current = window.setTimeout(() => {
         setIsLongLoading(true);
       }, SPINNER_DELAY);
+      navigate(`/${page}`);
       fetchData();
     };
-
     startLoading();
 
     return () => {
@@ -72,7 +76,7 @@ export default function Cards({
         longLoadingTimer.current = null;
       }
     };
-  }, [query, fetchData]);
+  }, [query, fetchData, navigate, page]);
 
   if (isLongLoading) {
     return (
@@ -89,7 +93,7 @@ export default function Cards({
   if (isLoading) {
     return (
       <main className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {Array.from({ length: SKELETON_ELEMENTS_COUNT }).map((_, index) => (
+        {Array.from({ length: ITEMS_PER_PAGE }).map((_, index) => (
           <SkeletonCard key={index} />
         ))}
       </main>
@@ -102,8 +106,8 @@ export default function Cards({
         <p className="mt-10 max-w-3xl px-4 text-center text-2xl text-red-500">
           {error}
         </p>
-        <MyButton className="mt-4" callback={fetchData}>
-          Reload
+        <MyButton className="mt-4" callback={() => navigate(-1)}>
+          Go Back
         </MyButton>
       </main>
     );
@@ -117,23 +121,31 @@ export default function Cards({
     );
   }
 
+  const { total_count, total_pages, page: actualPage } = data;
   return (
     <main>
-      <section className="flex flex-row">
-        <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <section className="flex w-full grow">
+        <div className="grid w-full grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {data?.cards.map((cardData) => (
             <Link key={cardData.id} to={`${cardData.id}`}>
               <Card data={cardData} />
             </Link>
           ))}
         </div>
+
+        {navigation.state === 'loading' && (
+          <SideBar>
+            <Loader />
+          </SideBar>
+        )}
         <Outlet />
       </section>
+
       <Pagination
-        totalItems={data.total_count}
-        totalPages={data.total_pages}
-        itemsPerPage={10}
-        currentPage={data.page}
+        totalItems={total_count}
+        totalPages={total_pages}
+        itemsPerPage={ITEMS_PER_PAGE}
+        currentPage={actualPage}
         onPageChange={setPage}
       />
     </main>

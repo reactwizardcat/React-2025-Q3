@@ -1,14 +1,11 @@
-import { useState } from 'react';
 import type { CardResponse } from '../models/cards.model';
-import { cn } from '../utils/cn';
+import MyImage from './UI/MyImage';
 
 interface CardProps {
   data: CardResponse;
 }
 
 export default function Card({ data }: CardProps) {
-  const [isLoaded, setIsLoaded] = useState(false);
-
   const { name, element, region, weapon, images } = data;
   return (
     <div className="rounded-lg bg-white p-4 shadow-md">
@@ -39,22 +36,7 @@ export default function Card({ data }: CardProps) {
           </li>
         </ul>
       </div>
-      <div
-        className={cn(
-          'mx-auto mt-2.5 h-96 max-w-2xs overflow-hidden bg-gray-300',
-          { 'animate-pulse': !isLoaded }
-        )}
-      >
-        <img
-          className={cn(
-            'h-full w-full object-cover transition-all duration-500 hover:scale-105',
-            isLoaded ? 'opacity-100' : 'opacity-0'
-          )}
-          src={images.large}
-          alt={name}
-          onLoad={() => setIsLoaded(true)}
-        />
-      </div>
+      <MyImage src={images.large} alt={name} />
     </div>
   );
 }

@@ -7,10 +7,10 @@ import { fetchCard } from '../api/fetchCard.ts';
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <Navigate to="search" replace />,
+    element: <Navigate to="/1" replace />,
   },
   {
-    path: 'search',
+    path: ':search',
     element: <App />,
     children: [
       {

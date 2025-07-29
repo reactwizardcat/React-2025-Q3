@@ -42,7 +42,7 @@ class ErrorBoundary extends React.Component<
       return (
         fallback || (
           <div className="flex flex-1 flex-col items-center justify-center gap-2.5">
-            <h1 className="text-2xl">Something went wrong.</h1>
+            <h2 className="text-2xl">Something went wrong.</h2>
             {error && <p className="text-red-400">{error.message}</p>}
             <MyButton callback={this.reload}>Reload</MyButton>
           </div>

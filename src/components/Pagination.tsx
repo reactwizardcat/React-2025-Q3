@@ -1,4 +1,4 @@
-import { MAX_VISIBLE_PAGES } from '../constants';
+import { getVisiblePages } from '../utils/linksArray';
 
 interface PaginationProps {
   totalItems: number;
@@ -16,23 +16,6 @@ export const Pagination = ({
   onPageChange,
 }: PaginationProps) => {
   if (totalPages <= 1) return null;
-
-  const getVisiblePages = () => {
-    let startPage = Math.max(
-      1,
-      currentPage - Math.floor(MAX_VISIBLE_PAGES / 2)
-    );
-    const endPage = Math.min(totalPages, startPage + MAX_VISIBLE_PAGES - 1);
-
-    if (endPage - startPage + 1 < MAX_VISIBLE_PAGES) {
-      startPage = Math.max(1, endPage - MAX_VISIBLE_PAGES + 1);
-    }
-
-    return Array.from(
-      { length: endPage - startPage + 1 },
-      (_, i) => startPage + i
-    );
-  };
 
   const handlePageChange = (page: number) => {
     if (page >= 1 && page <= totalPages) {
@@ -63,7 +46,7 @@ export const Pagination = ({
           &lsaquo;
         </button>
 
-        {getVisiblePages().map((page) => (
+        {getVisiblePages(currentPage, totalPages).map((page) => (
           <button
             key={page}
             onClick={() => handlePageChange(page)}

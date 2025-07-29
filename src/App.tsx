@@ -7,7 +7,6 @@ import { useLS } from './hooks/useLS';
 export default function App() {
   const [query, setQuery] = useLS();
   const [isLoading, setIsLoading] = useState(false);
-  const [page, setPage] = useState(1);
 
   const changeQuery = (str: string) => {
     setQuery(str);
@@ -20,13 +19,7 @@ export default function App() {
         queryString={query}
         isLoading={isLoading}
       />
-      <Cards
-        query={query}
-        isLoading={isLoading}
-        setIsLoading={setIsLoading}
-        page={page}
-        setPage={setPage}
-      />
+      <Cards query={query} isLoading={isLoading} setIsLoading={setIsLoading} />
       <ErrorButton />
     </>
   );
