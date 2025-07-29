@@ -67,12 +67,19 @@ describe('App Component', () => {
     expect(search).toHaveTextContent('initial query');
   });
 
-  // it('correct query change', () => {
-  //   render(<App />);
-  //   const search = screen.getByText(/Search Component/);
+  it('correct query change', async () => {
+    const setQueryMock = vi.fn();
+    mockUseLS.mockReturnValue(['initial query', setQueryMock]);
+    render(<App />);
+    const search = screen.getByText(/Search Component/);
+    expect(search).toHaveTextContent('initial query');
 
-  //   userEvent.click(screen.getByRole('button', { name: /Change Query/i }));
-  //   screen.debug();
-  //   expect(search).toHaveTextContent('changed');
-  // });
+    await act(
+      async () =>
+        await userEvent.click(
+          screen.getByRole('button', { name: /Change Query/i })
+        )
+    );
+    expect(setQueryMock).toHaveBeenCalledWith('changed');
+  });
 });

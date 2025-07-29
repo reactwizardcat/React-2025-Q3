@@ -9,6 +9,7 @@ export default function SideBar({ children }: { children: React.ReactNode }) {
   return (
     <>
       <div
+        role="button"
         onClick={back}
         className="fixed top-0 left-0 h-full w-full cursor-pointer bg-black/30"
       ></div>

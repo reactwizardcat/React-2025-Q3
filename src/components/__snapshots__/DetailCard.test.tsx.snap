@@ -1,0 +1,53 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`DetailCard component test > should match snapshot 1`] = `
+<div>
+  <div
+    data-testid="sidebar"
+  >
+    <img
+      alt="Diluc"
+      class="mt-0 h-full w-full"
+      data-image-class="hover:scale-100"
+      data-testid="my-image"
+      src="https://example.com/image.jpg"
+    />
+    <div
+      class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 from-30% p-4"
+    >
+      <h2
+        class="font-allura text-5xl font-medium text-white"
+      >
+        Diluc
+      </h2>
+      <div
+        class="grid grid-rows-[0fr] transition-all duration-500 group-hover:grid-rows-[1fr]"
+      >
+        <div
+          class="mt-2 overflow-hidden text-white/80 opacity-0 transition duration-600 group-hover:opacity-100"
+        >
+          <p>
+            Element: 
+            Pyro
+          </p>
+          <p>
+            Region: 
+            Mondstadt
+          </p>
+          <p>
+            Weapon: 
+            Claymore
+          </p>
+        </div>
+      </div>
+    </div>
+    <a
+      class="absolute top-5 right-5"
+      data-discover="true"
+      href="/"
+    >
+      Close
+    </a>
+  </div>
+</div>
+`;
