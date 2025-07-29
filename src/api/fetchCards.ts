@@ -1,6 +1,7 @@
 import { API_URL } from '../constants';
 import type { CardsResponse } from '../models/cards.model';
-import { isValidData } from '../validator';
+import { isValidData } from '../utils/validator';
+import { myFetch } from './myFetch';
 
 let cardsAbortController: AbortController | null = null;
 
@@ -19,21 +20,7 @@ export function fetchCards(
     url.searchParams.set('page', page.toString());
   }
 
-  return fetch(url.toString(), {
-    signal: cardsAbortController.signal,
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then((data: unknown) => {
-      if (isValidData(data)) {
-        return data;
-      }
-      throw new Error('Incorrect response data');
-    });
+  return myFetch(url.toString(), cardsAbortController.signal, isValidData);
 }
 
 export function abortFetchCards() {
