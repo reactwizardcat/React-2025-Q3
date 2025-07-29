@@ -2,6 +2,12 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Search from './Search';
 
+vi.mock('./Header', () => ({
+  default: ({ children }: { children: React.ReactNode }) => (
+    <div>{children}</div>
+  ),
+}));
+
 describe('search component tests', () => {
   beforeEach(() => vi.resetAllMocks());
   it('search input is disabled and have value', () => {

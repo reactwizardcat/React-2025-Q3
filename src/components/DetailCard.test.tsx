@@ -4,7 +4,7 @@ import DetailCard from './DetailCard';
 import type { CardResponse } from '../models/cards.model';
 import { MemoryRouter } from 'react-router';
 
-vi.mock('./SideBarLayout', () => ({
+vi.mock('../layout/SideBarLayout', () => ({
   default: ({ children }: { children: React.ReactNode }) => (
     <div data-testid="sidebar">{children}</div>
   ),

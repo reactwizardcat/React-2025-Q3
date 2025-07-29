@@ -3,14 +3,19 @@ import App from '../App.tsx';
 import DetailCard from '../components/DetailCard.tsx';
 import NotFoundPage from '../pages/NotFoundPage.tsx';
 import { fetchCard } from '../api/fetchCard.ts';
+import AboutPage from '../pages/AboutPage.tsx';
 
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <Navigate to="/1" replace />,
+    element: <Navigate to="/search/1" replace />,
   },
   {
-    path: ':search',
+    path: '/search',
+    element: <Navigate to="/search/1" replace />,
+  },
+  {
+    path: 'search/:search',
     element: <App />,
     children: [
       {
@@ -27,7 +32,7 @@ export const router = createBrowserRouter([
   },
   {
     path: 'about',
-    element: <p>about</p>,
+    element: <AboutPage />,
   },
   {
     path: '*',

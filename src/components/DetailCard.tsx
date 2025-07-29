@@ -1,5 +1,5 @@
 import { Link, useLoaderData } from 'react-router';
-import SideBar from './SideBarLayout';
+import SideBar from '../layout/SideBarLayout';
 import type { CardResponse } from '../models/cards.model';
 import MyImage from './UI/MyImage';
 

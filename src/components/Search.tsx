@@ -1,5 +1,6 @@
 import MyButton from './UI/MyButton';
 import { cn } from '../utils/cn';
+import HeaderLayout from './Header';
 
 interface SearchProps {
   changeQuery: (str: string) => void;
@@ -23,13 +24,8 @@ export default function Search({
   };
 
   return (
-    <header
-      className={cn(
-        'mx-4 mt-3 rounded-t-4xl bg-white bg-[url("/fon2.png")] px-2 py-4 shadow-md',
-        'bg-cover bg-center bg-no-repeat'
-      )}
-    >
-      <form onSubmit={handleSubmit}>
+    <HeaderLayout>
+      <form onSubmit={handleSubmit} className="flex-1">
         <label
           className={cn(
             'relative mx-3.5 max-w-5xl bg-white lg:mx-auto',
@@ -68,6 +64,6 @@ export default function Search({
           </MyButton>
         </label>
       </form>
-    </header>
+    </HeaderLayout>
   );
 }

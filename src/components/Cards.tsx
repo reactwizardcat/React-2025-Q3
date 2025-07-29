@@ -14,7 +14,7 @@ import {
   useNavigation,
   useParams,
 } from 'react-router';
-import SideBar from './SideBarLayout';
+import SideBar from '../layout/SideBarLayout';
 
 interface CardsProps {
   query: string;
@@ -31,7 +31,7 @@ export default function Cards({ query, isLoading, setIsLoading }: CardsProps) {
   const [data, setData] = useState<CardsResponse | null>(null);
   const [isLongLoading, setIsLongLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [page, setPage] = useState(Number(search));
+  const [page, setPage] = useState(Number(search) || 1);
 
   const fetchData = useCallback(() => {
     const resetLoadingStates = () => {
@@ -64,7 +64,7 @@ export default function Cards({ query, isLoading, setIsLoading }: CardsProps) {
       longLoadingTimer.current = window.setTimeout(() => {
         setIsLongLoading(true);
       }, SPINNER_DELAY);
-      navigate(`/${page}`);
+      navigate(`/search/${page}`);
       fetchData();
     };
     startLoading();
