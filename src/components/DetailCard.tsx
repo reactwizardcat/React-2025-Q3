@@ -2,6 +2,7 @@ import { Link, useLoaderData } from 'react-router';
 import SideBar from '../layout/SideBarLayout';
 import type { CardResponse } from '../models/cards.model';
 import MyImage from './UI/MyImage';
+import { cn } from '../utils/cn';
 
 export default function DetailCard() {
   const { name, element, region, weapon, images } =
@@ -24,8 +25,28 @@ export default function DetailCard() {
           </div>
         </div>
       </div>
-      <Link className="absolute top-5 right-5" to="..">
-        Close
+      <Link
+        className={cn(
+          'absolute -top-4 -right-4 inline-flex items-center justify-center rounded-4xl bg-gray-100 p-2 text-gray-400',
+          'transition duration-300 hover:bg-blue-100 hover:text-gray-500 focus:ring-2 focus:ring-indigo-500',
+          'focus:outline-none focus:ring-inset hover:[&>svg]:stroke-red-500'
+        )}
+        to=".."
+      >
+        <svg
+          className="h-6 w-6 stroke-black"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
       </Link>
     </SideBar>
   );

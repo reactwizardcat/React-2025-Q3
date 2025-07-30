@@ -18,10 +18,10 @@ export default function Header({ children }: { children?: React.ReactNode }) {
                 to="/about"
                 className={({ isActive }) =>
                   cn(
-                    'text-gray-700 transition-colors duration-200 hover:text-red-600',
+                    'text-xl font-semibold text-white transition duration-300 text-shadow-sm hover:text-red-600 hover:text-shadow-white',
                     isActive
-                      ? 'pointer-events-none font-medium text-red-600 underline underline-offset-4'
-                      : ''
+                      ? 'pointer-events-none font-medium text-red-600 underline underline-offset-4 text-shadow-white'
+                      : 'text-shadow-black'
                   )
                 }
               >
@@ -33,10 +33,10 @@ export default function Header({ children }: { children?: React.ReactNode }) {
                 to="/search"
                 className={({ isActive }) =>
                   cn(
-                    'text-gray-700 transition-colors duration-200 hover:text-red-600',
+                    'text-xl font-semibold text-white transition duration-300 text-shadow-sm hover:text-red-600 hover:text-shadow-white',
                     isActive
-                      ? 'pointer-events-none font-medium text-red-600 underline underline-offset-4'
-                      : ''
+                      ? 'pointer-events-none font-medium text-red-600 underline underline-offset-4 text-shadow-white'
+                      : 'text-shadow-black'
                   )
                 }
               >

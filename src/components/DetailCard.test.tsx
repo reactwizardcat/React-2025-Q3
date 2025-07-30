@@ -88,7 +88,7 @@ describe('DetailCard component test', () => {
     expect(screen.getByText('Element: Pyro')).toBeInTheDocument();
     expect(screen.getByText('Region: Mondstadt')).toBeInTheDocument();
     expect(screen.getByText('Weapon: Claymore')).toBeInTheDocument();
-    expect(screen.getByText('Close')).toBeInTheDocument();
+    expect(screen.getByRole('link')).toBeInTheDocument();
   });
 
   it('should render Link with correct "to" prop', () => {
@@ -98,7 +98,7 @@ describe('DetailCard component test', () => {
       </MemoryRouter>
     );
 
-    const link = screen.getByText('Close').closest('a');
+    const link = screen.getByRole('link');
     expect(link).toHaveAttribute('href', '/');
   });
 });
