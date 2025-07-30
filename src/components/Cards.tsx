@@ -38,6 +38,10 @@ export default function Cards({ query, isLoading, setIsLoading }: CardsProps) {
     navigate(`/search/${page}`);
   }, [navigate, page]);
 
+  useEffect(() => {
+    setPage(1);
+  }, [query]);
+
   if (isLongLoading) {
     return (
       <main className="flex flex-1 flex-col items-center justify-center">
