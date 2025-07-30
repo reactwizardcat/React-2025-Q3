@@ -19,8 +19,8 @@ export default function PaginationButton({
       disabled={currentPage === page}
       className={cn(
         'flex h-10 w-10 items-center justify-center rounded-lg border border-gray-300',
-        'transition-colors duration-200 enabled:hover:bg-blue-200 disabled:cursor-not-allowed',
-        'disabled:opacity-40 dark:border-gray-600 dark:hover:bg-gray-700',
+        'transition-colors duration-300 enabled:hover:bg-blue-200 disabled:cursor-not-allowed',
+        'disabled:opacity-60 dark:border-gray-600 dark:hover:bg-gray-700',
         className
       )}
     >
