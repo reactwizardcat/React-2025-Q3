@@ -1,18 +1,18 @@
-import { useNavigate } from 'react-router';
+import { Link } from 'react-router';
 import { cn } from '../utils/cn';
 
-export default function SideBar({ children }: { children: React.ReactNode }) {
-  const navigate = useNavigate();
-  const back = () => {
-    navigate(-1);
-  };
+export default function SideBarLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <>
-      <div
-        role="button"
-        onClick={back}
+      <Link
+        area-label="close popup"
+        to={'..'}
         className="fixed top-0 left-0 h-full w-full cursor-pointer bg-black/30"
-      ></div>
+      ></Link>
       <aside
         className={cn(
           'group sticky top-4 my-4 mr-4 flex h-[75vh] w-full flex-col transition-all hover:grow-[1.25]',

@@ -10,11 +10,7 @@ describe('PaginationButton component tests', () => {
 
   it('renders the button with the correct text', () => {
     render(
-      <PaginationButton
-        page={page}
-        currentPage={currentPage}
-        onClick={mockOnClick}
-      >
+      <PaginationButton isDisabled={page === currentPage} onClick={mockOnClick}>
         {text}
       </PaginationButton>
     );
@@ -25,8 +21,7 @@ describe('PaginationButton component tests', () => {
     const testClass = 'test-class';
     render(
       <PaginationButton
-        page={page}
-        currentPage={currentPage}
+        isDisabled={page === currentPage}
         onClick={mockOnClick}
         className={testClass}
       >
@@ -39,7 +34,7 @@ describe('PaginationButton component tests', () => {
   it('calls onClick handler when clicked', async () => {
     const handleClick = vi.fn();
     render(
-      <PaginationButton page={2} currentPage={1} onClick={handleClick}>
+      <PaginationButton isDisabled={false} onClick={handleClick}>
         {text}
       </PaginationButton>
     );
@@ -50,7 +45,7 @@ describe('PaginationButton component tests', () => {
   it('should be disabled and not call onClick when currentPage equals page', async () => {
     const handleClick = vi.fn();
     render(
-      <PaginationButton page={1} currentPage={1} onClick={handleClick}>
+      <PaginationButton isDisabled={true} onClick={handleClick}>
         {text}
       </PaginationButton>
     );
@@ -64,7 +59,7 @@ describe('PaginationButton component tests', () => {
 
   it('should have correct disabled styles when currentPage equals page', () => {
     render(
-      <PaginationButton page={1} currentPage={1} onClick={mockOnClick}>
+      <PaginationButton isDisabled={true} onClick={mockOnClick}>
         {text}
       </PaginationButton>
     );

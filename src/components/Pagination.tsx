@@ -22,7 +22,7 @@ export const Pagination = ({
   const handlePageChange = (page: number) => {
     if (page >= 1 && page <= totalPages) {
       onPageChange(page);
-      navigate(page);
+      navigate(`/search/${page}`);
     }
   };
 
@@ -35,16 +35,14 @@ export const Pagination = ({
 
       <div className="flex items-center gap-2">
         <PaginationButton
-          page={1}
-          currentPage={currentPage}
+          isDisabled={1 === currentPage}
           onClick={() => handlePageChange(1)}
         >
           &laquo;
         </PaginationButton>
 
         <PaginationButton
-          page={1}
-          currentPage={currentPage}
+          isDisabled={1 === currentPage}
           onClick={() => handlePageChange(currentPage - 1)}
         >
           &lsaquo;
@@ -53,8 +51,7 @@ export const Pagination = ({
         {getVisiblePages(currentPage, totalPages).map((page) => (
           <PaginationButton
             key={page}
-            page={page}
-            currentPage={currentPage}
+            isDisabled={page === currentPage}
             onClick={() => handlePageChange(page)}
             className={
               currentPage === page
@@ -67,16 +64,14 @@ export const Pagination = ({
         ))}
 
         <PaginationButton
-          page={totalPages}
-          currentPage={currentPage}
+          isDisabled={totalPages === currentPage}
           onClick={() => handlePageChange(currentPage + 1)}
         >
           &rsaquo;
         </PaginationButton>
 
         <PaginationButton
-          page={totalPages}
-          currentPage={currentPage}
+          isDisabled={totalPages === currentPage}
           onClick={() => handlePageChange(totalPages)}
         >
           &raquo;

@@ -13,6 +13,6 @@ describe('AboutPage component test', () => {
         <AboutPage />
       </MemoryRouter>
     );
-    expect(container.firstChild).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 });

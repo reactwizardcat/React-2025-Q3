@@ -1,5 +1,5 @@
 import { Link, useLoaderData } from 'react-router';
-import SideBar from '../layout/SideBarLayout';
+import SideBarLayout from '../layout/SideBarLayout';
 import type { CardResponse } from '../models/cards.model';
 import MyImage from './UI/MyImage';
 import { cn } from '../utils/cn';
@@ -8,7 +8,7 @@ export default function DetailCard() {
   const { name, element, region, weapon, images } =
     useLoaderData<CardResponse>();
   return (
-    <SideBar>
+    <SideBarLayout>
       <MyImage
         src={images.large}
         alt={name}
@@ -27,7 +27,7 @@ export default function DetailCard() {
       </div>
       <Link
         className={cn(
-          'absolute -top-4 -right-4 inline-flex items-center justify-center rounded-4xl bg-gray-100 p-2 text-gray-400',
+          'absolute -top-5 -left-5 inline-flex items-center justify-center rounded-4xl bg-gray-100 p-2 text-gray-400',
           'transition duration-300 hover:bg-blue-100 hover:text-gray-500 focus:ring-2 focus:ring-indigo-500',
           'focus:outline-none focus:ring-inset hover:[&>svg]:stroke-red-500'
         )}
@@ -48,6 +48,6 @@ export default function DetailCard() {
           />
         </svg>
       </Link>
-    </SideBar>
+    </SideBarLayout>
   );
 }

@@ -5,7 +5,7 @@ import SkeletonCard from './SkeletonCard';
 import MyButton from './UI/MyButton';
 import { Pagination } from './Pagination';
 import { Link, Outlet, useNavigate, useNavigation } from 'react-router';
-import SideBar from '../layout/SideBarLayout';
+import SideBarLayout from '../layout/SideBarLayout';
 import { useFetchCards } from '../hooks/useFetchCards';
 
 interface CardsProps {
@@ -88,9 +88,9 @@ export default function Cards({
         </div>
 
         {navigation.state === 'loading' && (
-          <SideBar>
+          <SideBarLayout>
             <Loader />
-          </SideBar>
+          </SideBarLayout>
         )}
         <Outlet />
       </section>

@@ -8,7 +8,7 @@ export default function AboutPage() {
         <section className="max-w-2xl text-center text-lg">
           <h1 className="mb-5 text-2xl font-bold capitalize">About</h1>
           <p className="mb-2.5">
-            Hi! My name is Hikmatullo and I went study atRolling Scopes School.
+            Hi! My name is Hikmatullo and I went study at Rolling Scopes School.
             I’m excited about this new chapter in my life and look forward to
             gaining new knowledge and experiences.
           </p>
