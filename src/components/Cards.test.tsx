@@ -97,6 +97,8 @@ describe('Cards Component', () => {
   const mockUseFetchCards = vi.mocked(useFetchCards);
   const mockUseParams = vi.mocked(useParams);
   const mockUseNavigation = vi.mocked(useNavigation);
+  const mockSetPage = vi.fn();
+  const mockSetIsLoading = vi.fn();
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -114,7 +116,13 @@ describe('Cards Component', () => {
 
     render(
       <MemoryRouter>
-        <Cards query="test" isLoading={false} setIsLoading={vi.fn()} />
+        <Cards
+          query="test"
+          isLoading={false}
+          setIsLoading={mockSetIsLoading}
+          page={1}
+          setPage={mockSetPage}
+        />
       </MemoryRouter>
     );
 
@@ -131,7 +139,13 @@ describe('Cards Component', () => {
 
     render(
       <MemoryRouter>
-        <Cards query="test" isLoading={true} setIsLoading={vi.fn()} />
+        <Cards
+          query="test"
+          isLoading={true}
+          setIsLoading={mockSetIsLoading}
+          page={1}
+          setPage={mockSetPage}
+        />
       </MemoryRouter>
     );
 
@@ -148,7 +162,13 @@ describe('Cards Component', () => {
 
     render(
       <MemoryRouter>
-        <Cards query="test" isLoading={false} setIsLoading={vi.fn()} />
+        <Cards
+          query="test"
+          isLoading={false}
+          setIsLoading={mockSetIsLoading}
+          page={1}
+          setPage={mockSetPage}
+        />
       </MemoryRouter>
     );
 
@@ -167,7 +187,13 @@ describe('Cards Component', () => {
 
     render(
       <MemoryRouter>
-        <Cards query="test" isLoading={false} setIsLoading={vi.fn()} />
+        <Cards
+          query="test"
+          isLoading={false}
+          setIsLoading={mockSetIsLoading}
+          page={1}
+          setPage={mockSetPage}
+        />
       </MemoryRouter>
     );
 
@@ -183,7 +209,13 @@ describe('Cards Component', () => {
 
     render(
       <MemoryRouter>
-        <Cards query="test" isLoading={false} setIsLoading={vi.fn()} />
+        <Cards
+          query="test"
+          isLoading={false}
+          setIsLoading={mockSetIsLoading}
+          page={1}
+          setPage={mockSetPage}
+        />
       </MemoryRouter>
     );
 
@@ -193,7 +225,7 @@ describe('Cards Component', () => {
     expect(screen.getByTestId('pagination')).toBeInTheDocument();
   });
 
-  it('updates page and navigates when pagination changes', async () => {
+  it('calls setPage when pagination changes', async () => {
     mockUseFetchCards.mockReturnValue({
       isLongLoading: false,
       error: null,
@@ -202,7 +234,13 @@ describe('Cards Component', () => {
 
     render(
       <MemoryRouter>
-        <Cards query="test" isLoading={false} setIsLoading={vi.fn()} />
+        <Cards
+          query="test"
+          isLoading={false}
+          setIsLoading={mockSetIsLoading}
+          page={1}
+          setPage={mockSetPage}
+        />
       </MemoryRouter>
     );
 
@@ -211,10 +249,10 @@ describe('Cards Component', () => {
     expect(screen.getByText('Current: 1')).toBeInTheDocument();
 
     await userEvent.click(screen.getByText('Next'));
-    expect(mockNavigate).toHaveBeenCalledWith('/search/2');
+    expect(mockSetPage).toHaveBeenCalledWith(2);
 
     await userEvent.click(screen.getByText('Prev'));
-    expect(mockNavigate).toHaveBeenCalledWith('/search/1');
+    expect(mockSetPage).toHaveBeenCalledWith(0);
   });
 
   it('shows loading sidebar when navigation is in progress', () => {
@@ -228,11 +266,62 @@ describe('Cards Component', () => {
 
     render(
       <MemoryRouter>
-        <Cards query="test" isLoading={false} setIsLoading={vi.fn()} />
+        <Cards
+          query="test"
+          isLoading={false}
+          setIsLoading={mockSetIsLoading}
+          page={1}
+          setPage={mockSetPage}
+        />
       </MemoryRouter>
     );
 
     expect(screen.getByTestId('sidebar')).toBeInTheDocument();
     expect(screen.getByRole('progressbar')).toBeInTheDocument();
+  });
+
+  it('renders Outlet in normal state', () => {
+    mockUseFetchCards.mockReturnValue({
+      isLongLoading: false,
+      error: null,
+      data: mockCards,
+    });
+
+    render(
+      <MemoryRouter>
+        <Cards
+          query="test"
+          isLoading={false}
+          setIsLoading={mockSetIsLoading}
+          page={1}
+          setPage={mockSetPage}
+        />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByText('Outlet')).toBeInTheDocument();
+  });
+
+  it('calls navigate(-1) when Go Back button is clicked in error state', async () => {
+    mockUseFetchCards.mockReturnValue({
+      isLongLoading: false,
+      error: 'Test error',
+      data: null,
+    });
+
+    render(
+      <MemoryRouter>
+        <Cards
+          query="test"
+          isLoading={false}
+          setIsLoading={mockSetIsLoading}
+          page={1}
+          setPage={mockSetPage}
+        />
+      </MemoryRouter>
+    );
+
+    await userEvent.click(screen.getByRole('button', { name: /go back/i }));
+    expect(mockNavigate).toHaveBeenCalledWith(-1);
   });
 });

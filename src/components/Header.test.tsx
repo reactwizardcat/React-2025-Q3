@@ -7,24 +7,6 @@ vi.mock('../utils/cn', () => ({
 }));
 
 describe('Header', () => {
-  vi.mock('react-router', async (importOriginal) => {
-    const actual = await importOriginal<typeof import('react-router')>();
-    return {
-      ...actual,
-      NavLink: vi.fn().mockImplementation(({ to, className, children }) => {
-        const isActive =
-          typeof className === 'function'
-            ? className({ isActive: to === '/about' })
-            : '';
-        return (
-          <a href={to} className={isActive}>
-            {children}
-          </a>
-        );
-      }),
-    };
-  });
-
   it('renders correctly with children', () => {
     render(
       <MemoryRouter>
@@ -39,7 +21,7 @@ describe('Header', () => {
     expect(screen.getByText('Home')).toBeInTheDocument();
   });
 
-  it('applies active styles to NavLink when route matches', () => {
+  it('applies active styles to About link when on /about', () => {
     render(
       <MemoryRouter initialEntries={['/about']}>
         <Header />
@@ -49,9 +31,22 @@ describe('Header', () => {
     const aboutLink = screen.getByText('About');
     const homeLink = screen.getByText('Home');
 
-    expect(aboutLink.className).toContain('pointer-events-none');
+    expect(aboutLink).toHaveClass('pointer-events-none');
+    expect(homeLink).not.toHaveClass('pointer-events-none');
+  });
 
-    expect(homeLink.className).not.toContain('pointer-events-none');
+  it('applies active styles to Home link when on /search', () => {
+    render(
+      <MemoryRouter initialEntries={['/search']}>
+        <Header />
+      </MemoryRouter>
+    );
+
+    const aboutLink = screen.getByText('About');
+    const homeLink = screen.getByText('Home');
+
+    expect(homeLink).toHaveClass('pointer-events-none');
+    expect(aboutLink).not.toHaveClass('pointer-events-none');
   });
 
   it('matches snapshot', () => {

@@ -44,7 +44,7 @@ export const useFetchCards = ({
       })
       .catch((error) => {
         if (error instanceof Error && error.name !== 'AbortError') {
-          setError(error instanceof Error ? error.message : 'Unknown error');
+          setError(error.message);
           resetLoadingStates();
         }
       });

@@ -1,17 +1,10 @@
-import { useState, useEffect } from 'react';
 import Card from './Card';
 import { ITEMS_PER_PAGE } from '../constants';
 import Loader from './Loader';
 import SkeletonCard from './SkeletonCard';
 import MyButton from './UI/MyButton';
 import { Pagination } from './Pagination';
-import {
-  Link,
-  Outlet,
-  useNavigate,
-  useNavigation,
-  useParams,
-} from 'react-router';
+import { Link, Outlet, useNavigate, useNavigation } from 'react-router';
 import SideBar from '../layout/SideBarLayout';
 import { useFetchCards } from '../hooks/useFetchCards';
 
@@ -19,28 +12,25 @@ interface CardsProps {
   query: string;
   isLoading: boolean;
   setIsLoading: (value: boolean) => void;
+  page: number;
+  setPage: (page: number) => void;
 }
 
-export default function Cards({ query, isLoading, setIsLoading }: CardsProps) {
-  const { search } = useParams();
+export default function Cards({
+  query,
+  isLoading,
+  setIsLoading,
+  page,
+  setPage,
+}: CardsProps) {
   const navigation = useNavigation();
   const navigate = useNavigate();
-
-  const [page, setPage] = useState(Number(search) || 1);
 
   const { data, isLongLoading, error } = useFetchCards({
     query,
     page,
     setIsLoading,
   });
-
-  useEffect(() => {
-    navigate(`/search/${page}`);
-  }, [navigate, page]);
-
-  useEffect(() => {
-    setPage(1);
-  }, [query]);
 
   if (isLongLoading) {
     return (

@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router';
 import { ITEMS_PER_PAGE } from '../constants';
 import { getVisiblePages } from '../utils/linksArray';
 import PaginationButton from './UI/PaginationButton';
@@ -15,11 +16,13 @@ export const Pagination = ({
   currentPage,
   onPageChange,
 }: PaginationProps) => {
+  const navigate = useNavigate();
   if (totalPages <= 1) return null;
 
   const handlePageChange = (page: number) => {
     if (page >= 1 && page <= totalPages) {
       onPageChange(page);
+      navigate(page);
     }
   };
 

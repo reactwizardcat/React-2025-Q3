@@ -71,6 +71,6 @@ describe('PaginationButton component tests', () => {
 
     const button = screen.getByRole('button');
     expect(button).toHaveClass('disabled:cursor-not-allowed');
-    expect(button).toHaveClass('disabled:opacity-40');
+    expect(button).toHaveClass('disabled:opacity-60');
   });
 });

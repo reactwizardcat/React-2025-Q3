@@ -112,4 +112,32 @@ describe('useFetchCards', () => {
 
     expect(mockSetIsLoading).toHaveBeenCalledWith(true);
   });
+
+  it('should not set error for AbortError', async () => {
+    const abortError = new Error('Aborted');
+    abortError.name = 'AbortError';
+    vi.mocked(fetchCards).mockRejectedValue(abortError);
+
+    const { result } = renderHook(() => useFetchCards(props));
+
+    await act(async () => {
+      vi.advanceTimersByTime(SPINNER_DELAY + 100);
+      await Promise.resolve();
+    });
+
+    expect(result.current.error).toBeNull();
+  });
+
+  it('should NOT set error when non-Error value is thrown', async () => {
+    vi.mocked(fetchCards).mockRejectedValue('Some string error');
+
+    const { result } = renderHook(() => useFetchCards(props));
+
+    await act(async () => {
+      vi.advanceTimersByTime(SPINNER_DELAY + 100);
+      await Promise.resolve();
+    });
+
+    expect(result.current.error).toBeNull();
+  });
 });

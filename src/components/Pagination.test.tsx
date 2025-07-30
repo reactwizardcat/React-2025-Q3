@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Pagination } from './Pagination';
 import { ITEMS_PER_PAGE } from '../constants';
+import { MemoryRouter } from 'react-router';
 
 describe('Pagination component', () => {
   const mockOnPageChange = vi.fn();
@@ -12,20 +13,28 @@ describe('Pagination component', () => {
     onPageChange: mockOnPageChange,
   };
 
+  const renderWithRouter = (props = baseProps) => {
+    return render(
+      <MemoryRouter>
+        <Pagination {...props} />
+      </MemoryRouter>
+    );
+  };
+
   it('should not render when totalPages <= 1', () => {
-    const { container } = render(<Pagination {...baseProps} totalPages={1} />);
+    const { container } = renderWithRouter({ ...baseProps, totalPages: 1 });
     expect(container).toBeEmptyDOMElement();
   });
 
   it('should render correct showing information', () => {
-    render(<Pagination {...baseProps} />);
+    renderWithRouter();
     expect(
       screen.getByText(`Showing 1-${ITEMS_PER_PAGE} of ${baseProps.totalItems}`)
     ).toBeInTheDocument();
   });
 
   it('should render all navigation buttons', () => {
-    render(<Pagination {...baseProps} />);
+    renderWithRouter();
 
     expect(screen.getByText('«')).toBeInTheDocument();
     expect(screen.getByText('‹')).toBeInTheDocument();
@@ -35,7 +44,7 @@ describe('Pagination component', () => {
   });
 
   it('should call onPageChange with correct page number when buttons clicked', async () => {
-    render(<Pagination {...baseProps} currentPage={3} />);
+    renderWithRouter({ ...baseProps, currentPage: 3 });
 
     await userEvent.click(screen.getByText('«'));
     expect(mockOnPageChange).toHaveBeenCalledWith(1);
@@ -51,13 +60,17 @@ describe('Pagination component', () => {
   });
 
   it('should render correct visible pages based on current page', () => {
-    const { rerender } = render(<Pagination {...baseProps} currentPage={1} />);
+    const { rerender } = renderWithRouter({ ...baseProps, currentPage: 1 });
     expect(screen.getByText('1')).toBeInTheDocument();
     expect(screen.getByText('2')).toBeInTheDocument();
     expect(screen.getByText('3')).toBeInTheDocument();
     expect(screen.getByText('5')).toBeInTheDocument();
 
-    rerender(<Pagination {...baseProps} currentPage={3} />);
+    rerender(
+      <MemoryRouter>
+        <Pagination {...baseProps} currentPage={3} />
+      </MemoryRouter>
+    );
     expect(screen.getByText('1')).toBeInTheDocument();
     expect(screen.getByText('2')).toBeInTheDocument();
     expect(screen.getByText('3')).toBeInTheDocument();
@@ -66,7 +79,7 @@ describe('Pagination component', () => {
   });
 
   it('should calculate correct showing range', () => {
-    render(<Pagination {...baseProps} currentPage={2} />);
+    renderWithRouter({ ...baseProps, currentPage: 2 });
     const start = (2 - 1) * ITEMS_PER_PAGE + 1;
     const end = Math.min(2 * ITEMS_PER_PAGE, baseProps.totalItems);
     expect(
@@ -75,14 +88,19 @@ describe('Pagination component', () => {
   });
 
   it('should disable prev buttons on first page', () => {
-    render(<Pagination {...baseProps} currentPage={1} />);
+    renderWithRouter({ ...baseProps, currentPage: 1 });
     expect(screen.getByText('«')).toBeDisabled();
     expect(screen.getByText('‹')).toBeDisabled();
   });
 
   it('should disable next buttons on last page', () => {
-    render(<Pagination {...baseProps} currentPage={5} />);
+    renderWithRouter({ ...baseProps, currentPage: 5 });
     expect(screen.getByText('›')).toBeDisabled();
     expect(screen.getByText('»')).toBeDisabled();
+  });
+
+  it('should navigate when page is changed', async () => {
+    renderWithRouter({ ...baseProps, currentPage: 2 });
+    await userEvent.click(screen.getByText('3'));
   });
 });
