@@ -83,7 +83,7 @@
   --bg-colour: aliceblue;
 }
 [data-theme='dark'] {
-  --bg-colour: gray;
+  --bg-colour: black;
 }
 
 body {

@@ -8,7 +8,8 @@ export default function Header({ children }: { children?: React.ReactNode }) {
     <header
       className={cn(
         'mx-4 mt-3 flex flex-col gap-3 rounded-t-4xl bg-white bg-[url("/fon2.png")]',
-        'bg-cover bg-center bg-no-repeat px-5 py-4 shadow-md md:flex-row'
+        'bg-cover bg-center bg-no-repeat px-5 py-4 shadow-md md:flex-row',
+        'dark:bg-gray-400/40 dark:bg-blend-overlay'
       )}
     >
       {children}

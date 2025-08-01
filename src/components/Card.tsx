@@ -25,7 +25,7 @@ export default function Card({ data }: CardProps) {
   };
 
   return (
-    <div className="relative rounded-lg bg-white p-4 shadow-md">
+    <div className="relative rounded-lg bg-white p-4 shadow-md dark:bg-gray-300">
       <div className="m-auto max-w-3xs">
         <h2 className="font-allura text-center text-4xl">{name}</h2>
         <label

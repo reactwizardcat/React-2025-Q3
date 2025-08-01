@@ -2,7 +2,7 @@
 
 exports[`Card component test > should match snapshot 1`] = `
 <div
-  class="relative rounded-lg bg-white p-4 shadow-md"
+  class="relative rounded-lg bg-white p-4 shadow-md dark:bg-gray-300"
 >
   <div
     class="m-auto max-w-3xs"
