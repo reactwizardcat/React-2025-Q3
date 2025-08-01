@@ -16,7 +16,7 @@ interface CardsProps {
   setPage: (page: number) => void;
 }
 
-export default function Cards({
+export default function CardList({
   query,
   isLoading,
   setIsLoading,

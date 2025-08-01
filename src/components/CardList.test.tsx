@@ -5,7 +5,7 @@ import {
   useNavigation,
   useNavigate,
 } from 'react-router';
-import Cards from './Cards';
+import Cards from './CardList';
 import { useFetchCards } from '../hooks/useFetchCards';
 import userEvent from '@testing-library/user-event';
 import type { Navigation } from 'react-router';

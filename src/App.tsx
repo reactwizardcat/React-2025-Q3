@@ -1,15 +1,17 @@
 import { useState } from 'react';
-import Cards from './components/Cards';
+import CardList from './components/CardList';
 import Search from './components/Search';
-import DownloadButton from './components/UI/DownloadButton';
 import { useLS } from './hooks/useLS';
 import { useParams } from 'react-router';
+import { useAppSelector } from './store/hooks';
+import Flayout from './components/Flayout';
 
 export default function App() {
   const [query, setQuery] = useLS();
   const { search } = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(Number(search) || 1);
+  const countCards = useAppSelector((state) => state.cards.cardsCounter);
 
   const changeQuery = (str: string) => {
     setQuery(str);
@@ -23,14 +25,14 @@ export default function App() {
         queryString={query}
         isLoading={isLoading}
       />
-      <Cards
+      <CardList
         query={query}
         isLoading={isLoading}
         setIsLoading={setIsLoading}
         page={page}
         setPage={setPage}
       />
-      <DownloadButton />
+      {countCards > 0 && <Flayout count={countCards} />}
     </>
   );
 }
