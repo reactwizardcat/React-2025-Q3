@@ -4,12 +4,7 @@ import './index.css';
 import { RouterProvider } from 'react-router';
 import { router } from './router/Router.tsx';
 
-const root = document.getElementById('root');
-
-if (!root) {
-  throw new Error('Better use Vue.');
-}
-createRoot(root).render(
+createRoot(document.body).render(
   <StrictMode>
     <RouterProvider router={router} />
   </StrictMode>

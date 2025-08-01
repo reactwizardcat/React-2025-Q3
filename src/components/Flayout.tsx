@@ -1,17 +1,19 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { clear } from '../store/cardsSlice';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import MyButton from './UI/MyButton';
 import { downloadCSV } from '../utils/downloadToCSV';
 
 export default function Flayout({ count }: { count: number }) {
-  const [url, setUrl] = useState('');
   const linkRef = useRef<HTMLAnchorElement>(null);
   const dispatch = useAppDispatch();
   const data = useAppSelector((state) => state.cards.cardsArray);
   const saveToCSV = () => {
     const { url, clearUrl } = downloadCSV(data);
-    setUrl(url);
+    if (!linkRef.current) {
+      return;
+    }
+    linkRef.current.href = url;
     linkRef?.current?.click();
     setTimeout(() => clearUrl(), 500);
   };
@@ -23,7 +25,7 @@ export default function Flayout({ count }: { count: number }) {
       <p>Marked for saving: {count}</p>
       <MyButton callback={saveToCSV}>Save CSV</MyButton>
       <a
-        href={url}
+        href={''}
         ref={linkRef}
         download={`${count}_items.csv`}
         className="hidden"

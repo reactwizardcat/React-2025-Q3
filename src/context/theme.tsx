@@ -18,11 +18,6 @@ const ThemeProvider = ({ children }: ThemeProviderProps) => {
 
   useEffect(() => {
     setThemeLS(theme ? 'dark' : 'light');
-    if (theme) {
-      document.body.setAttribute('data-theme', 'dark');
-    } else {
-      document.body.removeAttribute('data-theme');
-    }
   }, [theme, setThemeLS]);
 
   const toggleTheme = useCallback(() => {
@@ -35,7 +30,14 @@ const ThemeProvider = ({ children }: ThemeProviderProps) => {
   };
 
   return (
-    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+    <ThemeContext.Provider value={value}>
+      <div
+        data-theme={theme ? 'dark' : ''}
+        className="h-full bg-white dark:bg-black"
+      >
+        <div className="m-auto w-7xl">{children}</div>
+      </div>
+    </ThemeContext.Provider>
   );
 };
 
