@@ -4,11 +4,11 @@ import DetailCard from '../components/DetailCard.tsx';
 import NotFoundPage from '../pages/NotFoundPage.tsx';
 import { fetchCard } from '../api/fetchCard.ts';
 import AboutPage from '../pages/AboutPage.tsx';
-import { ErrorBoundaryLayout } from '../layout/ErrorBoundaryLayout.tsx';
+import { MainLayout } from '../layout/MainLayout.tsx';
 
 export const router = createBrowserRouter([
   {
-    element: <ErrorBoundaryLayout />,
+    element: <MainLayout />,
     children: [
       {
         path: '/',

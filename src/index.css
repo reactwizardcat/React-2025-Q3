@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
 @layer base {
   @font-face {
     font-family: 'Allura';
@@ -77,10 +79,17 @@
   --font-lobster: 'Lobster', 'sans-serif';
 }
 
+[data-theme='light'] {
+  --bg-colour: aliceblue;
+}
+[data-theme='dark'] {
+  --bg-colour: gray;
+}
+
 body {
   max-width: 1440px;
   margin: auto;
-  background-color: aliceblue;
+  background-color: var(--bg-colour);
 }
 
 #root {

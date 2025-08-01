@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { render } from '@testing-library/react';
 import Card from './Card';
 import type { CardResponse } from '../models/cards.model';
+import { renderWithProviders } from '../tests/RenderWithProwider';
 
 const mockImage = 'https://example.com/image.jpg';
 
@@ -19,7 +19,7 @@ const mockCardData: CardResponse = {
 
 describe('Card component test', () => {
   it('should match snapshot', () => {
-    const { container } = render(<Card data={mockCardData} />);
+    const { container } = renderWithProviders(<Card data={mockCardData} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 });

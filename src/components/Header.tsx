@@ -1,7 +1,9 @@
 import { NavLink } from 'react-router';
 import { cn } from '../utils/cn';
+import { useTheme } from '../hooks/useTheme';
 
 export default function Header({ children }: { children?: React.ReactNode }) {
+  const { theme, toggleTheme } = useTheme();
   return (
     <header
       className={cn(
@@ -10,7 +12,7 @@ export default function Header({ children }: { children?: React.ReactNode }) {
       )}
     >
       {children}
-      <nav className="mx-3 self-auto md:self-center">
+      <nav className="md: mx-3 flex flex-row justify-between gap-4 md:flex-col">
         <ul className="flex items-center justify-evenly space-x-6">
           <li>
             <NavLink
@@ -43,6 +45,17 @@ export default function Header({ children }: { children?: React.ReactNode }) {
             </NavLink>
           </li>
         </ul>
+        <div className="flex justify-center">
+          <label className="relative inline-flex cursor-pointer items-center">
+            <input
+              className="peer sr-only"
+              type="checkbox"
+              onChange={toggleTheme}
+              checked={theme}
+            />
+            <div className="h-10 w-20 rounded-full bg-gradient-to-r from-yellow-300 to-orange-400 transition-all duration-500 peer-checked:from-blue-400 peer-checked:to-indigo-500 after:absolute after:top-1 after:left-1 after:flex after:h-8 after:w-8 after:items-center after:justify-center after:rounded-full after:bg-white after:text-lg after:shadow-md after:transition-all after:duration-500 after:content-['☀️'] peer-checked:after:translate-x-10 peer-checked:after:content-['🌙']"></div>
+          </label>
+        </div>
       </nav>
     </header>
   );
