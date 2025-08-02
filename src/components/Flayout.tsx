@@ -10,12 +10,11 @@ export default function Flayout({ count }: { count: number }) {
   const data = useAppSelector((state) => state.cards.cardsStore);
   const saveToCSV = () => {
     const { url, clearUrl } = downloadCSV(data);
-    if (!linkRef.current) {
-      return;
+    if (linkRef.current) {
+      linkRef.current.href = url;
+      linkRef?.current?.click();
+      setTimeout(() => clearUrl(), 500);
     }
-    linkRef.current.href = url;
-    linkRef?.current?.click();
-    setTimeout(() => clearUrl(), 500);
   };
   const clearSaved = () => {
     dispatch(clear());

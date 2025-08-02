@@ -102,6 +102,7 @@ describe('Cards Component', () => {
   const mockSetIsLoading = vi.fn();
 
   beforeEach(() => {
+    vi.spyOn(global, 'scrollTo').mockImplementation(() => {});
     vi.clearAllMocks();
     vi.mocked(useNavigate).mockReturnValue(mockNavigate);
     mockUseParams.mockReturnValue({ search: '1' });
