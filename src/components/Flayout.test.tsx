@@ -13,6 +13,17 @@ vi.mock('../utils/downloadToCSV', () => ({
 }));
 
 describe('Flayout component tests', () => {
+  const originalClick = window.HTMLAnchorElement.prototype.click;
+
+  beforeEach(() => {
+    window.HTMLAnchorElement.prototype.click = vi.fn();
+  });
+
+  afterEach(() => {
+    window.HTMLAnchorElement.prototype.click = originalClick;
+    vi.clearAllMocks();
+  });
+
   it('renders correctly with count', () => {
     renderWithProviders(<Flayout count={2} />);
 
