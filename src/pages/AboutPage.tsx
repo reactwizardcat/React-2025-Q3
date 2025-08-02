@@ -5,7 +5,7 @@ export default function AboutPage() {
     <>
       <Header />
       <main className="flex flex-1 flex-col items-center justify-center gap-2.5">
-        <section className="max-w-2xl text-center text-lg">
+        <section className="max-w-2xl text-center text-lg dark:text-white">
           <h1 className="mb-5 text-2xl font-bold capitalize">About</h1>
           <p className="mb-2.5">
             Hi! My name is Hikmatullo and I went study at Rolling Scopes School.

@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import {
   MemoryRouter,
   useParams,
@@ -9,6 +9,7 @@ import Cards from './CardList';
 import { useFetchCards } from '../hooks/useFetchCards';
 import userEvent from '@testing-library/user-event';
 import type { Navigation } from 'react-router';
+import { renderWithProviders } from '../tests/RenderWithProwider';
 
 vi.mock('react-router', async (importOriginal) => {
   const actual = await importOriginal<typeof import('react-router')>();
@@ -114,7 +115,7 @@ describe('Cards Component', () => {
       data: null,
     });
 
-    render(
+    renderWithProviders(
       <MemoryRouter>
         <Cards
           query="test"
@@ -137,7 +138,7 @@ describe('Cards Component', () => {
       data: null,
     });
 
-    render(
+    renderWithProviders(
       <MemoryRouter>
         <Cards
           query="test"
@@ -160,7 +161,7 @@ describe('Cards Component', () => {
       data: null,
     });
 
-    render(
+    renderWithProviders(
       <MemoryRouter>
         <Cards
           query="test"
@@ -185,7 +186,7 @@ describe('Cards Component', () => {
       data: { cards: null, total_count: 0, total_pages: 0, page: 1 },
     });
 
-    render(
+    renderWithProviders(
       <MemoryRouter>
         <Cards
           query="test"
@@ -207,7 +208,7 @@ describe('Cards Component', () => {
       data: mockCards,
     });
 
-    render(
+    renderWithProviders(
       <MemoryRouter>
         <Cards
           query="test"
@@ -232,7 +233,7 @@ describe('Cards Component', () => {
       data: { ...mockCards, total_pages: 2 },
     });
 
-    render(
+    renderWithProviders(
       <MemoryRouter>
         <Cards
           query="test"
@@ -264,7 +265,7 @@ describe('Cards Component', () => {
 
     mockUseNavigation.mockReturnValue({ state: 'loading' } as Navigation);
 
-    render(
+    renderWithProviders(
       <MemoryRouter>
         <Cards
           query="test"
@@ -287,7 +288,7 @@ describe('Cards Component', () => {
       data: mockCards,
     });
 
-    render(
+    renderWithProviders(
       <MemoryRouter>
         <Cards
           query="test"
@@ -309,7 +310,7 @@ describe('Cards Component', () => {
       data: null,
     });
 
-    render(
+    renderWithProviders(
       <MemoryRouter>
         <Cards
           query="test"

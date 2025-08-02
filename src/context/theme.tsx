@@ -31,11 +31,10 @@ const ThemeProvider = ({ children }: ThemeProviderProps) => {
 
   return (
     <ThemeContext.Provider value={value}>
-      <div
-        data-theme={theme ? 'dark' : ''}
-        className="h-full bg-white dark:bg-black"
-      >
-        <div className="m-auto w-7xl">{children}</div>
+      <div data-theme={theme ? 'dark' : ''} className="bg-white dark:bg-black">
+        <div className="m-auto flex min-h-screen max-w-7xl flex-col">
+          {children}
+        </div>
       </div>
     </ThemeContext.Provider>
   );

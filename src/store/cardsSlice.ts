@@ -2,11 +2,11 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { CardResponse } from '../models/cards.model';
 
 interface CardsState {
-  cardsArray: Array<CardResponse>;
+  cardsStore: Record<number, CardResponse>;
   cardsCounter: number;
 }
 const initialState: CardsState = {
-  cardsArray: [],
+  cardsStore: {},
   cardsCounter: 0,
 };
 const cardsSlice = createSlice({
@@ -15,20 +15,18 @@ const cardsSlice = createSlice({
   reducers: {
     toggleCard: (state, action: PayloadAction<CardResponse>) => {
       const cardId = action.payload.id;
-      const card = state.cardsArray.find((card) => card.id === cardId);
+      const card = state.cardsStore[cardId];
 
       if (!card) {
-        state.cardsArray.push(action.payload);
+        state.cardsStore[cardId] = action.payload;
         state.cardsCounter += 1;
       } else {
-        state.cardsArray = state.cardsArray.filter(
-          (card) => card.id !== cardId
-        );
+        delete state.cardsStore[cardId];
         state.cardsCounter -= 1;
       }
     },
     clear: (state) => {
-      state.cardsArray = [];
+      state.cardsStore = {};
       state.cardsCounter = 0;
     },
   },

@@ -53,9 +53,6 @@ describe('SideBar Component', () => {
 
     const aside = screen.getByRole('complementary');
     expect(aside).toBeInTheDocument();
-    expect(aside).toHaveClass(
-      'group sticky top-4 my-4 mr-4 flex h-[75vh] w-full flex-col transition-all hover:grow-[1.25]',
-      'justify-center self-start rounded-lg bg-white align-middle shadow-md md:w-1/4'
-    );
+    expect(aside).toMatchSnapshot();
   });
 });

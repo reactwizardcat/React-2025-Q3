@@ -19,7 +19,9 @@ const mockCardData: CardResponse = {
 
 describe('Card component test', () => {
   it('should match snapshot', () => {
-    const { container } = renderWithProviders(<Card data={mockCardData} />);
+    const { container } = renderWithProviders(
+      <Card data={mockCardData} isSelected={true} />
+    );
     expect(container.firstChild).toMatchSnapshot();
   });
 });

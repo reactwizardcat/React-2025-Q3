@@ -1,23 +1,19 @@
 import { useId } from 'react';
 import type { CardResponse } from '../models/cards.model';
 import MyImage from './UI/MyImage';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { useAppDispatch } from '../store/hooks';
 import { toggleCard } from '../store/cardsSlice';
 import { cn } from '../utils/cn';
 
 interface CardProps {
   data: CardResponse;
+  isSelected: boolean;
 }
 
-export default function Card({ data }: CardProps) {
+export default function Card({ data, isSelected }: CardProps) {
   const id = useId();
   const { name, element, region, weapon, images } = data;
 
-  const isSelected = Boolean(
-    useAppSelector((state) =>
-      state.cards.cardsArray.find((card) => card.id === data.id)
-    )
-  );
   const dispatch = useAppDispatch();
 
   const toggle = () => {
@@ -25,7 +21,7 @@ export default function Card({ data }: CardProps) {
   };
 
   return (
-    <div className="relative rounded-lg bg-white p-4 shadow-md dark:bg-gray-300">
+    <div className="relative rounded-lg bg-white p-4 shadow-md dark:bg-gray-300/80 dark:shadow-white">
       <div className="m-auto max-w-3xs">
         <h2 className="font-allura text-center text-4xl">{name}</h2>
         <label

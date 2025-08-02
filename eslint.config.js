@@ -33,6 +33,7 @@ export default tseslint.config(
         { allowConstantExport: true },
       ],
       'react-compiler/react-compiler': 'error',
+      '@typescript-eslint/no-dynamic-delete': 'warn',
       ...react.configs.recommended.rules,
       ...react.configs['jsx-runtime'].rules,
     },

@@ -9,7 +9,7 @@ exports[`AboutPage component test > should match snapshot 1`] = `
     class="flex flex-1 flex-col items-center justify-center gap-2.5"
   >
     <section
-      class="max-w-2xl text-center text-lg"
+      class="max-w-2xl text-center text-lg dark:text-white"
     >
       <h1
         class="mb-5 text-2xl font-bold capitalize"

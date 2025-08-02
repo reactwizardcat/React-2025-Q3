@@ -7,7 +7,7 @@ import { downloadCSV } from '../utils/downloadToCSV';
 export default function Flayout({ count }: { count: number }) {
   const linkRef = useRef<HTMLAnchorElement>(null);
   const dispatch = useAppDispatch();
-  const data = useAppSelector((state) => state.cards.cardsArray);
+  const data = useAppSelector((state) => state.cards.cardsStore);
   const saveToCSV = () => {
     const { url, clearUrl } = downloadCSV(data);
     if (!linkRef.current) {

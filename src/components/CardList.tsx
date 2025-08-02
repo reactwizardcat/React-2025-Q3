@@ -7,6 +7,8 @@ import { Pagination } from './Pagination';
 import { Link, Outlet, useNavigate, useNavigation } from 'react-router';
 import SideBarLayout from '../layout/SideBarLayout';
 import { useFetchCards } from '../hooks/useFetchCards';
+import { useAppSelector } from '../store/hooks';
+import { useEffect } from 'react';
 
 interface CardsProps {
   query: string;
@@ -26,11 +28,20 @@ export default function CardList({
   const navigation = useNavigation();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }, [page]);
+
   const { data, isLongLoading, error } = useFetchCards({
     query,
     page,
     setIsLoading,
   });
+
+  const cardsStore = useAppSelector((state) => state.cards.cardsStore);
 
   if (isLongLoading) {
     return (
@@ -82,7 +93,10 @@ export default function CardList({
         <div className="grid w-full grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {data?.cards.map((cardData) => (
             <Link key={cardData.id} to={`${cardData.id}`}>
-              <Card data={cardData} />
+              <Card
+                data={cardData}
+                isSelected={Boolean(cardsStore[cardData.id])}
+              />
             </Link>
           ))}
         </div>
