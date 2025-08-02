@@ -13,17 +13,13 @@ const cardsSlice = createSlice({
   name: 'cards',
   initialState,
   reducers: {
-    toggleCard: (state, action: PayloadAction<CardResponse>) => {
-      const cardId = action.payload.id;
-      const card = state.cardsStore[cardId];
-
-      if (!card) {
-        state.cardsStore[cardId] = action.payload;
-        state.cardsCounter += 1;
-      } else {
-        delete state.cardsStore[cardId];
-        state.cardsCounter -= 1;
-      }
+    addCard: (state, action: PayloadAction<CardResponse>) => {
+      state.cardsStore[action.payload.id] = action.payload;
+      state.cardsCounter += 1;
+    },
+    removeCard: (state, action: PayloadAction<CardResponse>) => {
+      delete state.cardsStore[action.payload.id];
+      state.cardsCounter -= 1;
     },
     clear: (state) => {
       state.cardsStore = {};
@@ -32,5 +28,5 @@ const cardsSlice = createSlice({
   },
 });
 
-export const { toggleCard, clear } = cardsSlice.actions;
+export const { addCard, removeCard, clear } = cardsSlice.actions;
 export default cardsSlice.reducer;

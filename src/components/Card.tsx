@@ -2,7 +2,7 @@ import { useId } from 'react';
 import type { CardResponse } from '../models/cards.model';
 import MyImage from './UI/MyImage';
 import { useAppDispatch } from '../store/hooks';
-import { toggleCard } from '../store/cardsSlice';
+import { addCard, removeCard } from '../store/cardsSlice';
 import { cn } from '../utils/cn';
 
 interface CardProps {
@@ -17,7 +17,11 @@ export default function Card({ data, isSelected }: CardProps) {
   const dispatch = useAppDispatch();
 
   const toggle = () => {
-    dispatch(toggleCard(data));
+    if (isSelected) {
+      dispatch(removeCard(data));
+      return;
+    }
+    dispatch(addCard(data));
   };
 
   return (
@@ -28,6 +32,7 @@ export default function Card({ data, isSelected }: CardProps) {
           htmlFor={`bookmark-toggle-${id}`}
           className="absolute top-3 right-3 inline-flex cursor-pointer items-center"
           onClick={(e) => e.stopPropagation()}
+          aria-label="Toggle bookmark"
         >
           <input
             type="checkbox"
