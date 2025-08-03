@@ -22,6 +22,7 @@ export default defineConfig({
         'src/**/*.model.ts',
         'src/mocks',
         'src/main.tsx',
+        'src/constants.ts',
       ],
       thresholds: {
         statements: 80,

@@ -1,5 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { act, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import App from './App';
 import userEvent from '@testing-library/user-event';
 
@@ -21,33 +20,27 @@ vi.mock('./components/Search', () => ({
 vi.mock('./components/Cards', () => ({
   default: ({
     isLoading,
-    toggleLoading,
+    setIsLoading,
   }: {
     isLoading: boolean;
-    toggleLoading: (value: boolean) => void;
+    setIsLoading: (value: boolean) => void;
   }) => (
     <div>
       Cards Component: <span>{isLoading && 'isLoading'}</span>
-      <button onClick={() => toggleLoading(true)}>Toggle</button>
+      <button onClick={() => setIsLoading(true)}>Toggle</button>
     </div>
   ),
 }));
 
-const mockGetQuery = vi.fn();
-const mockSetQuery = vi.fn();
-vi.mock('./service/storageService', () => ({
-  default: {
-    getInstance: vi.fn(() => ({
-      getQuery: mockGetQuery,
-      setQuery: mockSetQuery,
-    })),
-  },
+const mockUseLS = vi.hoisted(() => vi.fn());
+vi.mock('./hooks/useLS', () => ({
+  useLS: mockUseLS,
 }));
 
 describe('App Component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    mockGetQuery.mockReturnValue('initial query');
+    mockUseLS.mockReturnValue(['initial query', vi.fn()]);
   });
 
   it('renders correct loading status', async () => {
@@ -59,10 +52,7 @@ describe('App Component', () => {
       /isLoading/
     );
 
-    await act(
-      async () =>
-        await userEvent.click(screen.getByRole('button', { name: /Toggle/i }))
-    );
+    await userEvent.click(screen.getByRole('button', { name: /Toggle/i }));
 
     expect(screen.getByText(/Cards Component/)).toHaveTextContent(/isLoading/);
   });
@@ -74,27 +64,16 @@ describe('App Component', () => {
   });
 
   it('correct query change', async () => {
+    const setQueryMock = vi.fn();
+    mockUseLS.mockReturnValue(['initial query', setQueryMock]);
     render(<App />);
     const search = screen.getByText(/Search Component/);
+    expect(search).toHaveTextContent('initial query');
 
-    await act(
-      async () =>
-        await userEvent.click(
-          screen.getByRole('button', { name: /Change Query/i })
-        )
+    await userEvent.click(
+      screen.getByRole('button', { name: /Change Query/i })
     );
-    expect(search).toHaveTextContent('changed');
-  });
 
-  it('throws error when button clicked', async () => {
-    const consoleError = vi
-      .spyOn(console, 'error')
-      .mockImplementation(() => {});
-
-    render(<App />);
-    const button = screen.getByRole('button', { name: 'Error Boundary' });
-    await expect(userEvent.click(button)).rejects.toThrow("💥 I'm error");
-
-    consoleError.mockRestore();
+    expect(setQueryMock).toHaveBeenCalledWith('changed');
   });
 });

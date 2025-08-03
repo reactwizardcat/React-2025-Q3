@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import SceletonCard from './SceletonCard';
+import SceletonCard from './SkeletonCard';
 
 describe('Sceleton component test', () => {
   it('should match snapshot', () => {
