@@ -1,15 +1,18 @@
 import { useState } from 'react';
-import Cards from './components/Cards';
+import CardList from './components/CardList';
 import Search from './components/Search';
-import ErrorButton from './components/UI/ErrorButton';
 import { useLS } from './hooks/useLS';
 import { useParams } from 'react-router';
+import { useAppSelector } from './store/hooks';
+import Flayout from './components/Flayout';
+import { STORAGE_KEY } from './constants';
 
 export default function App() {
-  const [query, setQuery] = useLS();
+  const [query, setQuery] = useLS(STORAGE_KEY);
   const { search } = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(Number(search) || 1);
+  const countCards = useAppSelector((state) => state.cards.cardsCounter);
 
   const changeQuery = (str: string) => {
     setQuery(str);
@@ -23,14 +26,14 @@ export default function App() {
         queryString={query}
         isLoading={isLoading}
       />
-      <Cards
+      <CardList
         query={query}
         isLoading={isLoading}
         setIsLoading={setIsLoading}
         page={page}
         setPage={setPage}
       />
-      <ErrorButton />
+      {countCards > 0 && <Flayout count={countCards} />}
     </>
   );
 }

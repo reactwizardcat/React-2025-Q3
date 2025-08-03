@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
 @layer base {
   @font-face {
     font-family: 'Allura';
@@ -29,7 +31,17 @@
       bottom: 140px;
     }
   }
-
+  @keyframes bookmark-pop {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1.1);
+    }
+  }
   @keyframes loading-step {
     0% {
       box-shadow:
@@ -46,21 +58,23 @@
         -70px 90px 0 rgba(0, 0, 0, 0);
     }
   }
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.5s ease-out forwards;
+  }
 }
 
 @theme {
   --font-allura: 'Allura', 'sans-serif';
   --font-lobster: 'Lobster', 'sans-serif';
-}
-
-body {
-  max-width: 1440px;
-  margin: auto;
-  background-color: aliceblue;
-}
-
-#root {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
 }

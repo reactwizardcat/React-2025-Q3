@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
-import { STORAGE_KEY } from '../constants';
 
-export const useLS = () => {
-  const [value, setValue] = useState(localStorage.getItem(STORAGE_KEY) || '');
+export const useLS = (key: string) => {
+  const [value, setValue] = useState(localStorage.getItem(key) || '');
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, value);
-  }, [value]);
+    localStorage.setItem(key, value);
+  }, [value, key]);
 
   return [value, setValue] as const;
 };

@@ -1,23 +1,27 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import App from './App';
 import userEvent from '@testing-library/user-event';
+import { renderWithProviders } from './tests/RenderWithProwider';
 
 vi.mock('./components/Search', () => ({
   default: ({
     queryString,
     changeQuery,
+    isLoading,
   }: {
     queryString: string;
     changeQuery: (str: string) => void;
+    isLoading: boolean;
   }) => (
     <div>
       Search Component: <span>{queryString}</span>
       <button onClick={() => changeQuery('changed')}>Change Query</button>
+      {isLoading && <span>Search Loading</span>}
     </div>
   ),
 }));
 
-vi.mock('./components/Cards', () => ({
+vi.mock('./components/CardList', () => ({
   default: ({
     isLoading,
     setIsLoading,
@@ -26,15 +30,25 @@ vi.mock('./components/Cards', () => ({
     setIsLoading: (value: boolean) => void;
   }) => (
     <div>
-      Cards Component: <span>{isLoading && 'isLoading'}</span>
-      <button onClick={() => setIsLoading(true)}>Toggle</button>
+      CardList Component: <span>{isLoading && 'isLoading'}</span>
+      <button onClick={() => setIsLoading(true)}>Toggle Loading</button>
     </div>
+  ),
+}));
+
+vi.mock('./components/Flayout', () => ({
+  default: ({ count }: { count: number }) => (
+    <div>Flayout Component: {count}</div>
   ),
 }));
 
 const mockUseLS = vi.hoisted(() => vi.fn());
 vi.mock('./hooks/useLS', () => ({
   useLS: mockUseLS,
+}));
+
+vi.mock('react-router', () => ({
+  useParams: vi.fn(() => ({ search: undefined })),
 }));
 
 describe('App Component', () => {
@@ -44,21 +58,22 @@ describe('App Component', () => {
   });
 
   it('renders correct loading status', async () => {
-    render(<App />);
-    expect(
-      screen.getByRole('button', { name: /Error Boundary/i })
-    ).toBeInTheDocument();
-    expect(screen.getByText(/Cards Component/)).not.toHaveTextContent(
+    renderWithProviders(<App />);
+    expect(screen.getByText(/CardList Component/)).not.toHaveTextContent(
       /isLoading/
     );
 
-    await userEvent.click(screen.getByRole('button', { name: /Toggle/i }));
+    await userEvent.click(
+      screen.getByRole('button', { name: /Toggle Loading/i })
+    );
 
-    expect(screen.getByText(/Cards Component/)).toHaveTextContent(/isLoading/);
+    expect(screen.getByText(/CardList Component/)).toHaveTextContent(
+      /isLoading/
+    );
   });
 
   it('init with correct query', () => {
-    render(<App />);
+    renderWithProviders(<App />);
     const search = screen.getByText(/Search Component/);
     expect(search).toHaveTextContent('initial query');
   });
@@ -66,7 +81,7 @@ describe('App Component', () => {
   it('correct query change', async () => {
     const setQueryMock = vi.fn();
     mockUseLS.mockReturnValue(['initial query', setQueryMock]);
-    render(<App />);
+    renderWithProviders(<App />);
     const search = screen.getByText(/Search Component/);
     expect(search).toHaveTextContent('initial query');
 
@@ -75,5 +90,24 @@ describe('App Component', () => {
     );
 
     expect(setQueryMock).toHaveBeenCalledWith('changed');
+  });
+
+  it('does not render Flayout when count is 0', () => {
+    renderWithProviders(<App />);
+    expect(screen.queryByText(/Flayout Component/)).not.toBeInTheDocument();
+  });
+
+  it('renders Flayout when count is greater than 0', () => {
+    renderWithProviders(<App />, {
+      preloadedState: {
+        cards: {
+          cardsCounter: 5,
+          cards: [],
+          status: 'idle',
+          error: null,
+        },
+      },
+    });
+    expect(screen.getByText(/Flayout Component: 5/)).toBeInTheDocument();
   });
 });

@@ -55,7 +55,7 @@ export const Pagination = ({
             onClick={() => handlePageChange(page)}
             className={
               currentPage === page
-                ? 'border-blue-700 bg-blue-700 text-white shadow-md'
+                ? 'border-blue-700 bg-blue-700 text-white shadow-md dark:border-white dark:bg-blue-100/20'
                 : ''
             }
           >
