@@ -1,21 +1,13 @@
-import { useRef } from 'react';
+import useDownloadCSV from '../hooks/useDownloadCSV';
 import { clear } from '../store/cardsSlice';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import MyButton from './UI/MyButton';
-import { downloadCSV } from '../utils/downloadToCSV';
 
 export default function Flayout({ count }: { count: number }) {
-  const linkRef = useRef<HTMLAnchorElement>(null);
   const dispatch = useAppDispatch();
   const data = useAppSelector((state) => state.cards.cardsStore);
-  const saveToCSV = () => {
-    const { url, clearUrl } = downloadCSV(data);
-    if (linkRef.current) {
-      linkRef.current.href = url;
-      linkRef?.current?.click();
-      setTimeout(() => clearUrl(), 500);
-    }
-  };
+  const { linkRef, saveToCSV } = useDownloadCSV(data);
+
   const clearSaved = () => {
     dispatch(clear());
   };
