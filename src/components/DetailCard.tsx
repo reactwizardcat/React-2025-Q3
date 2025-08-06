@@ -1,12 +1,36 @@
-import { Link, useLoaderData } from 'react-router';
+import { Link, useParams } from 'react-router';
 import SideBarLayout from '../layout/SideBarLayout';
-import type { CardResponse } from '../models/cards.model';
 import MyImage from './UI/MyImage';
 import { cn } from '../utils/cn';
+import { useGetCardByIdQuery } from '../api/cardsApi';
+import Loader from './Loader';
+import { getErrorMessage } from '../utils/getErrorMessage';
 
 export default function DetailCard() {
-  const { name, element, region, weapon, images } =
-    useLoaderData<CardResponse>();
+  const { id } = useParams<{ id: string }>();
+
+  const { data, error, isLoading } = useGetCardByIdQuery(id || '');
+
+  if (isLoading) {
+    return (
+      <SideBarLayout>
+        <Loader />
+      </SideBarLayout>
+    );
+  }
+
+  if (error) {
+    return <p>{getErrorMessage(error)}</p>;
+  }
+
+  if (!data) {
+    return (
+      <main className="flex flex-1 flex-col items-center justify-center">
+        <p className="text-gray-500">No card found</p>
+      </main>
+    );
+  }
+  const { name, element, region, weapon, images } = data;
   return (
     <SideBarLayout>
       <MyImage

@@ -6,11 +6,11 @@ import { useParams } from 'react-router';
 import { useAppSelector } from './store/hooks';
 import Flayout from './components/Flayout';
 import { STORAGE_KEY } from './constants';
+import { useGetCardsQuery } from './api/cardsApi';
 
 export default function App() {
   const [query, setQuery] = useLS(STORAGE_KEY);
   const { search } = useParams();
-  const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(Number(search) || 1);
   const countCards = useAppSelector((state) => state.cards.cardsCounter);
 
@@ -18,6 +18,11 @@ export default function App() {
     setQuery(str);
     setPage(1);
   };
+
+  const { data, error, isLoading } = useGetCardsQuery({
+    searchQuery: query,
+    page,
+  });
 
   return (
     <>
@@ -27,9 +32,9 @@ export default function App() {
         isLoading={isLoading}
       />
       <CardList
-        query={query}
         isLoading={isLoading}
-        setIsLoading={setIsLoading}
+        data={data}
+        error={error}
         page={page}
         setPage={setPage}
       />

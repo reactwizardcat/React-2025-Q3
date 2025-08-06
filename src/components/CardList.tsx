@@ -1,32 +1,37 @@
 import Card from './Card';
-import { ITEMS_PER_PAGE } from '../constants';
+import { ITEMS_PER_PAGE, SPINNER_DELAY } from '../constants';
 import Loader from './Loader';
 import SkeletonCard from './SkeletonCard';
 import MyButton from './UI/MyButton';
 import { Pagination } from './Pagination';
 import { Link, Outlet, useNavigate, useNavigation } from 'react-router';
 import SideBarLayout from '../layout/SideBarLayout';
-import { useFetchCards } from '../hooks/useFetchCards';
 import { useAppSelector } from '../store/hooks';
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import type { CardsResponse } from '../models/cards.model';
+import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import type { SerializedError } from '@reduxjs/toolkit';
+import { getErrorMessage } from '../utils/getErrorMessage';
 
 interface CardsProps {
-  query: string;
+  data: CardsResponse | undefined;
   isLoading: boolean;
-  setIsLoading: (value: boolean) => void;
+  error: FetchBaseQueryError | SerializedError | undefined;
   page: number;
   setPage: (page: number) => void;
 }
 
 export default function CardList({
-  query,
+  data,
   isLoading,
-  setIsLoading,
+  error,
   page,
   setPage,
 }: CardsProps) {
   const navigation = useNavigation();
   const navigate = useNavigate();
+  const [isLongLoading, setIsLongLoading] = useState(false);
+  const timeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
     window.scrollTo({
@@ -35,11 +40,24 @@ export default function CardList({
     });
   }, [page]);
 
-  const { data, isLongLoading, error } = useFetchCards({
-    query,
-    page,
-    setIsLoading,
-  });
+  useEffect(() => {
+    if (isLoading) {
+      timeoutRef.current = window.setTimeout(
+        () => setIsLongLoading(true),
+        SPINNER_DELAY
+      );
+    } else {
+      setIsLongLoading(false);
+      if (timeoutRef.current) {
+        window.clearTimeout(timeoutRef.current);
+      }
+    }
+    return () => {
+      if (timeoutRef.current) {
+        return window.clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [isLoading]);
 
   const cardsStore = useAppSelector((state) => state.cards.cardsStore);
 
@@ -69,7 +87,7 @@ export default function CardList({
     return (
       <main className="flex flex-1 flex-col items-center justify-center">
         <p className="mt-10 max-w-3xl px-4 text-center text-2xl text-red-500">
-          {error}
+          {getErrorMessage(error)}
         </p>
         <MyButton className="mt-4" callback={() => navigate(-1)}>
           Go Back
