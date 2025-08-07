@@ -6,12 +6,14 @@ interface SearchProps {
   changeQuery: (str: string) => void;
   queryString: string;
   isLoading: boolean;
+  refresh: () => void;
 }
 
 export default function Search({
   isLoading,
   queryString,
   changeQuery,
+  refresh,
 }: SearchProps) {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -24,7 +26,7 @@ export default function Search({
   };
 
   return (
-    <Header>
+    <Header refresh={refresh}>
       <form onSubmit={handleSubmit} className="flex-1">
         <label
           className={cn(

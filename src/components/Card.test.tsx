@@ -5,6 +5,7 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import cardsReducer from '../store/cardsSlice';
 import { configureStore } from '@reduxjs/toolkit';
+import { cardsApi } from '../api/cardsApi';
 
 const mockImage = 'https://example.com/image.jpg';
 
@@ -62,7 +63,11 @@ describe('Card component test', () => {
     const testStore = configureStore({
       reducer: {
         cards: cardsReducer,
+        [cardsApi.reducerPath]: cardsApi.reducer,
       },
+      middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware().concat(cardsApi.middleware),
+
       preloadedState: {
         cards: {
           cardsStore: {
@@ -91,7 +96,10 @@ describe('Card component test', () => {
     const testStore = configureStore({
       reducer: {
         cards: cardsReducer,
+        [cardsApi.reducerPath]: cardsApi.reducer,
       },
+      middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware().concat(cardsApi.middleware),
       preloadedState: {
         cards: {
           cardsStore: {

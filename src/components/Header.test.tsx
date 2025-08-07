@@ -19,7 +19,7 @@ describe('Header', () => {
   it('renders correctly with children', () => {
     render(
       <MemoryRouter>
-        <Header>
+        <Header refresh={vi.fn()}>
           <div>Test Children</div>
         </Header>
       </MemoryRouter>
@@ -33,7 +33,7 @@ describe('Header', () => {
   it('applies active styles to About link when on /about', () => {
     render(
       <MemoryRouter initialEntries={['/about']}>
-        <Header />
+        <Header refresh={vi.fn()} />
       </MemoryRouter>
     );
 
@@ -47,7 +47,7 @@ describe('Header', () => {
   it('applies active styles to Home link when on /search', () => {
     render(
       <MemoryRouter initialEntries={['/search']}>
-        <Header />
+        <Header refresh={vi.fn()} />
       </MemoryRouter>
     );
 
@@ -67,7 +67,7 @@ describe('Header', () => {
 
     render(
       <MemoryRouter>
-        <Header />
+        <Header refresh={vi.fn()} />
       </MemoryRouter>
     );
 
@@ -84,7 +84,7 @@ describe('Header', () => {
 
     const { rerender } = render(
       <MemoryRouter>
-        <Header />
+        <Header refresh={vi.fn()} />
       </MemoryRouter>
     );
 
@@ -97,7 +97,7 @@ describe('Header', () => {
 
     rerender(
       <MemoryRouter>
-        <Header />
+        <Header refresh={vi.fn()} />
       </MemoryRouter>
     );
 
@@ -107,7 +107,7 @@ describe('Header', () => {
   it('matches snapshot', () => {
     const { container } = render(
       <MemoryRouter>
-        <Header />
+        <Header refresh={vi.fn()} />
       </MemoryRouter>
     );
 

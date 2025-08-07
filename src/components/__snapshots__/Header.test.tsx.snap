@@ -31,7 +31,7 @@ exports[`Header > matches snapshot 1`] = `
         </li>
       </ul>
       <div
-        class="flex justify-center"
+        class="flex justify-center gap-3"
       >
         <label
           class="relative inline-flex cursor-pointer items-center"
@@ -45,6 +45,12 @@ exports[`Header > matches snapshot 1`] = `
             class="h-10 w-20 rounded-full bg-gradient-to-r from-yellow-300 to-orange-400 transition-all duration-500 peer-checked:from-blue-400 peer-checked:to-indigo-500 after:absolute after:top-1 after:left-1 after:flex after:h-8 after:w-8 after:items-center after:justify-center after:rounded-full after:bg-white after:text-lg after:shadow-md after:transition-all after:duration-500 after:content-['☀️'] peer-checked:after:translate-x-10 peer-checked:after:content-['🌙']"
           />
         </label>
+        <button
+          class="rounded-xl bg-red-600 px-5 py-2.5 text-white md:duration-300 md:enabled:hover:bg-red-500 md:enabled:active:translate-y-0.5 shadow-lg md:enabled:shadow-red-300/50 md:enabled:active:shadow-none md:disabled:shadow-gray-300/50  disabled:bg-gray-300 disabled:text-black"
+          type="button"
+        >
+          invalidate
+        </button>
       </div>
     </nav>
   </header>

@@ -11,7 +11,7 @@ interface querryPerems {
 export const cardsApi = createApi({
   reducerPath: 'cardsApi',
   baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
-  tagTypes: ['Cards'],
+  tagTypes: ['Cards', 'Card'],
   endpoints: (build) => ({
     getCards: build.query<CardsResponse, querryPerems>({
       query: ({ searchQuery, page }) => {
@@ -33,11 +33,11 @@ export const cardsApi = createApi({
         }
       },
     }),
-    getCardById: build.query<CardResponse, string>({
+    getCardById: build.query<CardResponse | null, string>({
       query: (id) => `/cards/${id}`,
-      providesTags: ['Cards'],
+      providesTags: (_result, _error, id) => [{ type: 'Card', id }],
       transformResponse: (res: unknown) => {
-        if (isValidCard(res)) {
+        if (isValidCard(res) || res === null) {
           return res;
         } else {
           throw new Error('Incorrect response data');

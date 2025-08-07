@@ -3,13 +3,37 @@ import userEvent from '@testing-library/user-event';
 import Search from './Search';
 
 vi.mock('./Header', () => ({
-  default: ({ children }: { children: React.ReactNode }) => (
-    <div>{children}</div>
+  default: ({
+    children,
+    refresh,
+  }: {
+    children: React.ReactNode;
+    refresh: () => void;
+  }) => (
+    <div>
+      {children}
+      <button onClick={refresh}>Mock Refresh</button>
+    </div>
   ),
+}));
+
+vi.mock('./UI/MyButton', () => ({
+  default: ({
+    disabled,
+    children,
+  }: {
+    disabled: boolean;
+    children: React.ReactNode;
+  }) => <button disabled={disabled}>{children}</button>,
+}));
+
+vi.mock('../utils/cn', () => ({
+  cn: vi.fn().mockImplementation((...args) => args.join(' ')),
 }));
 
 describe('Search component', () => {
   const mockChangeQuery = vi.fn();
+  const mockRefresh = vi.fn();
   const initialQuery = 'initial query';
   const user = userEvent.setup();
 
@@ -23,6 +47,7 @@ describe('Search component', () => {
         queryString={initialQuery}
         isLoading={false}
         changeQuery={mockChangeQuery}
+        refresh={mockRefresh}
       />
     );
 
@@ -39,6 +64,7 @@ describe('Search component', () => {
         queryString={initialQuery}
         isLoading={true}
         changeQuery={mockChangeQuery}
+        refresh={mockRefresh}
       />
     );
 
@@ -53,7 +79,12 @@ describe('Search component', () => {
   it('should call changeQuery when clicking search button', async () => {
     const testQuery = 'test query';
     render(
-      <Search queryString="" isLoading={false} changeQuery={mockChangeQuery} />
+      <Search
+        queryString=""
+        isLoading={false}
+        changeQuery={mockChangeQuery}
+        refresh={mockRefresh}
+      />
     );
 
     const input = screen.getByRole('searchbox');
@@ -69,7 +100,12 @@ describe('Search component', () => {
   it('should call changeQuery when pressing Enter in input field', async () => {
     const testQuery = 'test query';
     render(
-      <Search queryString="" isLoading={false} changeQuery={mockChangeQuery} />
+      <Search
+        queryString=""
+        isLoading={false}
+        changeQuery={mockChangeQuery}
+        refresh={mockRefresh}
+      />
     );
 
     const input = screen.getByRole('searchbox');
@@ -84,7 +120,12 @@ describe('Search component', () => {
     const testQuery = '  test query  ';
     const expectedQuery = 'test query';
     render(
-      <Search queryString="" isLoading={false} changeQuery={mockChangeQuery} />
+      <Search
+        queryString=""
+        isLoading={false}
+        changeQuery={mockChangeQuery}
+        refresh={mockRefresh}
+      />
     );
 
     const input = screen.getByRole('searchbox');
@@ -94,5 +135,35 @@ describe('Search component', () => {
     await user.click(button);
 
     expect(mockChangeQuery).toHaveBeenCalledWith(expectedQuery);
+  });
+
+  it('should pass refresh prop to Header component', async () => {
+    render(
+      <Search
+        queryString=""
+        isLoading={false}
+        changeQuery={mockChangeQuery}
+        refresh={mockRefresh}
+      />
+    );
+
+    const refreshButton = screen.getByText('Mock Refresh');
+    await user.click(refreshButton);
+    expect(mockRefresh).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show floating label correctly', () => {
+    render(
+      <Search
+        queryString=""
+        isLoading={false}
+        changeQuery={mockChangeQuery}
+        refresh={mockRefresh}
+      />
+    );
+
+    const label = screen.getByText('Enter search query...');
+    expect(label).toHaveClass('peer-placeholder-shown:translate-y-0');
+    expect(label).toHaveClass('peer-not-placeholder-shown:-translate-y-7.5');
   });
 });

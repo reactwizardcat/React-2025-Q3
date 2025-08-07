@@ -1,9 +1,17 @@
 import { NavLink } from 'react-router';
 import { cn } from '../utils/cn';
 import { useTheme } from '../hooks/useTheme';
+import MyButton from './UI/MyButton';
 
-export default function Header({ children }: { children?: React.ReactNode }) {
+export default function Header({
+  refresh,
+  children,
+}: {
+  refresh?: () => void;
+  children?: React.ReactNode;
+}) {
   const { theme, toggleTheme } = useTheme();
+
   return (
     <header
       className={cn(
@@ -46,7 +54,7 @@ export default function Header({ children }: { children?: React.ReactNode }) {
             </NavLink>
           </li>
         </ul>
-        <div className="flex justify-center">
+        <div className="flex justify-center gap-3">
           <label className="relative inline-flex cursor-pointer items-center">
             <input
               className="peer sr-only"
@@ -56,6 +64,7 @@ export default function Header({ children }: { children?: React.ReactNode }) {
             />
             <div className="h-10 w-20 rounded-full bg-gradient-to-r from-yellow-300 to-orange-400 transition-all duration-500 peer-checked:from-blue-400 peer-checked:to-indigo-500 after:absolute after:top-1 after:left-1 after:flex after:h-8 after:w-8 after:items-center after:justify-center after:rounded-full after:bg-white after:text-lg after:shadow-md after:transition-all after:duration-500 after:content-['☀️'] peer-checked:after:translate-x-10 peer-checked:after:content-['🌙']"></div>
           </label>
+          <MyButton callback={refresh}>invalidate</MyButton>
         </div>
       </nav>
     </header>

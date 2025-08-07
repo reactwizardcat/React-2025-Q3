@@ -56,7 +56,7 @@ export const Pagination = ({
             className={
               currentPage === page
                 ? 'border-blue-700 bg-blue-700 text-white shadow-md dark:border-white dark:bg-blue-100/20'
-                : ''
+                : 'hidden sm:block'
             }
           >
             {page}
