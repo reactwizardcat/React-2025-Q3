@@ -1,12 +1,43 @@
-import { Link, useLoaderData } from 'react-router';
+import { Link, useParams } from 'react-router';
 import SideBarLayout from '../layout/SideBarLayout';
-import type { CardResponse } from '../models/cards.model';
 import MyImage from './UI/MyImage';
 import { cn } from '../utils/cn';
+import { cardsApi, useGetCardByIdQuery } from '../api/cardsApi';
+import Loader from './Loader';
+import { getErrorMessage } from '../utils/getErrorMessage';
+import { useDispatch } from 'react-redux';
+import MyButton from './UI/MyButton';
 
 export default function DetailCard() {
-  const { name, element, region, weapon, images } =
-    useLoaderData<CardResponse>();
+  const { id } = useParams<{ id: string }>();
+  const dispatch = useDispatch();
+
+  const { data, error, isLoading } = useGetCardByIdQuery(id || '');
+
+  const refresh = () => {
+    dispatch(cardsApi.util.invalidateTags([{ type: 'Card', id }]));
+  };
+
+  if (isLoading) {
+    return (
+      <SideBarLayout>
+        <Loader />
+      </SideBarLayout>
+    );
+  }
+
+  if (error) {
+    return <p>{getErrorMessage(error)}</p>;
+  }
+
+  if (!data) {
+    return (
+      <main className="flex flex-1 flex-col items-center justify-center">
+        <p className="text-gray-500">No card found</p>
+      </main>
+    );
+  }
+  const { name, element, region, weapon, images } = data;
   return (
     <SideBarLayout>
       <MyImage
@@ -16,6 +47,12 @@ export default function DetailCard() {
         imageClassName="hover:scale-100"
       />
       <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 from-30% p-4">
+        <MyButton
+          className="mb-2 bg-blue-400 px-3 py-1 text-white"
+          callback={refresh}
+        >
+          invalidate
+        </MyButton>
         <h2 className="font-allura text-5xl font-medium text-white">{name}</h2>
         <div className="grid grid-rows-[0fr] transition-all duration-500 group-hover:grid-rows-[1fr]">
           <div className="mt-2 overflow-hidden text-white/80 opacity-0 transition duration-600 group-hover:opacity-100">

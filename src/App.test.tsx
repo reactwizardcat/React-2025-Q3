@@ -57,21 +57,6 @@ describe('App Component', () => {
     mockUseLS.mockReturnValue(['initial query', vi.fn()]);
   });
 
-  it('renders correct loading status', async () => {
-    renderWithProviders(<App />);
-    expect(screen.getByText(/CardList Component/)).not.toHaveTextContent(
-      /isLoading/
-    );
-
-    await userEvent.click(
-      screen.getByRole('button', { name: /Toggle Loading/i })
-    );
-
-    expect(screen.getByText(/CardList Component/)).toHaveTextContent(
-      /isLoading/
-    );
-  });
-
   it('init with correct query', () => {
     renderWithProviders(<App />);
     const search = screen.getByText(/Search Component/);

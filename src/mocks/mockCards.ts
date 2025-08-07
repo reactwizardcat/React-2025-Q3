@@ -21,3 +21,12 @@ export const mockCards = {
   total_pages: 1,
   page: 1,
 };
+
+export const mockCard = {
+  id: 1,
+  name: 'Diluc',
+  element: 'Pyro',
+  region: 'Mondstadt',
+  weapon: 'Claymore',
+  images: { large: 'diluc.jpg', small: '' },
+};

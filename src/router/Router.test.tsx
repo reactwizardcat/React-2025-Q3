@@ -1,8 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { RouterProvider, createMemoryRouter, Outlet } from 'react-router';
 import { router } from './Router';
-import { fetchCard } from '../api/fetchCard';
-import type { CardResponse } from '../models/cards.model';
 
 vi.mock('../api/fetchCard');
 vi.mock('../App.tsx', () => ({
@@ -22,20 +20,6 @@ vi.mock('../pages/NotFoundPage.tsx', () => ({
 vi.mock('../pages/AboutPage.tsx', () => ({
   default: () => <div>AboutPage Component</div>,
 }));
-
-const mockImage = 'https://example.com/image.jpg';
-
-const mockCardData: CardResponse = {
-  id: 1,
-  name: 'Diluc',
-  element: 'Pyro',
-  region: 'Mondstadt',
-  weapon: 'Claymore',
-  images: {
-    large: mockImage,
-    small: '',
-  },
-};
 
 describe('Router Configuration', () => {
   it('should redirect root path to /search/1', async () => {
@@ -66,19 +50,6 @@ describe('Router Configuration', () => {
     render(<RouterProvider router={memoryRouter} />);
 
     expect(screen.getByText('App Component')).toBeInTheDocument();
-  });
-
-  it('should render DetailCard with loader for /search/:search/:id', async () => {
-    vi.mocked(fetchCard).mockResolvedValue(mockCardData);
-
-    const memoryRouter = createMemoryRouter(router.routes, {
-      initialEntries: ['/search/test/1'],
-    });
-
-    render(<RouterProvider router={memoryRouter} />);
-
-    expect(await screen.findByText('DetailCard Component')).toBeInTheDocument();
-    expect(fetchCard).toHaveBeenCalledWith(1);
   });
 
   it('should render AboutPage for /about', async () => {

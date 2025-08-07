@@ -4,6 +4,7 @@ import Flayout from './Flayout';
 import { renderWithProviders } from '../tests/RenderWithProwider';
 import { configureStore } from '@reduxjs/toolkit';
 import cardsReducer from '../store/cardsSlice';
+import { cardsApi } from '../api/cardsApi';
 
 vi.mock('../hooks/useDownloadCSV', () => ({
   default: vi.fn().mockReturnValue({
@@ -40,7 +41,10 @@ describe('Flayout component tests', () => {
     const testStore = configureStore({
       reducer: {
         cards: cardsReducer,
+        [cardsApi.reducerPath]: cardsApi.reducer,
       },
+      middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware().concat(cardsApi.middleware),
       preloadedState: {
         cards: {
           cardsStore: {},
