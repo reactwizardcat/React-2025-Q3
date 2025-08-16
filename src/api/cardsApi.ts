@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { API_URL } from '../constants';
 import type { CardResponse, CardsResponse } from '../models/cards.model';
-import { isValidCard, isValidData } from '../utils/validator';
+import { isValidCard, isValidData } from '../app/[locale]/_utils/validator';
 
 interface querryPerems {
   searchQuery: string;

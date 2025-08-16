@@ -5,7 +5,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import { createURL } from '../utils/createURL';
+import { createURL } from '../app/[locale]/_utils/createURL';
 import type { CardResponse } from '../models/cards.model';
 
 export default function useDownloadCSV<
