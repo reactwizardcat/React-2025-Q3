@@ -1,7 +1,6 @@
 'use client';
 
-import { useDispatch } from 'react-redux';
-import { cardsApi, useGetCardsQuery } from '@/api/cardsApi';
+import { useGetCardsQuery } from '@/api/cardsApi';
 import { useAppSelector } from '@/lib/hooks';
 import { useState } from 'react';
 import { useLS } from '../_hooks/useLS';

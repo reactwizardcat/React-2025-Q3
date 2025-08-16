@@ -33,5 +33,9 @@
   "NotFound": {
     "text": "This page does not exist.",
     "link": "Go back"
+  },
+  "Error": {
+    "title": "Something went wrong.",
+    "button": "Reload"
   }
 }
