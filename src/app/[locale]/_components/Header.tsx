@@ -4,17 +4,12 @@ import { cn } from '../_utils/cn';
 import { useTheme } from '../_hooks/useTheme';
 import { Link } from '@/i18n/navigation';
 import { usePathname } from 'next/navigation';
-import MyButton from './UI/MyButton';
+import LocaleSwitcher from './LocaleSwitcher';
+import { useTranslations } from 'next-intl';
 
-export default function Header({
-  refresh,
-  children,
-}: {
-  refresh?: () => void;
-  children?: React.ReactNode;
-}) {
+export default function Header({ children }: { children?: React.ReactNode }) {
   const { theme, toggleTheme } = useTheme();
-
+  const t = useTranslations('Header');
   const pathName = usePathname();
 
   return (
@@ -38,7 +33,7 @@ export default function Header({
                   : 'text-shadow-black'
               )}
             >
-              About
+              {t('about')}
             </Link>
           </li>
           <li>
@@ -51,12 +46,12 @@ export default function Header({
                   : 'text-shadow-black'
               )}
             >
-              Home
+              {t('search')}
             </Link>
           </li>
         </ul>
         <div className="flex justify-center gap-3">
-          <label className="relative inline-flex cursor-pointer items-center">
+          <label className="relative inline-flex cursor-pointer">
             <input
               className="peer sr-only"
               type="checkbox"
@@ -65,7 +60,7 @@ export default function Header({
             />
             <div className="h-10 w-20 rounded-full bg-gradient-to-r from-yellow-300 to-orange-400 transition-all duration-500 peer-checked:from-blue-400 peer-checked:to-indigo-500 after:absolute after:top-1 after:left-1 after:flex after:h-8 after:w-8 after:items-center after:justify-center after:rounded-full after:bg-white after:text-lg after:shadow-md after:transition-all after:duration-500 after:content-['☀️'] peer-checked:after:translate-x-10 peer-checked:after:content-['🌙']"></div>
           </label>
-          <MyButton callback={refresh}>invalidate</MyButton>
+          <LocaleSwitcher />
         </div>
       </nav>
     </header>

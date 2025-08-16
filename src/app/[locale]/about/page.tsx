@@ -1,26 +1,24 @@
+import { useTranslations } from 'next-intl';
 import Header from '../_components/Header';
 
 export default function AboutPage() {
+  const t = useTranslations('About');
   return (
     <>
       <Header />
       <main className="flex flex-1 flex-col items-center justify-center gap-2.5">
         <section className="max-w-2xl text-center text-lg dark:text-white">
-          <h1 className="mb-5 text-2xl font-bold capitalize">About</h1>
+          <h1 className="mb-5 text-2xl font-bold capitalize">{t('title')}</h1>
+          <p className="mb-2.5">{t('text')}</p>
           <p className="mb-2.5">
-            Hi! My name is Hikmatullo and I went study at Rolling Scopes School.
-            I’m excited about this new chapter in my life and look forward to
-            gaining new knowledge and experiences.
-          </p>
-          <p className="mb-2.5">
-            This project is part of the{' '}
+            {t('linktext')}
             <a
               className="text-blue-400 underline-offset-5 hover:underline"
               href="https://rs.school/courses/reactjs"
               target="_blank"
               rel="noopener noreferrer"
             >
-              RS School React course
+              {t('link')}
             </a>
           </p>
 
@@ -30,7 +28,7 @@ export default function AboutPage() {
             rel="noopener noreferrer"
             className="text-blue-400 underline-offset-5 hover:underline"
           >
-            My Github
+            {t('githublink')}
           </a>
         </section>
       </main>

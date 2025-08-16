@@ -1,20 +1,20 @@
 import MyButton from './UI/MyButton';
 import { cn } from '../_utils/cn';
 import Header from './Header';
+import { useTranslations } from 'next-intl';
 
 interface SearchProps {
   changeQuery: (str: string) => void;
   queryString: string;
   isLoading: boolean;
-  refresh: () => void;
 }
 
 export default function Search({
   isLoading,
   queryString,
   changeQuery,
-  refresh,
 }: SearchProps) {
+  const t = useTranslations('Search');
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -26,7 +26,7 @@ export default function Search({
   };
 
   return (
-    <Header refresh={refresh}>
+    <Header>
       <form onSubmit={handleSubmit} className="flex-1">
         <label
           className={cn(
@@ -55,14 +55,14 @@ export default function Search({
               'peer-focus:rounded-full peer-focus:bg-white peer-focus:px-1'
             )}
           >
-            Enter search query...
+            {t('placeholder')}
           </span>
           <MyButton
             className="font-lobster w-full sm:w-auto"
             type="submit"
             disabled={isLoading}
           >
-            Search
+            {t('button')}
           </MyButton>
         </label>
       </form>

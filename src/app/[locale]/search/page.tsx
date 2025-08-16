@@ -17,11 +17,6 @@ export default function App() {
   const [page, setPage] = useState(Number(search) || 1);
   const countCards = useAppSelector((state) => state.cards.cardsCounter);
 
-  const dispatch = useDispatch();
-  const refresh = () => {
-    dispatch(cardsApi.util.invalidateTags([{ type: 'Cards' }]));
-  };
-
   const changeQuery = (str: string) => {
     setQuery(str);
     setPage(1);
@@ -38,7 +33,6 @@ export default function App() {
         changeQuery={changeQuery}
         queryString={query}
         isLoading={isLoading}
-        refresh={refresh}
       />
       <CardList
         isLoading={isLoading}

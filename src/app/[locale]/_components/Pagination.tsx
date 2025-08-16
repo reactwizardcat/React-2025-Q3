@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { ITEMS_PER_PAGE } from '../../../constants';
 import { getVisiblePages } from '../_utils/linksArray';
 import PaginationButton from './UI/PaginationButton';
@@ -15,6 +16,7 @@ export const Pagination = ({
   currentPage,
   onPageChange,
 }: PaginationProps) => {
+  const t = useTranslations('Pagination');
   if (totalPages <= 1) return null;
 
   const handlePageChange = (page: number) => {
@@ -26,8 +28,9 @@ export const Pagination = ({
   return (
     <div className="my-4 flex flex-col items-center gap-4 px-4 py-3">
       <div className="text-sm text-gray-600 dark:text-gray-300">
-        Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1}-
-        {Math.min(currentPage * ITEMS_PER_PAGE, totalItems)} of {totalItems}
+        {t('show')} {(currentPage - 1) * ITEMS_PER_PAGE + 1}-
+        {Math.min(currentPage * ITEMS_PER_PAGE, totalItems)} {t('of')}{' '}
+        {totalItems}
       </div>
 
       <div className="flex items-center gap-2">
