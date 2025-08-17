@@ -1,5 +1,5 @@
-import { Link } from 'react-router';
-import { cn } from '../utils/cn';
+import { Link } from '@/i18n/navigation';
+import { cn } from '@/utils/cn';
 
 export default function SideBarLayout({
   children,
@@ -10,7 +10,7 @@ export default function SideBarLayout({
     <>
       <Link
         area-label="close popup"
-        to={'..'}
+        href={'.'}
         className="fixed top-0 left-0 h-full w-full cursor-pointer bg-black/30"
       ></Link>
       <aside

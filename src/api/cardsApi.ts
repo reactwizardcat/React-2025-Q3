@@ -7,17 +7,17 @@ interface QuerryPerems {
   page: number;
 }
 
-interface ApiResponce {
-  data: CardsResponse | null;
+type ApiResponce<T> = {
+  data: T | null;
   error: {
     message: string;
   } | null;
-}
+};
 
 export async function getCards({
   searchQuery = '',
   page,
-}: QuerryPerems): Promise<ApiResponce> {
+}: QuerryPerems): Promise<ApiResponce<CardsResponse>> {
   const url = new URL(`${API_URL}/cards`);
   if (searchQuery) {
     url.searchParams.set('search', searchQuery);
@@ -52,17 +52,32 @@ export async function getCards({
   }
 }
 
-export async function fetchCardById(id: string): Promise<CardResponse | null> {
+export async function fetchCardById(
+  id: string
+): Promise<ApiResponce<CardResponse>> {
   const response = await fetch(`${API_URL}/cards/${id}`);
 
   if (!response.ok) {
-    throw new Error(`Failed to fetch card: ${response.statusText}`);
+    return {
+      data: null,
+      error: {
+        message: `Failed to fetch cards: ${response.statusText}`,
+      },
+    };
   }
 
   const data = await response.json();
   if (isValidCard(data) || data === null) {
-    return data;
+    return {
+      data,
+      error: null,
+    };
   } else {
-    throw new Error('Incorrect response data');
+    return {
+      data: null,
+      error: {
+        message: 'Incorrect response data',
+      },
+    };
   }
 }
