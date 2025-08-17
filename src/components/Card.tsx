@@ -6,6 +6,7 @@ import MyImage from './UI/MyImage';
 import { useAppDispatch, useAppSelector } from '../lib/hooks';
 import { addCard, removeCard } from '../lib/cardsSlice';
 import { cn } from '../utils/cn';
+import Image from 'next/image';
 
 interface CardProps {
   data: CardResponse;
@@ -90,19 +91,23 @@ export default function Card({ data }: CardProps) {
         <ul>
           <li className="flex flex-row items-center gap-2">
             Element:
-            <img
+            <Image
               src={`/Diamond_${element}.png`}
               alt={`${element} icon`}
               className="h-8 w-8"
+              width={32}
+              height={32}
             />
             <span className="font-lobster tracking-widest">{element}</span>
           </li>
           <li className="flex h-4 flex-row items-center gap-2">
             Region:
-            <img
+            <Image
               src={`/Emblem_${region}.png`}
               alt={`${region} icon`}
               className="h-8 w-8"
+              width={32}
+              height={32}
             />
             <span className="font-lobster tracking-widest">{region}</span>
           </li>

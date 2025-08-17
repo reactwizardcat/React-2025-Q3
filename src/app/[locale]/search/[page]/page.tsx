@@ -27,7 +27,7 @@ export default async function CardList({ searchParams, params }: AppProps) {
 
   const { total_count, total_pages, page: actualPage } = data;
   return (
-    <div className="flex flex-col">
+    <div className="flex w-full flex-col">
       <section className="flex w-full grow">
         <div className="grid w-full grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {data?.cards.map((cardData) => (
