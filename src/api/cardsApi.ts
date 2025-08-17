@@ -1,6 +1,6 @@
+import { isValidCard, isValidData } from '@/utils/validator';
 import { API_URL } from '../constants';
 import type { CardResponse, CardsResponse } from '../models/cards.model';
-import { isValidCard, isValidData } from '../utils/validator';
 
 interface QuerryPerems {
   searchQuery?: string;

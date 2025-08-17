@@ -2,11 +2,11 @@
 
 import { useTranslations } from 'next-intl';
 import { ITEMS_PER_PAGE } from '../constants';
-import { getVisiblePages } from '../utils/linksArray';
 import PaginationButton from './UI/PaginationButton';
 import { usePathname, useRouter } from '@/i18n/navigation';
 import { useSearchParams } from 'next/navigation';
 import { startTransition } from 'react';
+import { getVisiblePages } from '@/utils/linksArray';
 
 interface PaginationProps {
   totalItems: number;

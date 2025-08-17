@@ -8,7 +8,7 @@ export default function NotFound() {
       <h2 className="text-2xl">{t('text')}</h2>
       <Link
         className="text-blue-400 underline-offset-5 hover:underline"
-        href="/search"
+        href="/search/1"
       >
         {t('link')}
       </Link>

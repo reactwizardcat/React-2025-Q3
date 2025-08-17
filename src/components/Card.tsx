@@ -4,9 +4,9 @@ import { useId } from 'react';
 import type { CardResponse } from '../models/cards.model';
 import MyImage from './UI/MyImage';
 import { useAppDispatch, useAppSelector } from '../lib/hooks';
-import { addCard, removeCard } from '../lib/cardsSlice';
-import { cn } from '../utils/cn';
 import Image from 'next/image';
+import { addCard, removeCard } from '@/lib/cardsSlice';
+import { cn } from '@/utils/cn';
 
 interface CardProps {
   data: CardResponse;

@@ -1,11 +1,11 @@
 'use client';
 
 import { downloadCSVAction } from '@/actions/DownloadCSVAction';
-import { clear } from '../lib/cardsSlice';
-import { useAppDispatch, useAppSelector } from '../lib/hooks';
 import MyButton from './UI/MyButton';
 import { useRef } from 'react';
 import { useTranslations } from 'next-intl';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { clear } from '@/lib/cardsSlice';
 
 export default function Flayout() {
   const count = useAppSelector((state) => state.cards.cardsCounter);

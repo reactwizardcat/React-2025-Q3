@@ -1,11 +1,11 @@
 'use client';
 
-import { cn } from '../utils/cn';
 import { Link } from '@/i18n/navigation';
 import { usePathname } from 'next/navigation';
 import LocaleSwitcher from './LocaleSwitcher';
 import { useTranslations } from 'next-intl';
 import { useTheme } from '@/hooks/useTheme';
+import { cn } from '@/utils/cn';
 
 export default function Header({ children }: { children?: React.ReactNode }) {
   const { theme, toggleTheme } = useTheme();

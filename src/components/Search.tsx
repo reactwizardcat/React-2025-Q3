@@ -1,11 +1,11 @@
 'use client';
 
 import MyButton from './UI/MyButton';
-import { cn } from '../utils/cn';
 import Header from './Header';
 import { useTranslations } from 'next-intl';
 import { usePathname, useRouter } from '@/i18n/navigation';
 import { useSearchParams } from 'next/navigation';
+import { cn } from '@/utils/cn';
 
 export default function Search() {
   const t = useTranslations('Search');

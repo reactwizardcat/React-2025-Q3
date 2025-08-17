@@ -1,9 +1,9 @@
 'use client';
 
-import clsx from 'clsx';
 import { ChangeEvent, ReactNode, useTransition } from 'react';
 import { usePathname, useRouter } from '@/i18n/navigation';
 import { useSearchParams } from 'next/navigation';
+import { cn } from '@/utils/cn';
 
 type Props = {
   children: ReactNode;
@@ -32,7 +32,7 @@ export default function LocaleSwitcherSelect({
 
   return (
     <label
-      className={clsx(
+      className={cn(
         'relative text-black',
         isPending && 'transition-opacity [&:disabled]:opacity-30'
       )}

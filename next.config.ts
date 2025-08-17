@@ -9,7 +9,7 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: '/search',
+        source: '/:locale/search',
         destination: '/search/1',
         permanent: true,
       },
