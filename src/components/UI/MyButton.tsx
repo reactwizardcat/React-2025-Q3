@@ -1,5 +1,5 @@
 import React from 'react';
-import { cn } from '../../_utils/cn';
+import { cn } from '../../utils/cn';
 
 interface MyButtonProps {
   className?: string;

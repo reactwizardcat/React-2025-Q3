@@ -1,27 +1,39 @@
+'use client';
+
 import { useTranslations } from 'next-intl';
-import { ITEMS_PER_PAGE } from '../../../constants';
-import { getVisiblePages } from '../_utils/linksArray';
+import { ITEMS_PER_PAGE } from '../constants';
+import { getVisiblePages } from '../utils/linksArray';
 import PaginationButton from './UI/PaginationButton';
+import { usePathname, useRouter } from '@/i18n/navigation';
+import { useSearchParams } from 'next/navigation';
+import { startTransition } from 'react';
 
 interface PaginationProps {
   totalItems: number;
   totalPages: number;
   currentPage: number;
-  onPageChange: (page: number) => void;
 }
 
 export const Pagination = ({
   totalItems,
   totalPages,
   currentPage,
-  onPageChange,
 }: PaginationProps) => {
   const t = useTranslations('Pagination');
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   if (totalPages <= 1) return null;
 
   const handlePageChange = (page: number) => {
     if (page >= 1 && page <= totalPages) {
-      onPageChange(page);
+      startTransition(() => {
+        const pathParts = pathname.split('/');
+        pathParts[pathParts.length - 1] = page.toString();
+        const newPath = pathParts.join('/');
+
+        router.replace(`${newPath}?${searchParams.toString()}`);
+      });
     }
   };
 

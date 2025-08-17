@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { cn } from '../../_utils/cn';
+import { cn } from '../../utils/cn';
 
 export default function MyImage({
   src,

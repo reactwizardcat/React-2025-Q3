@@ -1,8 +1,8 @@
 'use client';
 
 import { useCallback, useState, useEffect } from 'react';
-import { useLS } from './_hooks/useLS';
 import { ThemeContext } from './themeContext';
+import { useLS } from '@/hooks/useLS';
 
 interface ThemeProviderProps {
   children: React.ReactNode;

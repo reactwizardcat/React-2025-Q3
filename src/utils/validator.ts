@@ -1,4 +1,4 @@
-import type { CardResponse, CardsResponse } from '../../../models/cards.model';
+import type { CardResponse, CardsResponse } from '../models/cards.model';
 
 export function isValidData(data: unknown): data is CardsResponse {
   return (

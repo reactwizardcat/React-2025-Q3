@@ -1,15 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import cardsReducer from './cardsSlice';
-import { cardsApi } from '../api/cardsApi';
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       cards: cardsReducer,
-      [cardsApi.reducerPath]: cardsApi.reducer,
     },
-    middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(cardsApi.middleware),
   });
 };
 

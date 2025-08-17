@@ -1,4 +1,4 @@
-import { MAX_VISIBLE_PAGES } from '../../../constants';
+import { MAX_VISIBLE_PAGES } from '../constants';
 
 export const getVisiblePages = (currentPage: number, totalPages: number) => {
   let startPage = Math.max(1, currentPage - Math.floor(MAX_VISIBLE_PAGES / 2));

@@ -1,16 +1,19 @@
+'use client';
+
 import { useId } from 'react';
-import type { CardResponse } from '../../../models/cards.model';
+import type { CardResponse } from '../models/cards.model';
 import MyImage from './UI/MyImage';
-import { useAppDispatch } from '../../../lib/hooks';
-import { addCard, removeCard } from '../../../lib/cardsSlice';
-import { cn } from '../_utils/cn';
+import { useAppDispatch, useAppSelector } from '../lib/hooks';
+import { addCard, removeCard } from '../lib/cardsSlice';
+import { cn } from '../utils/cn';
 
 interface CardProps {
   data: CardResponse;
-  isSelected: boolean;
 }
 
-export default function Card({ data, isSelected }: CardProps) {
+export default function Card({ data }: CardProps) {
+  const cardsStore = useAppSelector((state) => state.cards.cardsStore);
+  const isSelected = Boolean(cardsStore[data.id]);
   const id = useId();
   const { name, element, region, weapon, images } = data;
 

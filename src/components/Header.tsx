@@ -1,11 +1,11 @@
 'use client';
 
-import { cn } from '../_utils/cn';
-import { useTheme } from '../_hooks/useTheme';
+import { cn } from '../utils/cn';
 import { Link } from '@/i18n/navigation';
 import { usePathname } from 'next/navigation';
 import LocaleSwitcher from './LocaleSwitcher';
 import { useTranslations } from 'next-intl';
+import { useTheme } from '@/hooks/useTheme';
 
 export default function Header({ children }: { children?: React.ReactNode }) {
   const { theme, toggleTheme } = useTheme();
@@ -38,7 +38,7 @@ export default function Header({ children }: { children?: React.ReactNode }) {
           </li>
           <li>
             <Link
-              href="/search"
+              href="/search/1"
               className={cn(
                 'text-xl font-semibold text-white transition duration-300 text-shadow-sm hover:text-red-600 hover:text-shadow-white',
                 pathName === 'search'

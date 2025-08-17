@@ -1,4 +1,4 @@
-import { cn } from '../../_utils/cn';
+import { cn } from '../../utils/cn';
 
 export default function PaginationButton({
   children,

@@ -1,50 +1,68 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { API_URL } from '../constants';
 import type { CardResponse, CardsResponse } from '../models/cards.model';
-import { isValidCard, isValidData } from '../app/[locale]/_utils/validator';
+import { isValidCard, isValidData } from '../utils/validator';
 
-interface querryPerems {
-  searchQuery: string;
+interface QuerryPerems {
+  searchQuery?: string;
   page: number;
 }
 
-export const cardsApi = createApi({
-  reducerPath: 'cardsApi',
-  baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
-  tagTypes: ['Cards', 'Card'],
-  endpoints: (build) => ({
-    getCards: build.query<CardsResponse, querryPerems>({
-      query: ({ searchQuery, page }) => {
-        const url = new URL(`${API_URL}/cards`);
-        if (searchQuery) {
-          url.searchParams.set('search', searchQuery);
-        }
-        if (page) {
-          url.searchParams.set('page', page.toString());
-        }
-        return url.toString();
-      },
-      providesTags: ['Cards'],
-      transformResponse: (res: unknown) => {
-        if (isValidData(res)) {
-          return res;
-        } else {
-          throw new Error('Incorrect response data');
-        }
-      },
-    }),
-    getCardById: build.query<CardResponse | null, string>({
-      query: (id) => `/cards/${id}`,
-      providesTags: (_result, _error, id) => [{ type: 'Card', id }],
-      transformResponse: (res: unknown) => {
-        if (isValidCard(res) || res === null) {
-          return res;
-        } else {
-          throw new Error('Incorrect response data');
-        }
-      },
-    }),
-  }),
-});
+interface ApiResponce {
+  data: CardsResponse | null;
+  error: {
+    message: string;
+  } | null;
+}
 
-export const { useGetCardsQuery, useGetCardByIdQuery } = cardsApi;
+export async function getCards({
+  searchQuery = '',
+  page,
+}: QuerryPerems): Promise<ApiResponce> {
+  const url = new URL(`${API_URL}/cards`);
+  if (searchQuery) {
+    url.searchParams.set('search', searchQuery);
+  }
+  if (page) {
+    url.searchParams.set('page', page.toString());
+  }
+  const response = await fetch(url.toString());
+
+  if (!response.ok) {
+    return {
+      data: null,
+      error: {
+        message: `Failed to fetch cards: ${response.statusText}`,
+      },
+    };
+  }
+
+  const data = await response.json();
+  if (isValidData(data)) {
+    return {
+      data,
+      error: null,
+    };
+  } else {
+    return {
+      data: null,
+      error: {
+        message: 'Incorrect response data',
+      },
+    };
+  }
+}
+
+export async function fetchCardById(id: string): Promise<CardResponse | null> {
+  const response = await fetch(`${API_URL}/cards/${id}`);
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch card: ${response.statusText}`);
+  }
+
+  const data = await response.json();
+  if (isValidCard(data) || data === null) {
+    return data;
+  } else {
+    throw new Error('Incorrect response data');
+  }
+}

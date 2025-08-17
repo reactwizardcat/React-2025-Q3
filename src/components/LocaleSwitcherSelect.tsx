@@ -3,6 +3,7 @@
 import clsx from 'clsx';
 import { ChangeEvent, ReactNode, useTransition } from 'react';
 import { usePathname, useRouter } from '@/i18n/navigation';
+import { useSearchParams } from 'next/navigation';
 
 type Props = {
   children: ReactNode;
@@ -15,14 +16,17 @@ export default function LocaleSwitcherSelect({
   defaultValue,
   label,
 }: Props) {
-  const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   function onSelectChange(event: ChangeEvent<HTMLSelectElement>) {
     const nextLocale = event.target.value;
     startTransition(() => {
-      router.replace({ pathname }, { locale: nextLocale });
+      router.replace(`${pathname}?${searchParams.toString()}`, {
+        locale: nextLocale,
+      });
     });
   }
 

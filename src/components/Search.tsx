@@ -1,28 +1,34 @@
+'use client';
+
 import MyButton from './UI/MyButton';
-import { cn } from '../_utils/cn';
+import { cn } from '../utils/cn';
 import Header from './Header';
 import { useTranslations } from 'next-intl';
+import { usePathname, useRouter } from '@/i18n/navigation';
+import { useSearchParams } from 'next/navigation';
 
-interface SearchProps {
-  changeQuery: (str: string) => void;
-  queryString: string;
-  isLoading: boolean;
-}
-
-export default function Search({
-  isLoading,
-  queryString,
-  changeQuery,
-}: SearchProps) {
+export default function Search() {
   const t = useTranslations('Search');
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const value = formData.get('search');
 
-    if (typeof value === 'string') {
-      changeQuery(value.trim());
+    const params = new URLSearchParams(searchParams);
+    if (value) {
+      params.set('query', value.toString().trim());
+    } else {
+      params.delete('query');
     }
+    const pathParts = pathname.split('/');
+    pathParts[pathParts.length - 1] = '1';
+
+    const newPathname = pathParts.join('/');
+    replace(`${newPathname}?${params.toString()}`);
   };
 
   return (
@@ -41,8 +47,7 @@ export default function Search({
             id="search-input"
             type="search"
             placeholder=" "
-            defaultValue={queryString}
-            disabled={isLoading}
+            defaultValue={searchParams.get('query')?.toString()}
             name="search"
           />
           <span
@@ -57,11 +62,7 @@ export default function Search({
           >
             {t('placeholder')}
           </span>
-          <MyButton
-            className="font-lobster w-full sm:w-auto"
-            type="submit"
-            disabled={isLoading}
-          >
+          <MyButton className="font-lobster w-full sm:w-auto" type="submit">
             {t('button')}
           </MyButton>
         </label>

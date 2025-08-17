@@ -2,8 +2,8 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import MyButton from './_components/UI/MyButton';
 import { useTranslations } from 'next-intl';
+import MyButton from '@/components/UI/MyButton';
 
 interface ErrorProps {
   error: Error & { digest?: string };

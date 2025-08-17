@@ -1,5 +1,6 @@
+import Header from '@/components/Header';
+import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
-import Header from '../_components/Header';
 
 export default function AboutPage() {
   const t = useTranslations('About');
@@ -12,24 +13,24 @@ export default function AboutPage() {
           <p className="mb-2.5">{t('text')}</p>
           <p className="mb-2.5">
             {t('linktext')}
-            <a
+            <Link
               className="text-blue-400 underline-offset-5 hover:underline"
               href="https://rs.school/courses/reactjs"
               target="_blank"
               rel="noopener noreferrer"
             >
               {t('link')}
-            </a>
+            </Link>
           </p>
 
-          <a
+          <Link
             href="https://github.com/reactwizardcat"
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-400 underline-offset-5 hover:underline"
           >
             {t('githublink')}
-          </a>
+          </Link>
         </section>
       </main>
     </>

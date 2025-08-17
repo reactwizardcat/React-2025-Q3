@@ -1,5 +1,5 @@
 import { Link } from 'react-router';
-import { cn } from '../app/[locale]/_utils/cn';
+import { cn } from '../utils/cn';
 
 export default function SideBarLayout({
   children,

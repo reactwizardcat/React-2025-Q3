@@ -37,5 +37,9 @@
   "Error": {
     "title": "Something went wrong.",
     "button": "Reload"
+  },
+  "Cards": {
+    "link": "Go back",
+    "empty": "No cards found"
   }
 }
