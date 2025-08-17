@@ -1,16 +1,16 @@
-import { NavLink } from 'react-router';
-import { cn } from '../utils/cn';
-import { useTheme } from '../hooks/useTheme';
-import MyButton from './UI/MyButton';
+'use client';
 
-export default function Header({
-  refresh,
-  children,
-}: {
-  refresh?: () => void;
-  children?: React.ReactNode;
-}) {
+import { Link } from '@/i18n/navigation';
+import { usePathname } from 'next/navigation';
+import LocaleSwitcher from './LocaleSwitcher';
+import { useTranslations } from 'next-intl';
+import { useTheme } from '@/hooks/useTheme';
+import { cn } from '@/utils/cn';
+
+export default function Header({ children }: { children?: React.ReactNode }) {
   const { theme, toggleTheme } = useTheme();
+  const t = useTranslations('Header');
+  const pathName = usePathname();
 
   return (
     <header
@@ -24,38 +24,34 @@ export default function Header({
       <nav className="md: mx-3 flex flex-row justify-between gap-4 md:flex-col">
         <ul className="flex items-center justify-evenly space-x-6">
           <li>
-            <NavLink
-              to="/about"
-              className={({ isActive }) =>
-                cn(
-                  'text-xl font-semibold text-white transition duration-300 text-shadow-sm hover:text-red-600 hover:text-shadow-white',
-                  isActive
-                    ? 'pointer-events-none font-medium text-red-600 underline underline-offset-4 text-shadow-white'
-                    : 'text-shadow-black'
-                )
-              }
+            <Link
+              href="/about"
+              className={cn(
+                'text-xl font-semibold text-white transition duration-300 text-shadow-sm hover:text-red-600 hover:text-shadow-white',
+                pathName === 'about'
+                  ? 'pointer-events-none font-medium text-red-600 underline underline-offset-4 text-shadow-white'
+                  : 'text-shadow-black'
+              )}
             >
-              About
-            </NavLink>
+              {t('about')}
+            </Link>
           </li>
           <li>
-            <NavLink
-              to="/search"
-              className={({ isActive }) =>
-                cn(
-                  'text-xl font-semibold text-white transition duration-300 text-shadow-sm hover:text-red-600 hover:text-shadow-white',
-                  isActive
-                    ? 'pointer-events-none font-medium text-red-600 underline underline-offset-4 text-shadow-white'
-                    : 'text-shadow-black'
-                )
-              }
+            <Link
+              href="/search/1"
+              className={cn(
+                'text-xl font-semibold text-white transition duration-300 text-shadow-sm hover:text-red-600 hover:text-shadow-white',
+                pathName === 'search'
+                  ? 'pointer-events-none font-medium text-red-600 underline underline-offset-4 text-shadow-white'
+                  : 'text-shadow-black'
+              )}
             >
-              Home
-            </NavLink>
+              {t('search')}
+            </Link>
           </li>
         </ul>
         <div className="flex justify-center gap-3">
-          <label className="relative inline-flex cursor-pointer items-center">
+          <label className="relative inline-flex cursor-pointer">
             <input
               className="peer sr-only"
               type="checkbox"
@@ -64,7 +60,7 @@ export default function Header({
             />
             <div className="h-10 w-20 rounded-full bg-gradient-to-r from-yellow-300 to-orange-400 transition-all duration-500 peer-checked:from-blue-400 peer-checked:to-indigo-500 after:absolute after:top-1 after:left-1 after:flex after:h-8 after:w-8 after:items-center after:justify-center after:rounded-full after:bg-white after:text-lg after:shadow-md after:transition-all after:duration-500 after:content-['☀️'] peer-checked:after:translate-x-10 peer-checked:after:content-['🌙']"></div>
           </label>
-          <MyButton callback={refresh}>invalidate</MyButton>
+          <LocaleSwitcher />
         </div>
       </nav>
     </header>

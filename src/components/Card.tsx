@@ -1,16 +1,20 @@
+'use client';
+
 import { useId } from 'react';
 import type { CardResponse } from '../models/cards.model';
 import MyImage from './UI/MyImage';
-import { useAppDispatch } from '../store/hooks';
-import { addCard, removeCard } from '../store/cardsSlice';
-import { cn } from '../utils/cn';
+import { useAppDispatch, useAppSelector } from '../lib/hooks';
+import Image from 'next/image';
+import { addCard, removeCard } from '@/lib/cardsSlice';
+import { cn } from '@/utils/cn';
 
 interface CardProps {
   data: CardResponse;
-  isSelected: boolean;
 }
 
-export default function Card({ data, isSelected }: CardProps) {
+export default function Card({ data }: CardProps) {
+  const cardsStore = useAppSelector((state) => state.cards.cardsStore);
+  const isSelected = Boolean(cardsStore[data.id]);
   const id = useId();
   const { name, element, region, weapon, images } = data;
 
@@ -87,19 +91,23 @@ export default function Card({ data, isSelected }: CardProps) {
         <ul>
           <li className="flex flex-row items-center gap-2">
             Element:
-            <img
+            <Image
               src={`/Diamond_${element}.png`}
               alt={`${element} icon`}
               className="h-8 w-8"
+              width={32}
+              height={32}
             />
             <span className="font-lobster tracking-widest">{element}</span>
           </li>
           <li className="flex h-4 flex-row items-center gap-2">
             Region:
-            <img
+            <Image
               src={`/Emblem_${region}.png`}
               alt={`${region} icon`}
               className="h-8 w-8"
+              width={32}
+              height={32}
             />
             <span className="font-lobster tracking-widest">{region}</span>
           </li>

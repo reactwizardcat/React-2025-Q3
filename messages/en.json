@@ -1,0 +1,45 @@
+{
+  "LocaleSwitcher": {
+    "label": "Change language",
+    "locale": {
+      "en": "English",
+      "ru": "Russian"
+    }
+  },
+  "Search": {
+    "button": "Search",
+    "placeholder": "Enter search query..."
+  },
+  "Header": {
+    "search": "Home",
+    "about": "About"
+  },
+  "Pagination": {
+    "show": "Showing",
+    "of": "of"
+  },
+  "Flayout": {
+    "title": "Marked for saving:",
+    "save": "Save CSV",
+    "clear": "Clear Saved"
+  },
+  "About": {
+    "title": "About",
+    "text": "Hi! My name is Hikmatullo and I went study at Rolling Scopes School. I’m excited about this new chapter in my life and look forward to gaining new knowledge and experiences.",
+    "link": "RS School React course",
+    "linktext": "This project is part of the ",
+    "githublink": "My Github"
+  },
+  "NotFound": {
+    "text": "This page does not exist.",
+    "link": "Go back"
+  },
+  "Error": {
+    "title": "Something went wrong.",
+    "button": "Reload"
+  },
+  "Cards": {
+    "link": "Go back",
+    "empty": "No cards found"
+  }
+}

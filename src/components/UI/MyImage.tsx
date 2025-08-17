@@ -1,5 +1,8 @@
+'use client';
+
 import { useState } from 'react';
 import { cn } from '../../utils/cn';
+import Image from 'next/image';
 
 export default function MyImage({
   src,
@@ -21,7 +24,7 @@ export default function MyImage({
         className
       )}
     >
-      <img
+      <Image
         className={cn(
           'h-full w-full object-cover transition-all duration-500 hover:scale-105',
           isLoaded ? 'opacity-100' : 'opacity-0',
@@ -29,6 +32,8 @@ export default function MyImage({
         )}
         src={src}
         alt={alt}
+        width={200}
+        height={300}
         onLoad={() => setIsLoaded(true)}
       />
     </div>
