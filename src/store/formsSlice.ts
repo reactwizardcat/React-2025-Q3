@@ -1,8 +1,8 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { FormsData } from '../model/formsData.model';
+import type { FormShemaType } from '../schema/formShema';
 
 interface CardsState {
-  cardsStore: FormsData[];
+  cardsStore: FormShemaType[];
 }
 const initialState: CardsState = {
   cardsStore: [],
@@ -11,7 +11,7 @@ const formsSlice = createSlice({
   name: 'cards',
   initialState,
   reducers: {
-    addFormData: (state, action: PayloadAction<FormsData>) => {
+    addFormData: (state, action: PayloadAction<FormShemaType>) => {
       state.cardsStore.push(action.payload);
     },
   },
