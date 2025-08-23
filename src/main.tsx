@@ -5,7 +5,11 @@ import App from './App';
 import { store } from './store/store';
 import { Provider } from 'react-redux';
 
-createRoot(document.body).render(
+const root = document.querySelector('#root');
+if (!root) {
+  throw new Error('no root element');
+}
+createRoot(root).render(
   <StrictMode>
     <Provider store={store}>
       <App />

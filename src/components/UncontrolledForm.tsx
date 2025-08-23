@@ -1,10 +1,9 @@
 import { useRef, useState } from 'react';
 import { FormSchema, type FormErrors } from '../schema/formShema';
 import z from 'zod';
-import { useAppDispatch } from '../store/hooks';
-import { addFormData } from '../store/formsSlice';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { submitFormWithDelay } from '../store/formsSlice';
 import { fileToBase64 } from '../utils/fileToBase64';
-import { useSelector } from 'react-redux';
 import type { RootState } from '../store/store';
 
 type RowDataType = {
@@ -23,7 +22,7 @@ export default function UncontrolledForm({
   const formRef = useRef<HTMLFormElement>(null);
 
   const dispatch = useAppDispatch();
-  const countries = useSelector(
+  const countries = useAppSelector(
     (state: RootState) => state.countries.CountryStore
   );
 
@@ -37,24 +36,19 @@ export default function UncontrolledForm({
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const rawData: RowDataType = Object.fromEntries(formData.entries());
-    rawData.tc = formData.has('tc');
-    rawData.age = Number(formData.get('age'));
-    const file = formData.get('picture');
-    if (file && file instanceof File) {
-      try {
-        rawData.picture = await fileToBase64(file);
-      } catch (e: unknown) {
-        if (e instanceof Error) {
-          rawData.picture = file;
-        }
-      }
-    }
+
     const result = FormSchema.safeParse(rawData);
     if (!result.success) {
       const flattened = z.flattenError(result.error);
       setErrors(flattened.fieldErrors);
     } else {
-      dispatch(addFormData(result.data));
+      const data = {
+        ...result.data,
+        age: Number(result.data.age),
+        picture: await fileToBase64(result.data.picture),
+        id: crypto.randomUUID(),
+      };
+      dispatch(submitFormWithDelay(data));
       closeForm();
     }
   };
@@ -63,6 +57,7 @@ export default function UncontrolledForm({
     <form
       ref={formRef}
       onSubmit={handleSubmit}
+      onClick={(e) => e.stopPropagation()}
       method="dialog"
       className="relative mx-auto max-w-md space-y-3 rounded-lg bg-white p-6 shadow-lg"
     >

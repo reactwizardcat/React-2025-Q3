@@ -1,4 +1,5 @@
 import * as z from 'zod';
+import { countries } from '../utils/countries';
 
 export const FormSchema = z
   .object({
@@ -8,7 +9,12 @@ export const FormSchema = z
       .refine((val) => /^[A-Z]/.test(val.charAt(0)), {
         message: 'Name must start with an uppercase letter',
       }),
-    age: z.number().positive({ message: 'Age must be a positive number' }),
+    age: z
+      .string()
+      .min(1, { message: 'Age is required' })
+      .refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
+        message: 'Age must be a positive number',
+      }),
     email: z.email({ message: 'Invalid email format' }),
     password: z
       .string()
@@ -23,11 +29,16 @@ export const FormSchema = z
     gender: z.enum(['male', 'female'], {
       message: 'Please select a gender',
     }),
-    tc: z.boolean().refine((val) => val === true, {
+    tc: z.string({
       message: 'You must accept the Terms and Conditions',
     }),
-    picture: z.string().optional(),
-    country: z.string().min(1, { message: 'Please select a country' }),
+    picture: z.file().mime(['image/png', 'image/jpeg']),
+    country: z
+      .string()
+      .min(1, { message: 'Please select a country' })
+      .refine((value) => countries.includes(value), {
+        message: 'Please select a valid country',
+      }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: 'Passwords do not match',
@@ -36,3 +47,8 @@ export const FormSchema = z
 
 export type FormShemaType = z.infer<typeof FormSchema>;
 export type FormErrors = Partial<Record<string, string[]>>;
+export type FormData = Omit<FormShemaType, 'picture' | 'age' | 'tc'> & {
+  picture: string;
+  age: number;
+  id: string;
+};
