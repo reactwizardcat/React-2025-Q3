@@ -1,8 +1,7 @@
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import type { RootState } from '../store/store';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { FormSchema, type FormShemaType } from '../schema/formShema';
+import { customResolver, type FormShemaType } from '../schema/formShema';
 import { cn } from '../utils/cn';
 import { submitFormWithDelay } from '../store/formsSlice';
 import { fileToBase64 } from '../utils/fileToBase64';
@@ -22,8 +21,11 @@ export default function ControlledForm({
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
   } = useForm<FormShemaType>({
-    resolver: zodResolver(FormSchema),
+    resolver: customResolver,
     mode: 'onChange',
+    defaultValues: {
+      gender: 'male',
+    },
   });
 
   const onSubmit = async (data: FormShemaType) => {
@@ -34,6 +36,7 @@ export default function ControlledForm({
       id: crypto.randomUUID(),
     };
     dispatch(submitFormWithDelay(formData));
+    handleClose();
   };
 
   return (
@@ -184,7 +187,6 @@ export default function ControlledForm({
           id="tc"
           {...register('tc')}
           type="checkbox"
-          value="true"
           className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
         />
         <label htmlFor="tc" className="ml-2 text-sm text-gray-700">

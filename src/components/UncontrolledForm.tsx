@@ -9,7 +9,7 @@ import type { RootState } from '../store/store';
 type RowDataType = {
   [k: string]: FormDataEntryValue;
 } & {
-  tc?: boolean;
+  tc?: string;
   age?: number;
 };
 
@@ -36,6 +36,7 @@ export default function UncontrolledForm({
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const rawData: RowDataType = Object.fromEntries(formData.entries());
+    rawData['tc'] = formData.has('tc') ? 'true' : 'false';
 
     const result = FormSchema.safeParse(rawData);
     if (!result.success) {
@@ -129,11 +130,14 @@ export default function UncontrolledForm({
           type="password"
           className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500"
         />
-        <div className="h-10">
-          {errors.password && (
-            <p className="text-sm text-red-500">{errors.password}</p>
-          )}
-        </div>
+        <ul className="h-10 overflow-scroll">
+          {errors.password &&
+            errors.password.map((err, idx) => (
+              <li key={idx} className="text-sm text-red-500">
+                {err}
+              </li>
+            ))}
+        </ul>
       </div>
 
       <div>
@@ -166,6 +170,7 @@ export default function UncontrolledForm({
               id="male"
               type="radio"
               name="gender"
+              defaultChecked
               value="male"
               className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
             />
@@ -225,7 +230,7 @@ export default function UncontrolledForm({
         />
         <div className="h-5">
           {errors.picture && (
-            <p className="text-sm text-red-500">{errors.picture}</p>
+            <p className="text-sm text-red-500">{errors.picture[0]}</p>
           )}
         </div>
       </div>
