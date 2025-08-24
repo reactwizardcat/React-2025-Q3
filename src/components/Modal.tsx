@@ -15,7 +15,12 @@ export default function Modal({
         ref={(ref) => {
           ref?.showModal();
         }}
-        onClick={handleClose}
+        onClick={(e) => {
+          if (e.target === e.currentTarget) {
+            handleClose();
+          }
+        }}
+        role="dialog"
         onClose={handleClose}
         className="fixed top-1/2 left-1/2 min-w-md -translate-x-1/2 -translate-y-1/2 transform rounded-lg bg-white shadow-lg"
       >

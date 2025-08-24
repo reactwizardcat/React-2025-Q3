@@ -59,7 +59,6 @@ export default function UncontrolledForm({
     <form
       ref={formRef}
       onSubmit={handleSubmit}
-      onClick={(e) => e.stopPropagation()}
       method="dialog"
       className="relative mx-auto max-w-md space-y-3 rounded-lg bg-white p-6 shadow-lg"
     >

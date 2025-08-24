@@ -44,7 +44,6 @@ export default function ControlledForm({
   return (
     <form
       method="dialog"
-      onClick={(e) => e.stopPropagation()}
       onSubmit={handleSubmit(onSubmit)}
       className="relative mx-auto max-w-md space-y-3 rounded-lg bg-white p-6 shadow-lg"
     >
