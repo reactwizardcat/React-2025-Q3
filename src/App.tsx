@@ -1,11 +1,9 @@
 import { useState } from 'react';
-import UncontrolledForm from './components/UncontrolledForm';
-import { createPortal } from 'react-dom';
-import ControlledForm from './components/ControlledForm';
 import { useAppSelector } from './store/hooks';
 import type { RootState } from './store/store';
 import Card from './components/Card';
 import { cn } from './utils/cn';
+import Modal from './components/Modal';
 
 export default function App() {
   const [formType, setFormType] = useState<
@@ -57,26 +55,7 @@ export default function App() {
         </div>
       )}
 
-      {formType &&
-        createPortal(
-          <>
-            <dialog
-              ref={(ref) => {
-                ref?.showModal();
-              }}
-              onClick={handleClose}
-              onClose={handleClose}
-              className="fixed top-1/2 left-1/2 min-w-md -translate-x-1/2 -translate-y-1/2 transform rounded-lg bg-white shadow-lg"
-            >
-              {formType === 'uncontrolled' ? (
-                <UncontrolledForm handleClose={handleClose} />
-              ) : (
-                <ControlledForm handleClose={handleClose} />
-              )}
-            </dialog>
-          </>,
-          document.body
-        )}
+      {formType && <Modal formType={formType} handleClose={handleClose} />}
     </>
   );
 }

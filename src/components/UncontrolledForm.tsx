@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { submitFormWithDelay } from '../store/formsSlice';
 import { fileToBase64 } from '../utils/fileToBase64';
 import type { RootState } from '../store/store';
+import UncontrolledPasswordStrength from './UncontrolledPasswordStrength';
 
 type RowDataType = {
   [k: string]: FormDataEntryValue;
@@ -124,12 +125,17 @@ export default function UncontrolledForm({
         >
           Password
         </label>
+
         <input
           id="password"
           name="password"
           type="password"
-          className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          placeholder=" "
+          className="peer mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500"
         />
+
+        <UncontrolledPasswordStrength length={errors.password?.length} />
+
         <ul className="h-10 overflow-scroll">
           {errors.password &&
             errors.password.map((err, idx) => (
@@ -267,11 +273,25 @@ export default function UncontrolledForm({
         Submit
       </button>
       <button
-        className="absolute top-0 right-0"
         type="button"
-        onClick={closeForm}
+        onClick={handleClose}
+        className="absolute top-2 right-2 flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-gray-600 transition-colors hover:bg-gray-300 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none"
+        aria-label="Close form"
       >
-        Close
+        <svg
+          className="h-4 w-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
       </button>
     </form>
   );

@@ -5,6 +5,7 @@ import { customResolver, type FormShemaType } from '../schema/formShema';
 import { cn } from '../utils/cn';
 import { submitFormWithDelay } from '../store/formsSlice';
 import { fileToBase64 } from '../utils/fileToBase64';
+import ControlledPasswordStrength from './ControlledPasswordStrength';
 
 export default function ControlledForm({
   handleClose,
@@ -19,6 +20,7 @@ export default function ControlledForm({
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isValid, isSubmitting },
   } = useForm<FormShemaType>({
     resolver: customResolver,
@@ -112,12 +114,17 @@ export default function ControlledForm({
         >
           Password
         </label>
+
         <input
           id="password"
           {...register('password')}
           type="password"
-          className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          placeholder=" "
+          className="peer mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500"
         />
+
+        <ControlledPasswordStrength data={watch('password')} />
+
         <div className="h-10">
           {errors.password && (
             <p className="text-sm text-red-500">{errors.password.message}</p>
@@ -252,11 +259,25 @@ export default function ControlledForm({
         {isSubmitting ? 'Submitting' : 'Submit'}
       </button>
       <button
-        className="absolute top-0 right-0"
         type="button"
         onClick={handleClose}
+        className="absolute top-2 right-2 flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-gray-600 transition-colors hover:bg-gray-300 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none"
+        aria-label="Close form"
       >
-        Close
+        <svg
+          className="h-4 w-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
       </button>
     </form>
   );
