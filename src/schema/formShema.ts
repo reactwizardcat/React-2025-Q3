@@ -55,6 +55,7 @@ export const FormSchema = z
   .refine((data) => data.password === data.confirmPassword, {
     message: 'Passwords do not match',
     path: ['confirmPassword'],
+    when: () => true,
   });
 
 export type FormShemaType = z.infer<typeof FormSchema>;
