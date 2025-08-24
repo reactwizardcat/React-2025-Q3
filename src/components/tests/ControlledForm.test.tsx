@@ -67,22 +67,6 @@ describe('ControlledForm component tests', () => {
     expect(screen.getByRole('button', { name: 'Submit' })).toBeInTheDocument();
   });
 
-  //   it('shows validation errors when form is submitted with invalid data', async () => {
-  //     renderWithProviders(<ControlledForm handleClose={mockHandleClose} />, {
-  //       store: createTestStore(),
-  //     });
-
-  //     const submitButton = screen.getByRole('button', { name: 'Submit' });
-  //     await userEvent.click(submitButton);
-
-  //     await waitFor(() => {
-  //       expect(screen.getByText(/name is required/i)).toBeInTheDocument();
-  //     });
-  //     expect(screen.getByText(/age is required/i)).toBeInTheDocument();
-  //     expect(screen.getByText(/email is required/i)).toBeInTheDocument();
-  //     expect(screen.getByText(/password is required/i)).toBeInTheDocument();
-  //   });
-
   it('submits form successfully with valid data', async () => {
     const testStore = createTestStore();
 

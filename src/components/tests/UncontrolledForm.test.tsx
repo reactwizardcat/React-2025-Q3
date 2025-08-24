@@ -1,6 +1,5 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { vi } from 'vitest';
 import UncontrolledForm from '../UncontrolledForm';
 import { configureStore } from '@reduxjs/toolkit';
 import formsReducer from '../../store/formsSlice';
