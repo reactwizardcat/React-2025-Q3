@@ -1,39 +1,61 @@
 import { useState } from 'react';
-import CardList from './components/CardList';
-import Search from './components/Search';
-import { useLS } from './hooks/useLS';
-import { useParams } from 'react-router';
 import { useAppSelector } from './store/hooks';
-import Flayout from './components/Flayout';
-import { STORAGE_KEY } from './constants';
+import type { RootState } from './store/store';
+import Card from './components/Card';
+import { cn } from './utils/cn';
+import Modal from './components/Modal';
 
 export default function App() {
-  const [query, setQuery] = useLS(STORAGE_KEY);
-  const { search } = useParams();
-  const [isLoading, setIsLoading] = useState(false);
-  const [page, setPage] = useState(Number(search) || 1);
-  const countCards = useAppSelector((state) => state.cards.cardsCounter);
+  const [formType, setFormType] = useState<
+    'controlled' | 'uncontrolled' | null
+  >(null);
 
-  const changeQuery = (str: string) => {
-    setQuery(str);
-    setPage(1);
+  const handleClose = () => {
+    setFormType(null);
   };
+
+  const storeData = useAppSelector(
+    (state: RootState) => state.cards.cardsStore
+  );
 
   return (
     <>
-      <Search
-        changeQuery={changeQuery}
-        queryString={query}
-        isLoading={isLoading}
-      />
-      <CardList
-        query={query}
-        isLoading={isLoading}
-        setIsLoading={setIsLoading}
-        page={page}
-        setPage={setPage}
-      />
-      {countCards > 0 && <Flayout count={countCards} />}
+      <header className="bg-white p-6 shadow-md">
+        <button
+          onClick={() => {
+            setFormType('controlled');
+          }}
+          className="rounded-lg border-2 border-black bg-black px-6 py-3 font-medium text-white transition-all duration-200 hover:bg-white hover:text-black focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:outline-none active:bg-gray-100 disabled:cursor-not-allowed disabled:border-gray-300 disabled:bg-gray-300 disabled:text-gray-500"
+        >
+          controlled form
+        </button>
+        <button
+          onClick={() => {
+            setFormType('uncontrolled');
+          }}
+          className="ml-4 rounded-lg border-2 border-black bg-black px-6 py-3 font-medium text-white transition-all duration-200 hover:bg-white hover:text-black focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:outline-none active:bg-gray-100 disabled:cursor-not-allowed disabled:border-gray-300 disabled:bg-gray-300 disabled:text-gray-500"
+        >
+          uncontrolled form
+        </button>
+      </header>
+
+      {Object.keys(storeData).length > 0 && (
+        <div className="grid grid-cols-1 gap-6 p-6 md:grid-cols-2 lg:grid-cols-3">
+          {Object.values(storeData).map((el, idx) => (
+            <li
+              key={idx}
+              className={cn(
+                'list-none rounded-xl border border-gray-200 p-6 shadow-lg transition-shadow duration-300 hover:shadow-xl',
+                el.status === 'fulfilled' ? 'bg-white' : 'bg-green-200'
+              )}
+            >
+              <Card el={el.data} />
+            </li>
+          ))}
+        </div>
+      )}
+
+      {formType && <Modal formType={formType} handleClose={handleClose} />}
     </>
   );
 }

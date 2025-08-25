@@ -1,11 +1,18 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
-import { RouterProvider } from 'react-router';
-import { router } from './router/Router.tsx';
+import App from './App';
+import { store } from './store/store';
+import { Provider } from 'react-redux';
 
-createRoot(document.body).render(
+const root = document.querySelector('#root');
+if (!root) {
+  throw new Error('no root element');
+}
+createRoot(root).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </StrictMode>
 );
